@@ -21,3 +21,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Configurações para o eclipse com maven
+**.classpath
+**.project
+**.settings/
+**/.metadata/
+**/target/
+**/bin/
+
+# O OSX adiciona esse arquivo em todo o projeto
+**/.DS_Store
