@@ -26,7 +26,8 @@ public class Professor implements Serializable {
 	private Integer idProfessor;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@MapsId(value = "idCadastro")
+	@MapsId(value = "idProfessor")
+	@JoinColumn(name = "idProfessor")
 	private Cadastro cadastro;
 	
 	private LocalDate dtAdmissao;

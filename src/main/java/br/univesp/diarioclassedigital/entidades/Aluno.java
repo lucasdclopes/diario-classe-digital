@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "alunos")
+@Table(name = "cadastro_alunos")
 public class Aluno implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -29,7 +29,8 @@ public class Aluno implements Serializable {
 	private String ra;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@MapsId(value = "idCadastro")
+	@MapsId(value = "idAluno")
+	@JoinColumn(name = "idAluno")
 	private Cadastro cadastro;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
