@@ -6,7 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class ControllerHelper {
 
-	public static URI montarUriResourceCriado(UriComponentsBuilder uriBuilder, String path, Object id) {
+	public static URI montarUriLocalResource(UriComponentsBuilder uriBuilder, String path, Object id) {
 		return uriBuilder.path(path).buildAndExpand(id).toUri();
 	}
 }

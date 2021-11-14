@@ -34,11 +34,11 @@ public class ProfessorController {
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
 		
 		if (cadastroDal.existsCadastroByCpf(dto.cpf()))
-			throw new EntidadeJaExisteException("Já existe um cadastro com este cpf", dto.cpf());
+			throw new EntidadeJaExisteException("Já existe um cadastro com este cpf","cpf");
 			
 
 		Professor professorSalvo = professorDal.save(professor);
-		URI uri = ControllerHelper.montarUriResourceCriado(uriBuilder,"/professores/{id}",professorSalvo.getIdProfessor());
+		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/professores/{id}",professorSalvo.getIdProfessor());
 		return ResponseEntity.created(uri).body(professorSalvo);
 	}
 	
