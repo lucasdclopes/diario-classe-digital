@@ -1,4 +1,6 @@
-package br.univesp.jpa.entidades;
+package br.univesp.diarioclassedigital.entidades;
+
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,4 +9,5 @@ import javax.persistence.Table;
 @Table(name = "cadastro_professor")
 public class CadastroProfessor {
 
+	private LocalDate dtAdmissao;
 }

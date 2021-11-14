@@ -1,4 +1,4 @@
-package br.univesp.jpa.entidades;
+package br.univesp.diarioclassedigital.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,4 +7,6 @@ import javax.persistence.Table;
 @Table(name = "aulaPresencaAlunos")
 public class AulaPresencaAluno {
 
+	private boolean isPresente;
+	private boolean hasAtestado;
 }
