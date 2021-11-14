@@ -2,45 +2,41 @@ package br.univesp.diarioclassedigital.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "aulas")
-public class Aula implements Serializable {
+@Table(name = "alunos")
+public class Aluno implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue
-	private Integer idAula;
-	private LocalDate dtAula;
-	private LocalDateTime dtHrIniciada;
-	private LocalDateTime dtHrFinalizada;
+	@Id
+	private Integer idAluno;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idTipoAula")
-	private TipoAula tipoAula;
+	private String nroMatricula;
+	private LocalDate dtMatricula;
+	private String ra;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
+	@MapsId(value = "idCadastro")
+	private Cadastro cadastro;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idTurma")
 	private Turma turma;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idProfessor")
-	private Professor professor;
-	
-	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private Set<AulaPresencaAluno> presencaAlunos = new HashSet<>();
-	
 
 }

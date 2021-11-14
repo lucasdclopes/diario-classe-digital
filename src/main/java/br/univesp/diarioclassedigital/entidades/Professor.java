@@ -1,45 +1,43 @@
 package br.univesp.diarioclassedigital.entidades;
 
 import java.io.Serializable;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tipos_aula")
-public class TipoAula implements Serializable {
+@Table(name = "cadastro_professor")
+public class Professor implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue
-	private Integer idTipoAula;
 	
-	private Integer diaSemana;
-	private LocalTime hrInicio;
-	private LocalTime hrFim;
+	@Id
+	private Integer idProfessor;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@MapsId(value = "idCadastro")
+	private Cadastro cadastro;
+	
+	private LocalDate dtAdmissao;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idMateria")
 	private Materia materia;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idProfessor")
-	private Professor professor;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idTurma")
-	private Turma turma;
-	
-	@OneToMany(mappedBy = "tipoAula")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
 	private List<Aula> aulas = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
+	private List<TipoAula> tipoAula = new ArrayList<>();
 }
