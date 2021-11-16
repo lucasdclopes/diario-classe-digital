@@ -15,35 +15,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.univesp.diarioclasse.dto.requests.NovoProfessorDto;
-import br.univesp.diarioclasse.entidades.Professor;
+import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
+import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
-import br.univesp.diarioclasse.repositorios.ProfessorRepository;
-import br.univesp.diarioclasse.services.ProfessorService;
+import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.services.AlunoService;
 
 @RestController
-@RequestMapping("/professores")
-public class ProfessorController {
+@RequestMapping("/alunos")
+public class AlunoController {
 
 	@Autowired
-	private ProfessorRepository professorDal;
+	private AlunoRepository alunoDal;
 	
 	@Autowired
-	private ProfessorService service;
+	private AlunoService service;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException{
-		Integer id = service.criarNovoProfessor(dto);
-		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/professores/{id}",id);
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoAlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException{
+		Integer id = service.criarNovoAluno(dto);
+		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/alunos/{id}",id);
 		return ResponseEntity.created(uri).build();
 
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Professor> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Optional<Professor> professor = professorDal.findById(id);
-		return ResponseEntity.ok(professor.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+	public ResponseEntity<Aluno> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+		Optional<Aluno> aluno = alunoDal.findById(id);
+		return ResponseEntity.ok(aluno.orElseThrow(() -> new EntidadeNaoEncontradaException()));
 	}
 	
 }

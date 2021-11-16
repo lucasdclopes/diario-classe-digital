@@ -3,6 +3,7 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import br.univesp.diarioclasse.constantes.TipoCadastro;
 
 @Entity
 @Table(name = "cadastro_alunos")
@@ -30,7 +33,7 @@ public class Aluno implements Serializable, ICadastravel {
 	private String ra;
 	
 	@OneToOne(fetch = FetchType.EAGER,optional = false,cascade = CascadeType.ALL)
-	@MapsId(value = "idAluno")
+	@MapsId
 	@JoinColumn(name = "idAluno")
 	private Cadastro cadastro;
 	
@@ -46,6 +49,18 @@ public class Aluno implements Serializable, ICadastravel {
 	 */
 	@Deprecated
 	public Aluno() {}
+	
+	
+	
+	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
+			String cpf, String rg, LocalDate dtNascimento, String sexo, String nomeMae, String nomePai ) {
+		this.nroMatricula = nroMatricula;
+		this.dtMatricula = dtMatricula;
+		this.ra = ra;
+		turma.ifPresent(t -> this.turma = t);
+		this.cadastro = new Cadastro(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO);
+	}
+	
 
 	@Override
 	public Cadastro getDadosCadastrais() {
@@ -62,4 +77,22 @@ public class Aluno implements Serializable, ICadastravel {
 		this.cadastro.adicionarTelefone(telefone);
 	}
 
+	public Integer getIdAluno() {
+		return idAluno;
+	}
+
+	public String getNroMatricula() {
+		return nroMatricula;
+	}
+
+	public String getRa() {
+		return ra;
+	}
+
+	public LocalDate getDtMatricula() {
+		return dtMatricula;
+	}
+	
+	
+	
 }

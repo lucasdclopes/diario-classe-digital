@@ -6,6 +6,4 @@ import br.univesp.diarioclasse.entidades.Professor;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
 	
-	boolean existsByCadastroCpf(String cpf);
-	
 }
