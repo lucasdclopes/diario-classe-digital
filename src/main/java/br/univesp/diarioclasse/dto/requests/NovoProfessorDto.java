@@ -1,6 +1,7 @@
 package br.univesp.diarioclasse.dto.requests;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
@@ -20,5 +21,7 @@ public record NovoProfessorDto(
 		LocalDate dtNascimento,
 		String sexo,
 		String nomeMae,
-		String nomePai) {
+		String nomePai, 
+		List<NovoEnderecoDto> enderecos,
+		List<NovoTelefoneDto> telefones) {
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cadastro_alunos")
-public class Aluno implements Serializable {
+public class Aluno implements Serializable, ICadastravel {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -28,7 +29,7 @@ public class Aluno implements Serializable {
 	private LocalDate dtMatricula;
 	private String ra;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER,optional = false,cascade = CascadeType.ALL)
 	@MapsId(value = "idAluno")
 	@JoinColumn(name = "idAluno")
 	private Cadastro cadastro;
@@ -39,5 +40,26 @@ public class Aluno implements Serializable {
 	
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private Set<AulaPresencaAluno> presencaAlunos = new HashSet<>();
+	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public Aluno() {}
+
+	@Override
+	public Cadastro getDadosCadastrais() {
+		return this.cadastro;
+	}
+	
+	@Override
+	public void adicionarEndereco(Endereco endereco) {
+		this.cadastro.adicionarEndereco(endereco);	
+	}
+	
+	@Override
+	public void adicionarTelefone(Telefone telefone) {
+		this.cadastro.adicionarTelefone(telefone);
+	}
 
 }

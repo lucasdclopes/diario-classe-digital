@@ -26,4 +26,10 @@ public class Materia implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<Professor> professor;
+	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public Materia() {}
 }

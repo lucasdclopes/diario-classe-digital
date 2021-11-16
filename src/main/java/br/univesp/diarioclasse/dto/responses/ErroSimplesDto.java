@@ -1,7 +1,6 @@
 package br.univesp.diarioclasse.dto.responses;
 
-public record ErroDto (
-		String campo,
+public record ErroSimplesDto (
 		String mensagemErro) {
 
 }

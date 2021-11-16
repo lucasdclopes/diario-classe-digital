@@ -2,7 +2,7 @@ package br.univesp.diarioclasse.constantes;
 
 public enum TipoTelefone implements IEnumParseavel {
 	
-	FIXO("FI"),CELULAR("CE");
+	FIXO("FI"),CELULAR("CE"),CELULAR_RESPONSAVEL("CR");
 	
     private String value;
 

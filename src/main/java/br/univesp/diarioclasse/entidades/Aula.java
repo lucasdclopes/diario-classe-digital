@@ -43,5 +43,10 @@ public class Aula implements Serializable {
 	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
 	private Set<AulaPresencaAluno> presencaAlunos = new HashSet<>();
 	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public Aula() {}
 
 }

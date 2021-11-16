@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * Especifica os ids da tabela N para N da AulaPresencaAluno
@@ -25,5 +23,22 @@ public class AulaPresencaAlunoId implements Serializable {
 		this.idAluno = idAluno;
 		this.idAula = idAula;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(idAluno, idAula);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AulaPresencaAlunoId other = (AulaPresencaAlunoId) obj;
+		return Objects.equals(idAluno, other.idAluno) && Objects.equals(idAula, other.idAula);
+	}
+	
+	
 	
 }

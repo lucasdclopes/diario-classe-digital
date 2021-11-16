@@ -31,4 +31,10 @@ public class AulaPresencaAluno implements Serializable {
 
 	private boolean isPresente;
 	private boolean hasAtestado;
+	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public AulaPresencaAluno() {}
 }

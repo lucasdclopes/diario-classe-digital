@@ -3,6 +3,7 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ import br.univesp.diarioclasse.constantes.TipoCadastro;
 
 @Entity
 @Table(name = "cadastro_professor")
-public class Professor implements Serializable {
+public class Professor implements Serializable, ICadastravel {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -29,7 +30,7 @@ public class Professor implements Serializable {
 	@Id
 	private Integer idProfessor;
 	
-	@OneToOne(fetch = FetchType.EAGER, optional=false)
+	@OneToOne(fetch = FetchType.EAGER, optional=false,cascade = CascadeType.ALL)
 	@MapsId
 	@JoinColumn(name = "idProfessor")
 	private Cadastro cadastro;
@@ -46,6 +47,11 @@ public class Professor implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
 	private List<TipoAula> tipoAula = new ArrayList<>();
 
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public Professor() {}
 	public Professor(LocalDate dtAdmissao, Materia materia, String nome, String cpf, String rg, LocalDate dtNascimento, String sexo, 
 			String nomeMae, String nomePai ) {
 		this.dtAdmissao = dtAdmissao;
@@ -57,7 +63,21 @@ public class Professor implements Serializable {
 	public Integer getIdProfessor() {
 		return idProfessor;
 	}
+	public LocalDate getDtAdmissao() {
+		return dtAdmissao;
+	}
+	@Override
+	public Cadastro getDadosCadastrais() {
+		return cadastro;
+	}
+	@Override
+	public void adicionarEndereco(Endereco endereco) {
+		this.cadastro.adicionarEndereco(endereco);
+		
+	}
+	@Override
+	public void adicionarTelefone(Telefone telefone) {
+		this.cadastro.adicionarTelefone(telefone);
+	}
 	
-	
-
 }

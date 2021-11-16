@@ -33,4 +33,10 @@ public class Turma implements Serializable {
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
 	private List<TipoAula> tiposAulas = new ArrayList<>();
 	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public Turma() {}
+	
 }

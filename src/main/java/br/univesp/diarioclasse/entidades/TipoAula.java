@@ -43,4 +43,10 @@ public class TipoAula implements Serializable {
 	@OneToMany(mappedBy = "tipoAula")
 	private List<Aula> aulas = new ArrayList<>();
 	
+	/**
+	 * Construtor padrão da JPA. Não utilizar.
+	 */
+	@Deprecated
+	public TipoAula() {}
+	
 }

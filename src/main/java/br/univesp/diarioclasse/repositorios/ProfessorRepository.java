@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.univesp.diarioclasse.entidades.Professor;
 
-public interface ProfessorRepositorio extends JpaRepository<Professor, Integer> {
+public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
+	
+	boolean existsByCadastroCpf(String cpf);
 	
 }
