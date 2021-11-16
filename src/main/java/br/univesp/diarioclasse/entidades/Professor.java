@@ -59,13 +59,7 @@ public class Professor implements Serializable, ICadastravel {
 		this.cadastro = new Cadastro(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		//this.cadastro.setProfessor(this);
 	}
-
-	public Integer getIdProfessor() {
-		return idProfessor;
-	}
-	public LocalDate getDtAdmissao() {
-		return dtAdmissao;
-	}
+	
 	@Override
 	public Cadastro getDadosCadastrais() {
 		return cadastro;
@@ -79,5 +73,16 @@ public class Professor implements Serializable, ICadastravel {
 	public void adicionarTelefone(Telefone telefone) {
 		this.cadastro.adicionarTelefone(telefone);
 	}
+
+	public Integer getIdProfessor() {
+		return idProfessor;
+	}
+	public LocalDate getDtAdmissao() {
+		return dtAdmissao;
+	}
+	public Materia getMateria() {
+		return materia;
+	}
+	
 	
 }

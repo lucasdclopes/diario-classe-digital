@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import br.univesp.diarioclasse.constantes.DiaDaSemana;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
+
 @Entity
 @Table(name = "calendario_aulas")
 public class CalendarioAula implements Serializable {
@@ -23,10 +26,10 @@ public class CalendarioAula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idTipoAula;
+	private Integer idCalendarioAula;
 	
 	@NotNull
-	private Integer diaSemana;
+	private String diaSemana;
 	@NotNull
 	private LocalTime hrInicio;
 	@NotNull
@@ -44,7 +47,7 @@ public class CalendarioAula implements Serializable {
 	@JoinColumn(name = "idTurma")
 	private Turma turma;
 	
-	@OneToMany(mappedBy = "tipoAula")
+	@OneToMany(mappedBy = "calendarioAula")
 	private List<Aula> aulas = new ArrayList<>();
 	
 	/**
@@ -52,5 +55,23 @@ public class CalendarioAula implements Serializable {
 	 */
 	@Deprecated
 	public CalendarioAula() {}
+
+	
+	public CalendarioAula(DiaDaSemana diaSemana, LocalTime hrInicio, LocalTime hrFim,
+			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException {
+		
+		if (hrFim.isBefore(hrInicio))
+			throw new DadosInvalidosException("A aula não pode terminar antes de ter começado", "hrInicio");
+		
+		if (!professor.getMateria().equals(materia))
+			throw new DadosInvalidosException("O professor selecionado, " + professor.getDadosCadastrais().getNome() + ", não leciona " + materia.getDescMateria() 
+			, "descMateria");
+		this.diaSemana = diaSemana.getCodigo();
+		this.hrInicio = hrInicio;
+		this.hrFim = hrFim;
+		this.materia = materia;
+		this.professor = professor;
+		this.turma = turma;
+	}
 	
 }

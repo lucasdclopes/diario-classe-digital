@@ -29,8 +29,8 @@ public class Aula implements Serializable {
 	private LocalDateTime dtHrFinalizada;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "idTipoAula")
-	private CalendarioAula tipoAula;
+	@JoinColumn(name = "idCalendarioAula")
+	private CalendarioAula calendarioAula;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idTurma")
@@ -48,5 +48,7 @@ public class Aula implements Serializable {
 	 */
 	@Deprecated
 	public Aula() {}
+	
+	
 
 }

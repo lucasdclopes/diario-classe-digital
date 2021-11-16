@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import br.univesp.diarioclasse.dto.responses.ErroCampoDto;
 import br.univesp.diarioclasse.dto.responses.ErroSimplesDto;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 
@@ -43,6 +44,12 @@ public class HandlerErros {
 		return dto;
 	}
 	
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler(DadosInvalidosException.class)
+	public ErroCampoDto handle(DadosInvalidosException exception) {
+		return new ErroCampoDto(exception.getCampoInvalido(), exception.getMessage());
+	}
+	
 	@ResponseStatus(code = HttpStatus.CONFLICT)
 	@ExceptionHandler(EntidadeJaExisteException.class)
 	public ErroCampoDto handle(EntidadeJaExisteException exception) {
@@ -54,6 +61,7 @@ public class HandlerErros {
 	public ErroSimplesDto handle(EntidadeNaoEncontradaException exception) {
 		return new ErroSimplesDto("Não foram encontrados dados para os valores especificados");
 	}
+	
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(HttpMessageNotReadableException.class)
