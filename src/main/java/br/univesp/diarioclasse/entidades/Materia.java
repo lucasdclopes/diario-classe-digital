@@ -32,4 +32,13 @@ public class Materia implements Serializable {
 	 */
 	@Deprecated
 	public Materia() {}
+
+	public Materia(String descMateria) {
+		this.descMateria = descMateria;
+	}
+	public String getDescMateria() {
+		return descMateria;
+	}
+	
+	
 }
