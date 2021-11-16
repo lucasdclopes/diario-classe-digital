@@ -2,9 +2,9 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +47,7 @@ public class Aluno implements Serializable, ICadastravel {
 	private Turma turma;
 	
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
-	private Set<AulaPresencaAluno> presencaAlunos = new HashSet<>();
+	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.

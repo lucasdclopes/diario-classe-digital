@@ -3,8 +3,8 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +41,7 @@ public class Aula implements Serializable {
 	private Professor professor;
 	
 	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
-	private Set<AulaPresencaAluno> presencaAlunos = new HashSet<>();
+	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.

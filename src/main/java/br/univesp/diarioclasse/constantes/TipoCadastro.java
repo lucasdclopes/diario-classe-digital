@@ -16,5 +16,5 @@ public enum TipoCadastro implements IEnumParseavel {
 	public String getCodigo() { return value; }
 
 	@Override
-	public String getDescricaoCampo() { return "sexo"; }
+	public String getDescricaoCampo() { return "Tipo de Cadastro"; }
 }
