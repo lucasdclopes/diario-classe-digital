@@ -45,7 +45,7 @@ public class Professor implements Serializable, ICadastravel {
 	private List<Aula> aulas = new ArrayList<>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
-	private List<CalendarioAulas> tipoAula = new ArrayList<>();
+	private List<CalendarioAula> tipoAula = new ArrayList<>();
 
 	/**
 	 * Construtor padrão da JPA. Não utilizar.

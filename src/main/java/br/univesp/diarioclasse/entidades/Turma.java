@@ -31,7 +31,7 @@ public class Turma implements Serializable {
 	private List<Aula> aulas = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
-	private List<CalendarioAulas> tiposAulas = new ArrayList<>();
+	private List<CalendarioAula> tiposAulas = new ArrayList<>();
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.

@@ -22,7 +22,7 @@ public class Materia implements Serializable {
 	private String descMateria;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
-	private List<CalendarioAulas> tipoAula;
+	private List<CalendarioAula> tipoAula;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<Professor> professor;

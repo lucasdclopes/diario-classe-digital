@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "calendario_aulas")
-public class CalendarioAulas implements Serializable {
+public class CalendarioAula implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -47,6 +47,6 @@ public class CalendarioAulas implements Serializable {
 	 * Construtor padrão da JPA. Não utilizar.
 	 */
 	@Deprecated
-	public CalendarioAulas() {}
+	public CalendarioAula() {}
 	
 }
