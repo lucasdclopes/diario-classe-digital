@@ -24,7 +24,7 @@ public class ProfessorService {
 	}
 	
 	public Integer criarNovoProfessor(NovoProfessorDto dto) throws EntidadeJaExisteException {
-		Professor professor = new  Professor(dto.dtAdmissao(), null, dto.nome(), dto.cpf(), dto.rg(), 
+		Professor professor = new  Professor(dto.dtAdmissao(), dto.materia(), dto.nome(), dto.cpf(), dto.rg(), 
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
 		
 		if (cadastroDal.existsByCpf(dto.cpf()))

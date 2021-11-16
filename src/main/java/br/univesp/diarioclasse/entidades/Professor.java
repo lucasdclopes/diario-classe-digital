@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
 
 @Entity
@@ -50,10 +52,10 @@ public class Professor implements Serializable, ICadastravel {
 	 */
 	@Deprecated
 	public Professor() {}
-	public Professor(LocalDate dtAdmissao, Materia materia, String nome, String cpf, String rg, LocalDate dtNascimento, String sexo, 
+	public Professor(LocalDate dtAdmissao, Optional<Materia> materia, String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
 			String nomeMae, String nomePai ) {
 		this.dtAdmissao = dtAdmissao;
-		this.materia = materia;
+		materia.ifPresent(m -> this.materia = m);
 		this.cadastro = new Cadastro(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		//this.cadastro.setProfessor(this);
 	}

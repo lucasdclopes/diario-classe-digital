@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -16,7 +17,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
 
 @Entity
@@ -28,8 +31,10 @@ public class Aluno implements Serializable, ICadastravel {
 	@Id
 	private Integer idAluno;
 	
+	@NotNull @Column(unique = true)
 	private String nroMatricula;
 	private LocalDate dtMatricula;
+	@NotNull @Column(unique = true)
 	private String ra;
 	
 	@OneToOne(fetch = FetchType.EAGER,optional = false,cascade = CascadeType.ALL)
@@ -53,7 +58,7 @@ public class Aluno implements Serializable, ICadastravel {
 	
 	
 	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
-			String cpf, String rg, LocalDate dtNascimento, String sexo, String nomeMae, String nomePai ) {
+			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai ) {
 		this.nroMatricula = nroMatricula;
 		this.dtMatricula = dtMatricula;
 		this.ra = ra;

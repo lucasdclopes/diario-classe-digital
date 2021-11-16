@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 
 import br.univesp.diarioclasse.constantes.ConstanteInvalidaException;
+import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
 
 @Entity
@@ -59,13 +60,13 @@ public class Cadastro implements Serializable {
 	@Deprecated
 	public Cadastro() {}
 	
-	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, String sexo, String nomeMae,
+	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
 			String nomePai, TipoCadastro tipoCadastro) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.rg = rg;
 		this.dtNascimento = dtNascimento;
-		this.sexo = sexo;
+		this.sexo = sexo.getCodigo();
 		this.nomeMae = nomeMae;
 		this.nomePai = nomePai;
 		this.tipoCadastro = tipoCadastro.getCodigo();
@@ -98,8 +99,8 @@ public class Cadastro implements Serializable {
 	public LocalDate getDtNascimento() {
 		return dtNascimento;
 	}
-	public String getSexo() {
-		return sexo;
+	public Sexo getSexo() throws ConstanteInvalidaException {
+		return Sexo.parse(sexo);
 	}
 	public String getNomeMae() {
 		return nomeMae;

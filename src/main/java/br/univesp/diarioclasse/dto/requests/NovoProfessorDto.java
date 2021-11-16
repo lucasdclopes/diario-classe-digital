@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.univesp.diarioclasse.constantes.Sexo;
+import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.validadores.CpfNumerico;
 
 public record NovoProfessorDto(
@@ -16,9 +18,10 @@ public record NovoProfessorDto(
 		@NotBlank @CpfNumerico String cpf, 
 		String rg,
 		@JsonFormat(pattern="dd/MM/yyyy") LocalDate dtNascimento,
-		String sexo,
+		Sexo sexo,
 		String nomeMae,
 		String nomePai, 
 		Optional<List<NovoEnderecoDto>> enderecos,
-		Optional<List<NovoTelefoneDto>> telefones) {
+		Optional<List<NovoTelefoneDto>> telefones,
+		Optional<Materia> materia) {
 }
