@@ -16,8 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tipos_aula")
-public class TipoAula implements Serializable {
+@Table(name = "calendario_aulas")
+public class CalendarioAulas implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -47,6 +47,6 @@ public class TipoAula implements Serializable {
 	 * Construtor padrão da JPA. Não utilizar.
 	 */
 	@Deprecated
-	public TipoAula() {}
+	public CalendarioAulas() {}
 	
 }

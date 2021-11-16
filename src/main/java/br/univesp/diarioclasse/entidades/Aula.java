@@ -30,7 +30,7 @@ public class Aula implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idTipoAula")
-	private TipoAula tipoAula;
+	private CalendarioAulas tipoAula;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idTurma")
