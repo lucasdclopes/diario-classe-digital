@@ -73,5 +73,22 @@ public class CalendarioAula implements Serializable {
 		this.professor = professor;
 		this.turma = turma;
 	}
+
+
+	public Materia getMateria() {
+		return materia;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+	
+	
+	
+	
 	
 }

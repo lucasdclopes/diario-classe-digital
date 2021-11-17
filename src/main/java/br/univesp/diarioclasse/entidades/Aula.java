@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.univesp.diarioclasse.constantes.StatusAula;
+
 @Entity
 @Table(name = "aulas")
 public class Aula implements Serializable {
@@ -34,15 +36,15 @@ public class Aula implements Serializable {
 	@NotNull @Length(min = 2, max = 2)
 	private String statusAula;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "idCalendarioAula")
 	private CalendarioAula calendarioAula;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "idTurma")
 	private Turma turma;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional =  false)
 	@JoinColumn(name = "idProfessor")
 	private Professor professor;
 	
@@ -55,18 +57,17 @@ public class Aula implements Serializable {
 	@Deprecated
 	public Aula() {}
 
-	private Aula(LocalDate dtAula,String statusAula, CalendarioAula calendarioAula, Turma turma, Professor professor) {
+	private Aula(LocalDate dtAula,StatusAula statusAula, CalendarioAula calendarioAula, Turma turma, Professor professor) {
 		super();
 		this.dtAula = dtAula;
-		this.statusAula = statusAula;
+		this.statusAula = statusAula.getCodigo();
 		this.calendarioAula = calendarioAula;
 		this.turma = turma;
 		this.professor = professor;
 	}
 	
-	
-	
-	
-	
+	public static Aula agendarAulaDoCalendario(LocalDate dtAula, CalendarioAula calendarioAula) {
+		return new Aula(dtAula, StatusAula.AGENDADA, calendarioAula, calendarioAula.getTurma(), calendarioAula.getProfessor());
+	}
 
 }

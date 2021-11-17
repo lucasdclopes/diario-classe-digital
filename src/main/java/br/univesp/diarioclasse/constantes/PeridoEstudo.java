@@ -2,7 +2,7 @@ package br.univesp.diarioclasse.constantes;
 
 public enum PeridoEstudo implements IEnumParseavel {
 
-	MATUTINO("MA"),VESPERTINO("VE"),NOTURNO("NO");
+	MATUTINO("MA"),VESPERTINO("VE"),NOTURNO("NO"),INTEGRAL("IN");
 	
     private String value;
 
