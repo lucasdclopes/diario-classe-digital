@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "aulas")
@@ -24,9 +27,12 @@ public class Aula implements Serializable {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idAula;
+	@NotNull
 	private LocalDate dtAula;
 	private LocalDateTime dtHrIniciada;
 	private LocalDateTime dtHrFinalizada;
+	@NotNull @Length(min = 2, max = 2)
+	private String statusAula;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idCalendarioAula")
@@ -48,6 +54,18 @@ public class Aula implements Serializable {
 	 */
 	@Deprecated
 	public Aula() {}
+
+	private Aula(LocalDate dtAula,String statusAula, CalendarioAula calendarioAula, Turma turma, Professor professor) {
+		super();
+		this.dtAula = dtAula;
+		this.statusAula = statusAula;
+		this.calendarioAula = calendarioAula;
+		this.turma = turma;
+		this.professor = professor;
+	}
+	
+	
+	
 	
 	
 
