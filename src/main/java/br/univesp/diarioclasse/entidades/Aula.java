@@ -40,7 +40,7 @@ public class Aula implements Serializable {
 	private LocalDate dtAula;
 	private LocalDateTime dtHrIniciada;
 	private LocalDateTime dtHrFinalizada;
-	@NotNull @Length(min = 2, max = 2)
+	@NotNull @Length(min = 1, max = 1)
 	private String statusAula;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)

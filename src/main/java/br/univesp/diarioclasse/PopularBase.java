@@ -15,11 +15,13 @@ import br.univesp.diarioclasse.constantes.PeridoEstudo;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
 import br.univesp.diarioclasse.entidades.Aluno;
+import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
@@ -38,6 +40,8 @@ public class PopularBase  {
 	private TurmaRepository turmaDal;
 	@Autowired
 	private CalendarioAulaRepository calendarioAulaDal;
+	@Autowired
+	private AulaRepository aulaDal;
 	
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {
@@ -75,9 +79,11 @@ public class PopularBase  {
 		
 		profDal.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus));
 		
+		CalendarioAula aula1Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turma1);
+		CalendarioAula aula2Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turma3);
 		calendarioAulaDal.saveAll(Arrays.asList(
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turma1),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turma3),
+				aula1Calendario,
+				aula2Calendario,
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turma1),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turma3),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turma1),
@@ -90,6 +96,11 @@ public class PopularBase  {
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turma1),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turma3)
 				));
+		
+		Aula aulaTurma1_1 = Aula.agendarAulaDoCalendario(LocalDate.now(), aula1Calendario);
+		aulaTurma1_1.iniciarAula();
+		Aula aulaTurma3_1 = Aula.comecarAulaDoCalendario(LocalDate.now(), aula2Calendario);
+		aulaDal.saveAll(Arrays.asList(aulaTurma1_1,aulaTurma3_1));
 		
 	}
 }
