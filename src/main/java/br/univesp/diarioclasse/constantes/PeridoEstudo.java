@@ -8,10 +8,6 @@ public enum PeridoEstudo implements IEnumParseavel {
 
     PeridoEstudo(String value) { this.value = value; }    
     
-    public static PeridoEstudo parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, PeridoEstudo.class);
-    }
-
 	@Override
 	public String getCodigo() { return value; }
 

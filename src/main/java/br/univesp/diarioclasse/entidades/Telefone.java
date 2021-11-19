@@ -13,8 +13,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.univesp.diarioclasse.constantes.ConstanteInvalidaException;
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.TipoTelefone;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "cadastro_telefones")
@@ -47,7 +48,7 @@ public class Telefone implements Serializable {
 	}
 
 	public TipoTelefone getTpTelefone() throws ConstanteInvalidaException {
-		return TipoTelefone.parse(tpTelefone);
+		return IEnumParseavel.parse(this.tpTelefone, TipoTelefone.class);
 	}
 
 	public String getDdd() {

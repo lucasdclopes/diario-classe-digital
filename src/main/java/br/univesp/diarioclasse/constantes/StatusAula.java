@@ -7,10 +7,6 @@ public enum StatusAula implements IEnumParseavel {
     private String value;
 
     StatusAula(String value) { this.value = value; }    
-    
-    public static StatusAula parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, StatusAula.class);
-    }
 
 	@Override
 	public String getCodigo() { return value; }

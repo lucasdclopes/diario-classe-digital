@@ -7,11 +7,7 @@ public enum TipoEndereco implements IEnumParseavel {
     private String value;
 
     TipoEndereco(String value) { this.value = value; }    
-    
-    public static TipoEndereco parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, TipoEndereco.class);
-    }
-
+ 
 	@Override
 	public String getCodigo() { return value; }
 

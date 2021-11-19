@@ -13,8 +13,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.univesp.diarioclasse.constantes.ConstanteInvalidaException;
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.TipoEndereco;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "cadastro_enderecos")
@@ -53,7 +54,6 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 		this.cidade = cidade;
 		this.uf = uf;
-		this.tpEndereco = tpEndereco.getCodigo();
 		this.cadastro = cadastro.getDadosCadastrais();
 		cadastro.adicionarEndereco(this);
 	}
@@ -87,7 +87,7 @@ public class Endereco implements Serializable {
 	}
 
 	public TipoEndereco getTpEndereco() throws ConstanteInvalidaException {
-		return TipoEndereco.parse(tpEndereco);
+		return IEnumParseavel.parse(tpEndereco,TipoEndereco.class);
 	}
 
 	@JsonIgnore

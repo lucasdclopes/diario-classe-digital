@@ -7,10 +7,6 @@ public enum TipoTelefone implements IEnumParseavel {
     private String value;
 
     TipoTelefone(String value) { this.value = value; }    
-    
-    public static TipoTelefone parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, TipoTelefone.class);
-    }
 
 	@Override
 	public String getCodigo() { return value; }

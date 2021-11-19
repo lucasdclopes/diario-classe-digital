@@ -21,9 +21,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
-import br.univesp.diarioclasse.constantes.ConstanteInvalidaException;
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "cadastros")
@@ -100,16 +101,16 @@ public class Cadastro implements Serializable {
 		return dtNascimento;
 	}
 	public Sexo getSexo() throws ConstanteInvalidaException {
-		return Sexo.parse(sexo);
+		return IEnumParseavel.parse(sexo,Sexo.class);
 	}
 	public String getNomeMae() {
 		return nomeMae;
 	}
 	public String getNomePai() {
-		return nomePai;
+		return nomePai;	
 	}
 	public TipoCadastro getTipoCadastro() throws ConstanteInvalidaException {
-		return TipoCadastro.parse(this.tipoCadastro);
+		return IEnumParseavel.parse(this.tipoCadastro, TipoCadastro.class);
 	}
 	public boolean isAtivo() {
 		return isAtivo;

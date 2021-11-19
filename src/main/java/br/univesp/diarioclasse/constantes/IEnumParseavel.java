@@ -1,14 +1,27 @@
 package br.univesp.diarioclasse.constantes;
 
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
+
 public interface IEnumParseavel {
 
 	/**
 	 * Codigo da constante, para utilizar em jsons e no bd
 	 */
-	public String getCodigo();
+	String getCodigo();
 	/**
 	 * Descrição das constante, pode ser usando em mensagens da validação
 	 * @return
 	 */
-	public String getDescricaoCampo(); 
+	String getDescricaoCampo(); 
+	
+	public static <E extends Enum<E> & IEnumParseavel> E parse(String value, Class<E> clazz) throws ConstanteInvalidaException {
+		
+		E[] enums = clazz.getEnumConstants();  
+		for (E e : enums) {          
+			if (e.getCodigo().equals(value)) {        
+				return e; 
+			}
+		}      
+		throw new ConstanteInvalidaException("Valor inválido para " + enums[0].getDescricaoCampo() ,value);
+	}
 }

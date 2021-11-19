@@ -8,10 +8,6 @@ public enum Sexo implements IEnumParseavel {
     private String value;
 
     Sexo(String value) { this.value = value; }    
-    
-    public static Sexo parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, Sexo.class);
-    }
 
 	@Override
 	public String getCodigo() { return value; }

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "materias")
 public class Materia implements Serializable {
 	
+	//TODO: 
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

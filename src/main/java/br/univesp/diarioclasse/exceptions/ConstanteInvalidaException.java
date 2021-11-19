@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.constantes;
+package br.univesp.diarioclasse.exceptions;
 
 public class ConstanteInvalidaException extends Exception {
 

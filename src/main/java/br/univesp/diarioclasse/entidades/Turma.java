@@ -12,8 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.univesp.diarioclasse.constantes.ConstanteInvalidaException;
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.PeridoEstudo;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "turmas")
@@ -52,7 +53,7 @@ public class Turma implements Serializable {
 	}
 
 	public PeridoEstudo getTpPeriodo() throws ConstanteInvalidaException {
-		return PeridoEstudo.parse(tpPeriodo);
+		return IEnumParseavel.parse(tpPeriodo, PeridoEstudo.class);
 	}	
 	
 }

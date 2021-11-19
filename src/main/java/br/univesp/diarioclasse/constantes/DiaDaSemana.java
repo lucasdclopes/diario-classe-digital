@@ -7,10 +7,6 @@ public enum DiaDaSemana implements IEnumParseavel {
     private String value;
 
     DiaDaSemana(String value) { this.value = value; }    
-    
-    public static DiaDaSemana parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, DiaDaSemana.class);
-    }
 
 	@Override
 	public String getCodigo() { return value; }

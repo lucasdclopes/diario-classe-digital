@@ -7,10 +7,6 @@ public enum TipoCadastro implements IEnumParseavel {
     private String value;
 
     TipoCadastro(String value) { this.value = value; }    
-    
-    public static TipoCadastro parse(String id) throws ConstanteInvalidaException {
-    	return EnumHelper.getEnumDeString(id, TipoCadastro.class);
-    }
 
 	@Override
 	public String getCodigo() { return value; }
