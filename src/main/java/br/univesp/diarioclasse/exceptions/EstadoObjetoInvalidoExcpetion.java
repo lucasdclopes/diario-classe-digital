@@ -7,7 +7,7 @@ public class EstadoObjetoInvalidoExcpetion extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private EstadoObjetoInvalidoExcpetion(String message) {
+	public EstadoObjetoInvalidoExcpetion(String message) {
 		super(message);
 	}
 

@@ -98,6 +98,4 @@ public class Aluno implements Serializable, ICadastravel {
 		return dtMatricula;
 	}
 	
-	
-	
 }

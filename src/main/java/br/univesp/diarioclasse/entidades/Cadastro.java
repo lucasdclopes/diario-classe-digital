@@ -24,7 +24,7 @@ import org.hibernate.annotations.NaturalId;
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
-import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
+import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 
 @Entity
 @Table(name = "cadastros")
@@ -75,13 +75,13 @@ public class Cadastro implements Serializable {
 	
 	public void adicionarEndereco(Endereco endereco) {
 		if (!endereco.getCadastro().equals(this))
-			throw new IllegalArgumentException("Não é possível adicionar um um endereço com referencia de cadastro vazia ou diferente deste cadastro.");
+			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um endereço com referencia de cadastro vazia ou diferente deste cadastro.");
 		this.enderecos.add(endereco);
 	}
 	
 	public void adicionarTelefone(Telefone telefone) {
 		if (!telefone.getCadastro().equals(this))
-			throw new IllegalArgumentException("Não é possível adicionar um um endereço com referencia de cadastro vazia ou diferente deste cadastro.");
+			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um telefone com referencia de cadastro vazia ou diferente deste cadastro.");
 		this.telefones.add(telefone);
 	}
 

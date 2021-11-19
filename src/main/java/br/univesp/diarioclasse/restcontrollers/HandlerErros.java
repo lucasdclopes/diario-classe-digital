@@ -22,6 +22,7 @@ import br.univesp.diarioclasse.dto.responses.ErroSimplesDto;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
+import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 
 @RestControllerAdvice
 public class HandlerErros {
@@ -48,6 +49,12 @@ public class HandlerErros {
 	@ExceptionHandler(DadosInvalidosException.class)
 	public ErroCampoDto handle(DadosInvalidosException exception) {
 		return new ErroCampoDto(exception.getCampoInvalido(), exception.getMessage());
+	}
+	
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler(EstadoObjetoInvalidoExcpetion.class)
+	public ErroSimplesDto handle(EstadoObjetoInvalidoExcpetion exception) {
+		return new ErroSimplesDto(exception.getMessage());
 	}
 	
 	@ResponseStatus(code = HttpStatus.CONFLICT)

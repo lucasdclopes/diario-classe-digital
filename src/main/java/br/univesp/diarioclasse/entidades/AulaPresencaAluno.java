@@ -1,6 +1,7 @@
 package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,12 +20,12 @@ public class AulaPresencaAluno implements Serializable {
 	@EmbeddedId
 	private AulaPresencaAlunoId id = new AulaPresencaAlunoId();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional =  false)
 	@MapsId("idAula")
 	@JoinColumn(name = "idAula")
 	private Aula aula; 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@MapsId("idAluno")
 	@JoinColumn(name = "idAluno")
 	private Aluno aluno; 
@@ -37,4 +38,42 @@ public class AulaPresencaAluno implements Serializable {
 	 */
 	@Deprecated
 	public AulaPresencaAluno() {}
+
+	public Aula getAula() {
+		return aula;
+	}
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public boolean isPresente() {
+		return isPresente;
+	}
+
+	public boolean isHasAtestado() {
+		return hasAtestado;
+	}
+
+	public AulaPresencaAlunoId getId() {
+		return id;
+	}
+
+	@Override
+	public int hashCode() {	
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AulaPresencaAluno other = (AulaPresencaAluno) obj;
+		return Objects.equals(id, other.id);
+	}
+	
 }
