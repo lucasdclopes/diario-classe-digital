@@ -42,9 +42,9 @@ public class PopularBase  {
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {
 		
-		Turma turma1 = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turma1 = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
 		Turma turma2 = new Turma("1a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
-		Turma turma3 = new Turma("5a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_I);
+		Turma turma3 = new Turma("5a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
 		turmaDal.saveAll(Arrays.asList(turma1,turma2,turma3));
 		
 		alunoDal.saveAll(Arrays.asList(
@@ -59,30 +59,36 @@ public class PopularBase  {
 		Materia matF1 = new Materia("Matemática",TipoNivelEnsino.FUNDAMENTAL_I);
 		Materia matMe = new Materia("Matemática",TipoNivelEnsino.MEDIO);
 		Materia bioF1 = new Materia("Biologia",TipoNivelEnsino.FUNDAMENTAL_I);
+		Materia bioMe = new Materia("Biologia",TipoNivelEnsino.MEDIO);
 		Materia histF1 = new Materia("História",TipoNivelEnsino.FUNDAMENTAL_I);
-		materiaDal.saveAll(Arrays.asList(matF1,matMe,bioF1,histF1));
+		Materia histMe = new Materia("História",TipoNivelEnsino.MEDIO);
+		materiaDal.saveAll(Arrays.asList(matF1,matMe,bioF1,bioMe,histF1,histMe));
 		
 		Professor henry = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Henry Wu", "121212121212", "121212121212", LocalDate.now(), Sexo.MASCULINO, null, null);
 		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "13131331313", "13131331313", LocalDate.now(), Sexo.MASCULINO, null, null);
-		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Ellie Sattler", "1414141414", "1414141414", LocalDate.now(), Sexo.MASCULINO, null, null);
-		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "15155515515", "15155515515", LocalDate.now(), Sexo.MASCULINO, null, null);
+		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "1414141414", "1414141414", LocalDate.now(), Sexo.MASCULINO, null, null);
 		
-		profDal.saveAll(Arrays.asList(henry,alan,ellie,ian));
+		
+		Professor oracle = new Professor(LocalDate.now(), Optional.of(histMe), "Oráculo", "15155515515", "15155515515", LocalDate.now(), Sexo.MASCULINO, null, null);
+		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioMe), "Dr. Ellie Sattler", "1161666616", "1161666616", LocalDate.now(), Sexo.MASCULINO, null, null);
+		Professor Morpheus = new Professor(LocalDate.now(), Optional.of(matMe), "Morpheus", "117171717177", "117171717177", LocalDate.now(), Sexo.MASCULINO, null, null);
+		
+		profDal.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus));
 		
 		calendarioAulaDal.saveAll(Arrays.asList(
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turma1),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, ellie, turma2),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turma3),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turma1),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), matF1, ian, turma2),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turma3),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turma1),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), histF1, alan, turma2),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turma3),
 				
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turma1),
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, ellie, turma2),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turma3),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turma1),
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), matF1, ian, turma2),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turma3),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turma1),
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histF1, alan, turma2)
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turma3)
 				));
 		
 	}
