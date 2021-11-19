@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.univesp.diarioclasse.constantes.DiaDaSemana;
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
@@ -59,7 +60,7 @@ public class CalendarioAula implements Serializable {
 
 	
 	public CalendarioAula(DiaDaSemana diaSemana, LocalTime hrInicio, LocalTime hrFim,
-			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException, ConstanteInvalidaException {
+			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException {
 		
 		if (hrFim.isBefore(hrInicio))
 			throw new DadosInvalidosException("A aula não pode terminar antes de ter começado", "hrInicio");
@@ -95,8 +96,8 @@ public class CalendarioAula implements Serializable {
 		return turma;
 	}
 	
-	
-	
-	
+	public DiaDaSemana getDiaSemana() {
+		return IEnumParseavel.parse(diaSemana, DiaDaSemana.class);
+	}
 	
 }
