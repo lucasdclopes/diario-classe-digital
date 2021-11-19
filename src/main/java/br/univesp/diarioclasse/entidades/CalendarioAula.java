@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.univesp.diarioclasse.constantes.DiaDaSemana;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
 @Entity
@@ -58,14 +59,21 @@ public class CalendarioAula implements Serializable {
 
 	
 	public CalendarioAula(DiaDaSemana diaSemana, LocalTime hrInicio, LocalTime hrFim,
-			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException {
+			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException, ConstanteInvalidaException {
 		
 		if (hrFim.isBefore(hrInicio))
 			throw new DadosInvalidosException("A aula não pode terminar antes de ter começado", "hrInicio");
 		
 		if (!professor.getMateria().equals(materia))
-			throw new DadosInvalidosException("O professor selecionado, " + professor.getDadosCadastrais().getNome() + ", não leciona " + materia.getDescMateria() 
-			, "descMateria");
+			throw new DadosInvalidosException(String.format("O professor selecionado, %s, não leciona %s para o %s "
+					, professor.getDadosCadastrais().getNome(),materia.getDescMateria(),materia.getTpNivelEnsino().getDescricaoAmigavel())
+					, "descMateria,TpNivelEnsino");
+		
+		if (!professor.getMateria().equals(materia) || professor.getMateria().getTpNivelEnsino() != turma.getTpNivelEnsino())
+			throw new DadosInvalidosException(String.format("A turma selecionada é do %s, porém o professor selecionado leciona para o %s "
+					, turma.getTpNivelEnsino().getDescricaoAmigavel(),professor.getMateria().getTpNivelEnsino().getDescricaoAmigavel())
+					, "turma");
+			
 		this.diaSemana = diaSemana.getCodigo();
 		this.hrInicio = hrInicio;
 		this.hrFim = hrFim;

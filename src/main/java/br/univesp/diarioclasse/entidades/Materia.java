@@ -11,6 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.univesp.diarioclasse.constantes.IEnumParseavel;
+import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "materias")
@@ -22,6 +29,8 @@ public class Materia implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMateria;
 	private String descMateria;
+	@NotNull @Length(min = 2, max = 2)
+	private String tpNivelEnsino;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<CalendarioAula> tipoAula;
@@ -35,11 +44,15 @@ public class Materia implements Serializable {
 	@Deprecated
 	public Materia() {}
 
-	public Materia(String descMateria) {
+	public Materia(String descMateria,TipoNivelEnsino tpNivelEnsino) {
 		this.descMateria = descMateria;
+		this.tpNivelEnsino = tpNivelEnsino.getCodigo();
 	}
 	public String getDescMateria() {
 		return descMateria;
+	}
+	public TipoNivelEnsino getTpNivelEnsino() throws ConstanteInvalidaException {
+		return IEnumParseavel.parse(tpNivelEnsino, TipoNivelEnsino.class);
 	}
 
 	@Override

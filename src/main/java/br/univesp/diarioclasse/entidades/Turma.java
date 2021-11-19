@@ -11,9 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.PeridoEstudo;
+import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
@@ -36,6 +40,9 @@ public class Turma implements Serializable {
 	
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
 	private List<CalendarioAula> tiposAulas = new ArrayList<>();
+
+	@NotNull @Length(min = 2, max = 2)
+	private String tpNivelEnsino;
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
@@ -43,13 +50,18 @@ public class Turma implements Serializable {
 	@Deprecated
 	public Turma() {}
 
-	public Turma(String descTurma, PeridoEstudo tpPeriodo) {
+	public Turma(String descTurma, PeridoEstudo tpPeriodo, TipoNivelEnsino tpNivelEnsino) {
 		this.descTurma = descTurma;
+		this.tpNivelEnsino = tpNivelEnsino.getCodigo();
 		this.tpPeriodo = tpPeriodo.getCodigo();
 	}
 
 	public String getDescTurma() {
 		return descTurma;
+	}
+
+	public TipoNivelEnsino getTpNivelEnsino() throws ConstanteInvalidaException {
+		return IEnumParseavel.parse(tpNivelEnsino, TipoNivelEnsino.class);
 	}
 
 	public PeridoEstudo getTpPeriodo() throws ConstanteInvalidaException {
