@@ -14,6 +14,10 @@ public interface IEnumParseavel {
 	 */
 	String getDescricaoCampo(); 
 	
+	/**
+	 * Carrega um enum utilizando uma string que representa o seu código interno
+	 * @throws ConstanteInvalidaException se nenhuma constante é representada pela string enviada
+	 */
 	public static <E extends Enum<E> & IEnumParseavel> E parse(String value, Class<E> clazz) throws ConstanteInvalidaException {
 		
 		E[] enums = clazz.getEnumConstants();  

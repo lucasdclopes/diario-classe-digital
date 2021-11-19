@@ -100,7 +100,7 @@ public class Cadastro implements Serializable {
 	public LocalDate getDtNascimento() {
 		return dtNascimento;
 	}
-	public Sexo getSexo() throws ConstanteInvalidaException {
+	public Sexo getSexo() {
 		return IEnumParseavel.parse(sexo,Sexo.class);
 	}
 	public String getNomeMae() {
@@ -109,7 +109,7 @@ public class Cadastro implements Serializable {
 	public String getNomePai() {
 		return nomePai;	
 	}
-	public TipoCadastro getTipoCadastro() throws ConstanteInvalidaException {
+	public TipoCadastro getTipoCadastro() {
 		return IEnumParseavel.parse(this.tipoCadastro, TipoCadastro.class);
 	}
 	public boolean isAtivo() {

@@ -60,11 +60,11 @@ public class Turma implements Serializable {
 		return descTurma;
 	}
 
-	public TipoNivelEnsino getTpNivelEnsino() throws ConstanteInvalidaException {
+	public TipoNivelEnsino getTpNivelEnsino() {
 		return IEnumParseavel.parse(tpNivelEnsino, TipoNivelEnsino.class);
 	}
 
-	public PeridoEstudo getTpPeriodo() throws ConstanteInvalidaException {
+	public PeridoEstudo getTpPeriodo() {
 		return IEnumParseavel.parse(tpPeriodo, PeridoEstudo.class);
 	}	
 	

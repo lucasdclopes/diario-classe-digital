@@ -1,6 +1,6 @@
 package br.univesp.diarioclasse.exceptions;
 
-public class ConstanteInvalidaException extends Exception {
+public class ConstanteInvalidaException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private String valorEnviado;

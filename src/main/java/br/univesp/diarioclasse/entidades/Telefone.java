@@ -47,7 +47,7 @@ public class Telefone implements Serializable {
 		cadastro.adicionarTelefone(this);
 	}
 
-	public TipoTelefone getTpTelefone() throws ConstanteInvalidaException {
+	public TipoTelefone getTpTelefone() {
 		return IEnumParseavel.parse(this.tpTelefone, TipoTelefone.class);
 	}
 

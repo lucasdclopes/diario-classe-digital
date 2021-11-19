@@ -86,7 +86,7 @@ public class Endereco implements Serializable {
 		return uf;
 	}
 
-	public TipoEndereco getTpEndereco() throws ConstanteInvalidaException {
+	public TipoEndereco getTpEndereco() {
 		return IEnumParseavel.parse(tpEndereco,TipoEndereco.class);
 	}
 

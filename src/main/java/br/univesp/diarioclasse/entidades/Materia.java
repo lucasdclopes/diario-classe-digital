@@ -51,7 +51,7 @@ public class Materia implements Serializable {
 	public String getDescMateria() {
 		return descMateria;
 	}
-	public TipoNivelEnsino getTpNivelEnsino() throws ConstanteInvalidaException {
+	public TipoNivelEnsino getTpNivelEnsino() {
 		return IEnumParseavel.parse(tpNivelEnsino, TipoNivelEnsino.class);
 	}
 
