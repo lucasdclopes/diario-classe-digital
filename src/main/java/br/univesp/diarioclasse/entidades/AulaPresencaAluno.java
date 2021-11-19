@@ -38,7 +38,23 @@ public class AulaPresencaAluno implements Serializable {
 	 */
 	@Deprecated
 	public AulaPresencaAluno() {}
+	
+	
 
+	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) {
+		super();
+		this.aula = aula;
+		this.aluno = aluno;
+		this.isPresente = isPresente;
+		this.hasAtestado = false;
+	}
+	
+	public void adicionarAtestado() {
+		//TODO: Se der tempo, adicionar uma foto/scan do atestado
+		this.hasAtestado = true;
+	}
+
+	
 	public Aula getAula() {
 		return aula;
 	}
