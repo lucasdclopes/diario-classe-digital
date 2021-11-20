@@ -35,7 +35,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 			WHERE
 			 (:cpf is null or al.cpf = :cpf) AND (:ra is null or al.ra = :ra) AND
 			 (:nroMatricula is null or al.nroMatricula = :nroMatricula) AND 
-			 (:nome is null or al.nome LIKE %:nome)
+			 (:nome is null or al.nome LIKE :nome%)
 			""")
 	Page<ListaAlunosDto> paginar(String cpf, String ra, String nroMatricula, String nome,Pageable paginacao);
 	
