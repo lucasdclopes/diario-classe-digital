@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+
 @Entity
 @Table(name = "aulaPresencaAlunos")
 public class AulaPresencaAluno implements Serializable {
@@ -41,9 +43,10 @@ public class AulaPresencaAluno implements Serializable {
 	
 	
 
-	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) {
+	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) throws EntidadeJaExisteException {
 		super();
 		this.aula = aula;
+		aula.adicionarChamadaIndividual(this);
 		this.aluno = aluno;
 		this.isPresente = isPresente;
 		this.hasAtestado = false;

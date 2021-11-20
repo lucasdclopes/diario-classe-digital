@@ -16,6 +16,7 @@ import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Aula;
+import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;
@@ -51,13 +52,14 @@ public class PopularBase  {
 		Turma turma3 = new Turma("5a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
 		turmaDal.saveAll(Arrays.asList(turma1,turma2,turma3));
 		
+		Aluno lex = new Aluno("123456",LocalDate.now(),"11111", Optional.of(turma1), "Lex Murphy", "11111111", "1111111111", LocalDate.now(), 
+				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
+		Aluno Tim = new Aluno("123457",LocalDate.now(),"11112", Optional.of(turma1), "Tim Murphy", "2222222222", "222222222", LocalDate.now(), 
+				Sexo.FEMININO, "Mãe do Joãozinho", "Pai do Joãozinho");
+		Aluno Dennis = new Aluno("123458",LocalDate.now(),"11113", Optional.of(turma2), "Dennis Nedry", "3333333333", "333333333", LocalDate.now(), 
+				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
 		alunoDal.saveAll(Arrays.asList(
-				new Aluno("123456",LocalDate.now(),"11111", Optional.of(turma1), "Lex Murphy", "11111111", "1111111111", LocalDate.now(), 
-						Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho"),
-				new Aluno("123457",LocalDate.now(),"11112", Optional.of(turma1), "Tim Murphy", "2222222222", "222222222", LocalDate.now(), 
-						Sexo.FEMININO, "Mãe do Joãozinho", "Pai do Joãozinho"),
-				new Aluno("123458",LocalDate.now(),"11113", Optional.of(turma2), "Dennis Nedry", "3333333333", "333333333", LocalDate.now(), 
-						Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho")
+				lex,Tim,Dennis
 				));
 		
 		Materia matF1 = new Materia("Matemática",TipoNivelEnsino.FUNDAMENTAL_I);
@@ -100,7 +102,11 @@ public class PopularBase  {
 		Aula aulaTurma1_1 = Aula.agendarAulaDoCalendario(LocalDate.now(), aula1Calendario);
 		aulaTurma1_1.iniciarAula();
 		Aula aulaTurma3_1 = Aula.comecarAulaDoCalendario(LocalDate.now(), aula2Calendario);
-		aulaDal.saveAll(Arrays.asList(aulaTurma1_1,aulaTurma3_1));
+		aulaDal.saveAllAndFlush(Arrays.asList(aulaTurma1_1,aulaTurma3_1));
+		
+		AulaPresencaAluno presenca = new AulaPresencaAluno(aulaTurma1_1,lex,true);
+		//AulaPresencaAluno presenca2 = new AulaPresencaAluno(aulaTurma1_1,lex,true);
+		//aulaTurma1_1.adicionarListaChamada(Arrays.asList(presenca));
 		
 	}
 }
