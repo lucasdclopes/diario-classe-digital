@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import br.univesp.diarioclasse.constantes.Sexo;
 
-public record CadastroParamsFiltro(String nome,
+public record CadastroParamFiltro(String nome,
 		String cpf,
 		String rg,
 		LocalDate dtNascimento,

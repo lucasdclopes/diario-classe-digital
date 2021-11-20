@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.requests.AlunoParamFiltro;
-import br.univesp.diarioclasse.dto.requests.CadastroParamsFiltro;
+import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
 import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
+import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -66,12 +67,9 @@ public class AlunoController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Aluno>> listar(AlunoParamFiltro params) throws EntidadeNaoEncontradaException{
-		Aluno aluno = new Aluno(params.nroMatricula(), params.dtMatricula(), params.ra() , Optional.empty(), null , null, null, null, null, null, null);
-		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
-		Example<Aluno> AlunoExemplo = Example.of(aluno,exampleMatcher);
-		List<Aluno> alunos = alunoDal.findAll(AlunoExemplo);
-
+	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams) throws EntidadeNaoEncontradaException{
+		List<ListaAlunosDto> alunos = alunoDal.findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(
+				cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
 		if (!alunos.isEmpty())
 			return ResponseEntity.ok(alunos);
 		else

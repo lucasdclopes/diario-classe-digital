@@ -29,7 +29,7 @@ public class Telefone implements Serializable {
 	private String ddd;
 	private String numeroTelefone;
 	
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "idCadastro")
 	private Cadastro cadastro;
 	

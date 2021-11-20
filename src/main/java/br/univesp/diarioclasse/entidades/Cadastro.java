@@ -49,8 +49,8 @@ public class Cadastro implements Serializable {
 	private String sexo;
 	private String nomeMae;
 	private String nomePai; 
-	@NotNull @Length(min = 1, max = 1)
-	private String tipoCadastro;
+	@NotNull
+	private TipoCadastro tipoCadastro;
 	private Boolean isAtivo;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -73,7 +73,7 @@ public class Cadastro implements Serializable {
 		this.sexo = sexo!=null?sexo.getCodigo():null;
 		this.nomeMae = nomeMae;
 		this.nomePai = nomePai;
-		this.tipoCadastro = tipoCadastro.getCodigo();
+		this.tipoCadastro = tipoCadastro;
 		this.isAtivo = true;
 	}
 	
@@ -114,7 +114,7 @@ public class Cadastro implements Serializable {
 		return nomePai;	
 	}
 	public TipoCadastro getTipoCadastro() {
-		return IEnumParseavel.parse(this.tipoCadastro, TipoCadastro.class);
+		return tipoCadastro;
 	}
 	public boolean isAtivo() {
 		return isAtivo;

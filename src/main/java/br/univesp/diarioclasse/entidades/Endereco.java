@@ -34,7 +34,7 @@ public class Endereco implements Serializable {
 	private String uf;
 	private String tpEndereco;
 	
-	@ManyToOne(fetch = FetchType.EAGER,optional = false)
+	@ManyToOne(fetch = FetchType.LAZY,optional = false)
 	@JoinColumn(name = "idCadastro")
 	private Cadastro cadastro;
 	

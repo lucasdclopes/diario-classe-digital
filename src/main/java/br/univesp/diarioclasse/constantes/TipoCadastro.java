@@ -1,5 +1,7 @@
 package br.univesp.diarioclasse.constantes;
 
+import javax.persistence.Converter;
+
 public enum TipoCadastro implements IEnumParseavel {
 	
 	ALUNO("A"),PROFESSOR("P");
@@ -13,4 +15,11 @@ public enum TipoCadastro implements IEnumParseavel {
 
 	@Override
 	public String getDescricaoCampo() { return "Tipo de Cadastro"; }
+	
+	@Converter(autoApply = true)
+    public static class ConverterJpa extends ConstantesJpaConverter<TipoCadastro> {
+        public ConverterJpa() {
+            super(TipoCadastro.class);
+        }
+    }
 }
