@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
@@ -49,7 +50,7 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	
 	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
-			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai ) {
+			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai ) throws DadosInvalidosException {
 		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO);
 		this.nroMatricula = nroMatricula;
 		this.dtMatricula = dtMatricula;

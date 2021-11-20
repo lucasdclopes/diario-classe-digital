@@ -1,7 +1,6 @@
 package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +25,7 @@ import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
 import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.helpers.CadastroMappers;
@@ -40,7 +40,7 @@ public class AlunoController {
 	@Autowired private CadastroMappers mappers;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoAlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException{
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoAlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
 		Aluno aluno = new Aluno(dto.nroMatricula(), dto.dtMatricula(), dto.ra(), dto.turma(), dto.nome(), dto.cpf(), dto.rg(), 
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());

@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
 
 @Entity
@@ -28,8 +25,8 @@ public class Materia implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMateria;
 	private String descMateria;
-	@NotNull @Length(min = 2, max = 2)
-	private String tpNivelEnsino;
+	@NotNull
+	private TipoNivelEnsino tpNivelEnsino;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<CalendarioAula> tipoAula;
@@ -45,13 +42,13 @@ public class Materia implements Serializable {
 
 	public Materia(String descMateria,TipoNivelEnsino tpNivelEnsino) {
 		this.descMateria = descMateria;
-		this.tpNivelEnsino = tpNivelEnsino.getCodigo();
+		this.tpNivelEnsino = tpNivelEnsino;
 	}
 	public String getDescMateria() {
 		return descMateria;
 	}
 	public TipoNivelEnsino getTpNivelEnsino() {
-		return IEnumParseavel.parse(tpNivelEnsino, TipoNivelEnsino.class);
+		return tpNivelEnsino;
 	}
 
 	@Override

@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,19 +15,20 @@ import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.helpers.DateHelper;
 import br.univesp.diarioclasse.validadores.CpfNumerico;
+import br.univesp.diarioclasse.validadores.SomenteDigitos;
 
 public record NovoAlunoDto (
-		@NotBlank String nroMatricula,
+		@NotBlank @Length(max = 50) String nroMatricula,
 		@JsonFormat(pattern=DateHelper.patternDataPtBr) LocalDate dtMatricula,
-		@NotBlank String ra,
-		@NotBlank String nome,
+		@NotBlank @Length(max = 50) String ra,
+		@NotBlank @Length(max = 200) String nome,
 		@CpfNumerico String cpf,
-		String rg, 
+		@Length(max = 10) @SomenteDigitos String rg, 
 		@JsonFormat(pattern=DateHelper.patternDataPtBr) LocalDate dtNascimento,
 		Sexo sexo,
-		@NotBlank String nomeMae,
-		String nomePai, 
-		Optional<List<NovoEnderecoDto>> enderecos,
-		Optional<List<NovoTelefoneDto>> telefones,
+		@NotBlank @Length(max = 200) String nomeMae,
+		@Length(max = 200) String nomePai, 
+		@Valid Optional<List<NovoEnderecoDto>> enderecos,
+		@Valid Optional<List<NovoTelefoneDto>> telefones,
 		Optional<Turma> turma) {
 }

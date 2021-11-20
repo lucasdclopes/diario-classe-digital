@@ -2,6 +2,8 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ import javax.persistence.Table;
 
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
@@ -43,15 +46,23 @@ public class Professor extends Cadastro implements Serializable  {
 	@Deprecated
 	public Professor() {}
 	public Professor(LocalDate dtAdmissao, Optional<Materia> materia, String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
-			String nomeMae, String nomePai ) {
+			String nomeMae, String nomePai ) throws DadosInvalidosException {
 		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		this.dtAdmissao = dtAdmissao;
 		materia.ifPresent(m -> this.materia = m);
 	}
 	
-	public void validarSeJaExiste(CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
+	public void validarSeJaExiste(ProfessorExistente cadastroExistente) throws EntidadeJaExisteException {
 		if(cadastroExistente.existsByCpf(super.getCpf()))
 			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
+	}
+
+	@Override
+	protected void definirDtNascimento(LocalDate dtNascimento) throws DadosInvalidosException {
+		if (!dtNascimento.isBefore(LocalDate.now().minus(18,ChronoUnit.YEARS)))
+				throw new DadosInvalidosException("O professor precisa ser maior que 18 anos","dtNascimento");
+		super.definirDtNascimento(dtNascimento);
+		
 	}
 	@Override
 	public void adicionarEndereco(Endereco endereco) {
@@ -61,6 +72,8 @@ public class Professor extends Cadastro implements Serializable  {
 	public void adicionarTelefone(Telefone telefone) {
 		super.adicionarTelefone(telefone);
 	}
+	
+	
 
 	public Integer getIdProfessor() {
 		return super.getIdCadastro();

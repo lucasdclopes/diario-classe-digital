@@ -1,5 +1,9 @@
 package br.univesp.diarioclasse.constantes;
 
+import javax.persistence.Converter;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TipoNivelEnsino implements IEnumParseavel {
 	
 	INFANTIL("IN","Ensino infantil"),
@@ -19,6 +23,14 @@ public enum TipoNivelEnsino implements IEnumParseavel {
 	@Override
 	public String getDescricaoCampo() { return "Nível de ensino"; } 	
 	
-	public String getDescricaoAmigavel() { return valueAmigavel;}
+	@JsonValue
+	public String getDescricaoAmigavel() { return valueAmigavel; }
+	
+	@Converter(autoApply = true)
+    public static class ConverterJpa extends ConstantesJpaConverter<TipoNivelEnsino> {
+        public ConverterJpa() {
+            super(TipoNivelEnsino.class);
+        }
+    }
 
 }

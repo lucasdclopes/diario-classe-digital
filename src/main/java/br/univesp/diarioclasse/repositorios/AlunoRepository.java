@@ -1,7 +1,5 @@
 package br.univesp.diarioclasse.repositorios;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,10 +21,6 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 	
 	@Override
 	boolean existsByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
-	
-	Page<ListaAlunosDto> findAllBy(Pageable paginacao);
-	List<ListaAlunosDto> findByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
-	List<ListaAlunosDto> findByCpfOrRaOrNroMatriculaOrNomeStartingWith(String cpf, String ra, String nroMatricula, String nome);
 	
 	//o :param is null or field = :param é para tornar o parametro opcional. Se ele for null, o filtro é desconsiderado
 	@Query(""" 

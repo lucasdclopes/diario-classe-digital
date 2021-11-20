@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,13 +28,18 @@ public class Endereco implements Serializable {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idEndereco;
+	@NotBlank @Length(max = 300)
 	private String logradouro;
 	private String numeroEndereco;
 	private String complementoEndereco;
+	@NotBlank @Length(max = 8)
 	private String cep;
 	private String bairro;
+	@NotBlank
 	private String cidade;
+	@NotBlank @Length(max = 2)
 	private String uf;
+	@NotNull
 	private String tpEndereco;
 	
 	@ManyToOne(fetch = FetchType.LAZY,optional = false)

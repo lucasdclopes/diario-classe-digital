@@ -26,6 +26,7 @@ import org.hibernate.annotations.NaturalId;
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 
 @Entity
@@ -67,16 +68,27 @@ public abstract class Cadastro implements Serializable {
 	public Cadastro() {}
 	
 	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
-			String nomePai, TipoCadastro tipoCadastro) {
-		this.nome = nome;
+			String nomePai, TipoCadastro tipoCadastro) throws DadosInvalidosException {
+		atualizarNome(nome);
 		this.cpf = cpf;
 		this.rg = rg;
-		this.dtNascimento = dtNascimento;
+		definirDtNascimento(dtNascimento);
 		this.sexo = sexo!=null?sexo.getCodigo():null;
 		this.nomeMae = nomeMae;
 		this.nomePai = nomePai;
 		this.tipoCadastro = tipoCadastro;
 		this.isAtivo = true;
+	} 
+	
+	protected void definirDtNascimento(LocalDate dtNascimento) throws DadosInvalidosException{
+		if (dtNascimento.isAfter(LocalDate.now()))
+			throw new DadosInvalidosException("A data de nascimento deve ser anterior a data atual", "dtNascimento");
+		this.dtNascimento = dtNascimento;
+	}
+	public void atualizarNome(String nome) throws DadosInvalidosException {
+		if (nome.length() < 3 || !nome.contains(" "))
+			throw new DadosInvalidosException("Por favor preencha o nome completo", "nome");
+		this.nome = nome;
 	}
 	
 	public void adicionarEndereco(Endereco endereco) {

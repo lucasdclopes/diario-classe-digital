@@ -3,10 +3,13 @@ package br.univesp.diarioclasse.dto.requests;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import br.univesp.diarioclasse.constantes.TipoTelefone;
+import org.hibernate.validator.constraints.Length;
 
-public record NovoTelefoneDto ( @NotNull TipoTelefone tpTelefone,
-		@NotBlank String ddd,
-		@NotBlank String numeroTelefone) {
+import br.univesp.diarioclasse.constantes.TipoTelefone;
+import br.univesp.diarioclasse.validadores.SomenteDigitos;
+
+public record NovoTelefoneDto (@NotNull TipoTelefone tpTelefone,
+		@NotBlank @Length(max = 2) @SomenteDigitos String ddd,
+		@NotBlank @Length(max = 9) @SomenteDigitos String numeroTelefone) {
 
 }
