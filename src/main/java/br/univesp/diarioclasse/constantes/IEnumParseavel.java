@@ -19,7 +19,8 @@ public interface IEnumParseavel {
 	 * @throws ConstanteInvalidaException se nenhuma constante é representada pela string enviada
 	 */
 	public static <E extends Enum<E> & IEnumParseavel> E parse(String value, Class<E> clazz) throws ConstanteInvalidaException {
-		
+		if (value == null)
+			return null;
 		E[] enums = clazz.getEnumConstants();  
 		for (E e : enums) {          
 			if (e.getCodigo().equals(value)) {        

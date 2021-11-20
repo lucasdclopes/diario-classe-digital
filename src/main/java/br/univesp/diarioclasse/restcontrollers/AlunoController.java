@@ -1,20 +1,26 @@
 package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.univesp.diarioclasse.dto.requests.AlunoParamFiltro;
+import br.univesp.diarioclasse.dto.requests.CadastroParamsFiltro;
 import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
@@ -57,6 +63,20 @@ public class AlunoController {
 	public ResponseEntity<Aluno> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		Optional<Aluno> aluno = alunoDal.findById(id);
 		return ResponseEntity.ok(aluno.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Aluno>> listar(AlunoParamFiltro params) throws EntidadeNaoEncontradaException{
+		Aluno aluno = new Aluno(params.nroMatricula(), params.dtMatricula(), params.ra() , Optional.empty(), null , null, null, null, null, null, null);
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+		Example<Aluno> AlunoExemplo = Example.of(aluno,exampleMatcher);
+		List<Aluno> alunos = alunoDal.findAll(AlunoExemplo);
+
+		if (!alunos.isEmpty())
+			return ResponseEntity.ok(alunos);
+		else
+			throw new EntidadeNaoEncontradaException();
+			
 	}
 	
 }

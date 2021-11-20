@@ -20,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.Length;
 
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
@@ -42,13 +43,15 @@ public class Cadastro implements Serializable {
 	@NaturalId(mutable = true)
 	private String cpf;
 	private String rg;
+	@NotNull
 	private LocalDate dtNascimento;
+	@NotNull
 	private String sexo;
 	private String nomeMae;
 	private String nomePai; 
-	@NotNull
+	@NotNull @Length(min = 1, max = 1)
 	private String tipoCadastro;
-	private boolean isAtivo;
+	private Boolean isAtivo;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -67,10 +70,11 @@ public class Cadastro implements Serializable {
 		this.cpf = cpf;
 		this.rg = rg;
 		this.dtNascimento = dtNascimento;
-		this.sexo = sexo.getCodigo();
+		this.sexo = sexo!=null?sexo.getCodigo():null;
 		this.nomeMae = nomeMae;
 		this.nomePai = nomePai;
 		this.tipoCadastro = tipoCadastro.getCodigo();
+		this.isAtivo = true;
 	}
 	
 	public void adicionarEndereco(Endereco endereco) {
