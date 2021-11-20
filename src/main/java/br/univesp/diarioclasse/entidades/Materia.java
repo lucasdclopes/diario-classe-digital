@@ -17,7 +17,6 @@ import org.hibernate.validator.constraints.Length;
 
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
-import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "materias")

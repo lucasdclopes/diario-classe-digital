@@ -11,16 +11,19 @@ import br.univesp.diarioclasse.entidades.AlunoExistente;
 
 public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExistente {
 	
-	@Override
+	/*
 	@Query(value = """  
-			SELECT CASE WHEN COUNT(Cad) > 0 THEN true ELSE false END from Cadastro Cad right join Aluno Al
-			on Al.idAluno = Cad.idCadastro
-			WHERE Al.ra = :ra or Al.nroMatricula = :nroMatricula or Cad.cpf = :cpf
+			SELECT CASE WHEN COUNT(Cad) > 0 THEN true ELSE false END from Aluno Al 
+			WHERE Al.ra = :ra or Al.nroMatricula = :nroMatricula or Al.cpf = :cpf
 			""")
 	boolean existeAlunoCadastrado(String cpf, String ra, String nroMatricula);
+	*/
 	
-	List<ListaAlunosDto> findByCadastro_cpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
-	List<ListaAlunosDto> findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(String cpf, String ra, String nroMatricula, String nome);
+	@Override
+	boolean existsByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
+	
+	List<ListaAlunosDto> findByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
+	List<ListaAlunosDto> findByCpfOrRaOrNroMatriculaOrNomeStartingWith(String cpf, String ra, String nroMatricula, String nome);
 	
 	
 }

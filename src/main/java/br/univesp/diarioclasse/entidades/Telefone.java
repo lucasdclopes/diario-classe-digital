@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.TipoTelefone;
-import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 @Entity
 @Table(name = "cadastro_telefones")
@@ -39,11 +38,11 @@ public class Telefone implements Serializable {
 	@Deprecated
 	public Telefone() {}
 
-	public Telefone(TipoTelefone tpTelefone, String ddd, String numeroTelefone, ICadastravel cadastro) {
+	public Telefone(TipoTelefone tpTelefone, String ddd, String numeroTelefone, Cadastro cadastro) {
 		this.tpTelefone = tpTelefone.getCodigo();
 		this.ddd = ddd;
 		this.numeroTelefone = numeroTelefone;
-		this.cadastro = cadastro.getDadosCadastrais();
+		this.cadastro = cadastro;
 		cadastro.adicionarTelefone(this);
 	}
 

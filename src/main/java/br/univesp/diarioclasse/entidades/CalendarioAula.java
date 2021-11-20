@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import br.univesp.diarioclasse.constantes.DiaDaSemana;
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
 @Entity
@@ -67,7 +66,7 @@ public class CalendarioAula implements Serializable {
 		
 		if (!professor.getMateria().equals(materia))
 			throw new DadosInvalidosException(String.format("O professor selecionado, %s, não leciona %s para o %s "
-					, professor.getDadosCadastrais().getNome(),materia.getDescMateria(),materia.getTpNivelEnsino().getDescricaoAmigavel())
+					, professor.getNome(),materia.getDescMateria(),materia.getTpNivelEnsino().getDescricaoAmigavel())
 					, "descMateria,TpNivelEnsino");
 		
 		if (!professor.getMateria().equals(materia) || professor.getMateria().getTpNivelEnsino() != turma.getTpNivelEnsino())

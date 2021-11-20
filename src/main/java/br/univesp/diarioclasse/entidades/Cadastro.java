@@ -14,13 +14,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.validator.constraints.Length;
 
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
@@ -29,7 +30,8 @@ import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 
 @Entity
 @Table(name = "cadastros")
-public class Cadastro implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Cadastro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

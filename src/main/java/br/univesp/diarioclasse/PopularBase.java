@@ -15,8 +15,6 @@ import br.univesp.diarioclasse.constantes.PeridoEstudo;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
 import br.univesp.diarioclasse.entidades.Aluno;
-import br.univesp.diarioclasse.entidades.Aula;
-import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;

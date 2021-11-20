@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import br.univesp.diarioclasse.constantes.Sexo;
@@ -23,18 +20,10 @@ import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
 @Table(name = "cadastro_professor")
-public class Professor implements Serializable, ICadastravel {
+@PrimaryKeyJoinColumn(name="idProfessor")
+public class Professor extends Cadastro implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
-	
-	
-	@Id
-	private Integer idProfessor;
-	
-	@OneToOne(fetch = FetchType.EAGER, optional=false,cascade = CascadeType.ALL)
-	@MapsId
-	@JoinColumn(name = "idProfessor")
-	private Cadastro cadastro;
 	
 	private LocalDate dtAdmissao;
 	
@@ -55,33 +44,26 @@ public class Professor implements Serializable, ICadastravel {
 	public Professor() {}
 	public Professor(LocalDate dtAdmissao, Optional<Materia> materia, String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
 			String nomeMae, String nomePai ) {
+		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		this.dtAdmissao = dtAdmissao;
 		materia.ifPresent(m -> this.materia = m);
-		this.cadastro = new Cadastro(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
-		//this.cadastro.setProfessor(this);
 	}
 	
 	public void validarSeJaExiste(CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
-		if(cadastroExistente.existsByCpf(this.cadastro.getCpf()))
+		if(cadastroExistente.existsByCpf(super.getCpf()))
 			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
-	}
-	
-	@Override
-	public Cadastro getDadosCadastrais() {
-		return cadastro;
 	}
 	@Override
 	public void adicionarEndereco(Endereco endereco) {
-		this.cadastro.adicionarEndereco(endereco);
-		
+		super.adicionarEndereco(endereco);	
 	}
 	@Override
 	public void adicionarTelefone(Telefone telefone) {
-		this.cadastro.adicionarTelefone(telefone);
+		super.adicionarTelefone(telefone);
 	}
 
 	public Integer getIdProfessor() {
-		return idProfessor;
+		return super.getIdCadastro();
 	}
 	public LocalDate getDtAdmissao() {
 		return dtAdmissao;
@@ -89,6 +71,5 @@ public class Professor implements Serializable, ICadastravel {
 	public Materia getMateria() {
 		return materia;
 	}
-	
 	
 }

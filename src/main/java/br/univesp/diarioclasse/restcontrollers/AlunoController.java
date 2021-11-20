@@ -7,15 +7,12 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -68,8 +65,8 @@ public class AlunoController {
 	
 	@GetMapping
 	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams) throws EntidadeNaoEncontradaException{
-		List<ListaAlunosDto> alunos = cadParams.nome()==null? alunoDal.findByCadastro_cpfOrRaOrNroMatricula(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula())
-					: alunoDal.findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
+		List<ListaAlunosDto> alunos = cadParams.nome()==null? alunoDal.findByCpfOrRaOrNroMatricula(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula())
+					: alunoDal.findByCpfOrRaOrNroMatriculaOrNomeStartingWith(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
 		if (!alunos.isEmpty())
 			return ResponseEntity.ok(alunos);
 		else
