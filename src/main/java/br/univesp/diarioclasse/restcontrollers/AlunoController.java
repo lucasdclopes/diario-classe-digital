@@ -1,12 +1,16 @@
 package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,9 +68,11 @@ public class AlunoController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams) throws EntidadeNaoEncontradaException{
-		List<ListaAlunosDto> alunos = cadParams.nome()==null? alunoDal.findByCpfOrRaOrNroMatricula(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula())
-					: alunoDal.findByCpfOrRaOrNroMatriculaOrNomeStartingWith(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
+	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams,
+			@PageableDefault(sort = "dtMatricula", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
+			) throws EntidadeNaoEncontradaException{
+			
+		List<ListaAlunosDto> alunos = alunoDal.paginar(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome(),paginacao).getContent();
 		if (!alunos.isEmpty())
 			return ResponseEntity.ok(alunos);
 		else
