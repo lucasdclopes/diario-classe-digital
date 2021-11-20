@@ -20,13 +20,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.constantes.DateHelper;
 import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.StatusAula;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
+import br.univesp.diarioclasse.helpers.DateHelper;
 
 @Entity
 @Table(name = "aulas")

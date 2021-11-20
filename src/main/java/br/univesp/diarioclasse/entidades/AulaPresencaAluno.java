@@ -46,7 +46,6 @@ public class AulaPresencaAluno implements Serializable {
 	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) throws EntidadeJaExisteException {
 		super();
 		this.aula = aula;
-		aula.adicionarChamadaIndividual(this);
 		this.aluno = aluno;
 		this.isPresente = isPresente;
 		this.hasAtestado = false;

@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.constantes;
+package br.univesp.diarioclasse.helpers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

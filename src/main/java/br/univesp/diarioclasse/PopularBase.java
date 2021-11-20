@@ -99,12 +99,12 @@ public class PopularBase  {
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turma3)
 				));
 		
-		Aula aulaTurma1_1 = Aula.agendarAulaDoCalendario(LocalDate.now(), aula1Calendario);
-		aulaTurma1_1.iniciarAula();
-		Aula aulaTurma3_1 = Aula.comecarAulaDoCalendario(LocalDate.now(), aula2Calendario);
-		aulaDal.saveAllAndFlush(Arrays.asList(aulaTurma1_1,aulaTurma3_1));
+		//Aula aulaTurma1_1 = Aula.agendarAulaDoCalendario(LocalDate.now(), aula1Calendario);
+		//aulaTurma1_1.iniciarAula();
+		//Aula aulaTurma3_1 = Aula.comecarAulaDoCalendario(LocalDate.now(), aula2Calendario);
+		//aulaDal.saveAllAndFlush(Arrays.asList(aulaTurma1_1,aulaTurma3_1));
 		
-		AulaPresencaAluno presenca = new AulaPresencaAluno(aulaTurma1_1,lex,true);
+		//AulaPresencaAluno presenca = new AulaPresencaAluno(aulaTurma1_1,lex,true);
 		//AulaPresencaAluno presenca2 = new AulaPresencaAluno(aulaTurma1_1,lex,true);
 		//aulaTurma1_1.adicionarListaChamada(Arrays.asList(presenca));
 		
