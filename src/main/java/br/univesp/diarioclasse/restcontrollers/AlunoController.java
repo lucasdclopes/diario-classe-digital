@@ -19,22 +19,35 @@ import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
+import br.univesp.diarioclasse.helpers.CadastroMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
-import br.univesp.diarioclasse.services.AlunoService;
 
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
 
-	@Autowired
-	private AlunoRepository alunoDal;
+	@Autowired private AlunoRepository alunoDal;
 	
-	@Autowired
-	private AlunoService service;
+	@Autowired private CadastroMappers mappers;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoAlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException{
-		Integer id = service.criarNovoAluno(dto);
+				
+		Aluno aluno = new Aluno(dto.nroMatricula(), dto.dtMatricula(), dto.ra(), dto.turma(), dto.nome(), dto.cpf(), dto.rg(), 
+				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
+		
+		aluno.validarSeJaExiste(alunoDal);
+		
+		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, aluno)
+				.forEach(cadEnd -> aluno.adicionarEndereco(cadEnd))
+		);
+		
+		dto.telefones().ifPresent(lista ->mappers.novoTelefoneDtoParaTelefone(lista, aluno)
+				.forEach(cadTel -> aluno.adicionarTelefone(cadTel))
+		);
+			
+		Integer id = alunoDal.save(aluno).getIdAluno();
+		
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/alunos/{id}",id);
 		return ResponseEntity.created(uri).build();
 

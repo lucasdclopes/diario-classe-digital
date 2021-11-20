@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
 @Table(name = "cadastro_professor")
@@ -58,6 +59,11 @@ public class Professor implements Serializable, ICadastravel {
 		materia.ifPresent(m -> this.materia = m);
 		this.cadastro = new Cadastro(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		//this.cadastro.setProfessor(this);
+	}
+	
+	public void validarSeJaExiste(CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
+		if(cadastroExistente.existsByCpf(this.cadastro.getCpf()))
+			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
 	}
 	
 	@Override
