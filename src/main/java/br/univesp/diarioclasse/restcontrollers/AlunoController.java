@@ -68,8 +68,8 @@ public class AlunoController {
 	
 	@GetMapping
 	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams) throws EntidadeNaoEncontradaException{
-		List<ListaAlunosDto> alunos = alunoDal.findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(
-				cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
+		List<ListaAlunosDto> alunos = cadParams.nome()==null? alunoDal.findByCadastro_cpfOrRaOrNroMatricula(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula())
+					: alunoDal.findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome());
 		if (!alunos.isEmpty())
 			return ResponseEntity.ok(alunos);
 		else

@@ -2,7 +2,6 @@ package br.univesp.diarioclasse.repositorios;
 
 import java.util.List;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,6 +19,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 			""")
 	boolean existeAlunoCadastrado(String cpf, String ra, String nroMatricula);
 	
+	List<ListaAlunosDto> findByCadastro_cpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
 	List<ListaAlunosDto> findByCadastro_cpfOrRaOrNroMatriculaOrCadastro_NomeStartingWith(String cpf, String ra, String nroMatricula, String nome);
 	
 	
