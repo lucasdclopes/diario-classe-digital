@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.constantes.PeridoEstudo;
-import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.PeridoEstudo;
+import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 
 @Entity
 @Table(name = "turmas")

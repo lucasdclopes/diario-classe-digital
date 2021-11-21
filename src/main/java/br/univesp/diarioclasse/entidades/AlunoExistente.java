@@ -2,5 +2,6 @@ package br.univesp.diarioclasse.entidades;
 
 public interface AlunoExistente {
 
-	boolean existsByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
+	boolean existsByRa(String ra);
+	boolean existsByNroMatricula(String nroMatricula);
 }

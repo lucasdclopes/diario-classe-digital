@@ -15,8 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import br.univesp.diarioclasse.constantes.Sexo;
-import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.enums.Sexo;
+import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
 @Entity
@@ -57,6 +57,11 @@ public class Professor extends Cadastro implements Serializable  {
 		super.definirDtNascimento(dtNascimento);
 		
 	}
+	
+	public void atualizarDtAdmissao(LocalDate dtAdmissao) {
+		this.dtAdmissao = dtAdmissao;
+	}
+	
 	@Override
 	public void adicionarEndereco(Endereco endereco) {
 		super.adicionarEndereco(endereco);	

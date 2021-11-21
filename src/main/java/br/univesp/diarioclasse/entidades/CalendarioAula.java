@@ -16,8 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.univesp.diarioclasse.constantes.DiaDaSemana;
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
+import br.univesp.diarioclasse.enums.DiaDaSemana;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
 @Entity

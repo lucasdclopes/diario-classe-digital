@@ -32,7 +32,9 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 	boolean existsByCpf(String cpf);
 	
 	@Override
-	boolean existsByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);
+	boolean existsByRa(String ra);
+	@Override
+	boolean existsByNroMatricula(String nroMatricula);
 	
 	//o :param is null or field = :param é para tornar o parametro opcional. Se ele for null, o filtro é desconsiderado
 	@Query(""" 

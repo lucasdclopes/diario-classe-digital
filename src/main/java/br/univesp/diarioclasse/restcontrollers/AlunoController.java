@@ -15,16 +15,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.univesp.diarioclasse.dto.requests.AlunoDto;
 import br.univesp.diarioclasse.dto.requests.AlunoParamFiltro;
 import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
-import br.univesp.diarioclasse.dto.requests.NovoAlunoDto;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
+import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -40,26 +42,43 @@ public class AlunoController {
 	@Autowired private CadastroMappers mappers;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoAlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
-		Aluno aluno = new Aluno(dto.nroMatricula(), dto.dtMatricula(), dto.ra(), dto.turma(), dto.nome(), dto.cpf(), dto.rg(), 
-				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
+		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getRa(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
+				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 		
-		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, aluno)
-				.forEach(cadEnd -> aluno.adicionarEndereco(cadEnd))
-		);
+		if (dto.getEnderecos() != null)	
+			mappers.novoEnderecoDtoParaEndereco(dto.getEnderecos(), aluno).forEach(cadEnd -> aluno.adicionarEndereco(cadEnd));
 		
-		dto.telefones().ifPresent(lista ->mappers.novoTelefoneDtoParaTelefone(lista, aluno)
-				.forEach(cadTel -> aluno.adicionarTelefone(cadTel))
-		);
+		if (dto.getTelefones() != null)
+			mappers.novoTelefoneDtoParaTelefone(dto.getTelefones(), aluno).forEach(cadTel -> aluno.adicionarTelefone(cadTel));
 			
 		Integer id = alunoDao.save(aluno).getIdAluno();
 		
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/alunos/{id}",id);
 		return ResponseEntity.created(uri).build();
 
+	}
+	
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody AlunoDto dto) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException{
+		//TODO: Atualizar o endreço e telefone
+		Aluno aluno = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		mappers.atualizarCadastroDeDto(dto, aluno, alunoDao);
+		if (dto.getRa() != null) {
+			aluno.atualizarRa(dto.getRa(), alunoDao);
+		}
+		if (dto.getNroMatricula() != null) {
+			aluno.atualizarNroMatricula(dto.getNroMatricula(), alunoDao);
+		}
+		if (dto.getDtMatricula() != null) {
+			aluno.atualizarDtMatricula(dto.getDtMatricula());
+		}
+		alunoDao.save(aluno);
+		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/{id}")

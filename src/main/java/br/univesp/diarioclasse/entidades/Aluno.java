@@ -16,8 +16,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.univesp.diarioclasse.constantes.Sexo;
-import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.enums.Sexo;
+import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
@@ -60,8 +60,35 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	public void validarSeAlunoJaExiste(AlunoExistente alunoExistente, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
 		super.validarSeJaExiste(cadastroExistente);
-		if(alunoExistente.existsByCpfOrRaOrNroMatricula(super.getCpf(), this.ra, this.nroMatricula))
-			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
+		validarSeJaExisteMatricula(alunoExistente);
+		validarSeJaExisteRa(alunoExistente);
+	}
+	
+	private void validarSeJaExisteMatricula(AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		if(alunoExistente.existsByNroMatricula(this.nroMatricula))
+			throw new EntidadeJaExisteException("Já existe um cadastro com este número de matrícula","nroMatricula");
+	}
+	
+	private void validarSeJaExisteRa(AlunoExistente alunoExistente) throws EntidadeJaExisteException {	
+		if(alunoExistente.existsByRa(this.ra))
+			throw new EntidadeJaExisteException("Já existe um aluno com este ra","ra");
+	}
+	
+	public void atualizarNroMatricula(String nroMatricula, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		if (!this.nroMatricula.equalsIgnoreCase(nroMatricula)) {//só é necessário se o nroMatricula realmente mudou. Caso contrário vai dar erro que o nroMatricula já existe (no caso, o nroMatricula do próprio cadastro)
+			this.nroMatricula = nroMatricula;
+			validarSeJaExisteMatricula(alunoExistente);
+		}
+	}
+	
+	public void atualizarRa(String ra, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		if (!this.ra.equalsIgnoreCase(ra)) {//só é necessário se o ra realmente mudou. Caso contrário vai dar erro que o ra já existe (no caso, o ra do próprio cadastro)
+			this.ra = ra;
+			validarSeJaExisteRa(alunoExistente);
+		}
+	}
+	public void atualizarDtMatricula(LocalDate dtMatricula) {
+		this.dtMatricula = dtMatricula;
 	}
 
 	@Override

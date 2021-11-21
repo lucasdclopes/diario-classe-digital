@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.univesp.diarioclasse.constantes.TipoNivelEnsino;
+import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 
 @Entity
 @Table(name = "materias")

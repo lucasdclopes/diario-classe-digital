@@ -23,11 +23,11 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.constantes.Sexo;
-import br.univesp.diarioclasse.constantes.TipoCadastro;
+import br.univesp.diarioclasse.enums.Sexo;
+import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 
 @Entity
@@ -50,7 +50,7 @@ public abstract class Cadastro implements Serializable {
 	@NotNull
 	private LocalDate dtNascimento;
 	@NotNull
-	private String sexo;
+	private Sexo sexo;
 	private String nomeMae;
 	private String nomePai; 
 	@NotNull
@@ -72,11 +72,11 @@ public abstract class Cadastro implements Serializable {
 			String nomePai, TipoCadastro tipoCadastro) throws DadosInvalidosException {
 		atualizarNome(nome);
 		this.cpf = cpf;
-		this.rg = rg;
+		atualizarRg(rg);
 		definirDtNascimento(dtNascimento);
-		this.sexo = sexo!=null?sexo.getCodigo():null;
-		this.nomeMae = nomeMae;
-		this.nomePai = nomePai;
+		atualizarSexo(sexo);
+		atualizarNomeMae(nomeMae);
+		atualizarNomePai(nomePai);
 		this.tipoCadastro = tipoCadastro;
 		this.isAtivo = true;
 	} 
@@ -91,6 +91,7 @@ public abstract class Cadastro implements Serializable {
 		if (nome.length() < 3 || !nome.contains(" "))
 			throw new DadosInvalidosException("Por favor preencha o nome completo", "nome");
 	}
+	
 	public void atualizarNome(String nome) throws DadosInvalidosException {
 		validarNome(nome);
 		this.nome = nome;
@@ -103,9 +104,36 @@ public abstract class Cadastro implements Serializable {
 		validarNome(nome);
 		this.nomePai = nomePai;
 	}
+	public void atualizarCpf(String cpf, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
+		if (!this.cpf.equalsIgnoreCase(cpf)) {//só é necessário se o cpf realmente mudou. Caso contrário vai dar erro que o cpf já existe (no caso, o cpf do próprio cadastro)
+			this.cpf = cpf;
+			validarSeJaExiste(cadastroExistente);
+		}
+	}
+	public void atualizarRg(String rg) {
+		this.rg = rg;
+	}
+	public void atualizarDtNascimento(LocalDate dtNascimento) throws DadosInvalidosException {
+		definirDtNascimento(dtNascimento);
+	}
 	public void validarSeJaExiste(CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
 		if(cadastroExistente.existsByCpf(this.getCpf()))
-			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf");
+			throw new EntidadeJaExisteException("Já existe um cadastro com este CPF","cpf");
+	}
+	public void atualizarSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+	public void darBaixa() throws EstadoObjetoInvalidoExcpetion {
+		if (this.isAtivo())
+			this.isAtivo = false;
+		else
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível dar baixa em um cadastro já inativo");
+	}
+	public void reativarCadastro() throws EstadoObjetoInvalidoExcpetion {
+		if (this.isAtivo())
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível ativar um cadastro que já está ativo");
+		else
+			this.isAtivo = true;
 	}
 	
 	public void adicionarEndereco(Endereco endereco) {
@@ -136,7 +164,7 @@ public abstract class Cadastro implements Serializable {
 		return dtNascimento;
 	}
 	public Sexo getSexo() {
-		return IEnumParseavel.parse(sexo,Sexo.class);
+		return sexo;
 	}
 	public String getNomeMae() {
 		return nomeMae;

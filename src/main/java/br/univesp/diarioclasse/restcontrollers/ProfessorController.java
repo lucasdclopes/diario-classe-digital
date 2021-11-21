@@ -22,15 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
-import br.univesp.diarioclasse.dto.requests.NovoProfessorDto;
+import br.univesp.diarioclasse.dto.requests.ProfessorDto;
 import br.univesp.diarioclasse.dto.responses.ListaProfessorDto;
-import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.helpers.CadastroMappers;
-import br.univesp.diarioclasse.repositorios.CadastroRepository;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 
 @RestController
@@ -41,23 +39,18 @@ public class ProfessorController {
 	@Autowired private CadastroMappers mappers;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody ProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 		
-		boolean existe = professorDao.existsByCpf(dto.cpf());
-		System.out.print(existe);
-		
-		Professor professor = new  Professor(dto.dtAdmissao(), dto.materia(), dto.nome(), dto.cpf(), dto.rg(), 
-				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
+		Professor professor = new  Professor(dto.getDtAdmissao(), Optional.ofNullable(dto.getMateria()), dto.getNome(), dto.getCpf(), dto.getRg(), 
+				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai());
 		
 		professor.validarSeJaExiste(professorDao);
+			
+		if (dto.getEnderecos() != null)	
+			mappers.novoEnderecoDtoParaEndereco(dto.getEnderecos(), professor).forEach(cadEnd -> professor.adicionarEndereco(cadEnd));
 		
-		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, professor)
-				.forEach(cadEnd -> professor.adicionarEndereco(cadEnd))
-		);
-		
-		dto.telefones().ifPresent(lista ->mappers.novoTelefoneDtoParaTelefone(lista, professor)
-				.forEach(cadTel -> professor.adicionarTelefone(cadTel))
-		);
+		if (dto.getTelefones() != null)
+			mappers.novoTelefoneDtoParaTelefone(dto.getTelefones(), professor).forEach(cadTel -> professor.adicionarTelefone(cadTel));
 
 		Integer id = professorDao.save(professor).getIdProfessor();
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/professores/{id}",id);
@@ -72,11 +65,12 @@ public class ProfessorController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Professor> atualizar(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody ProfessorDto dto) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException{
 		//TODO: Atualizar o endreço e telefone
 		Professor professor = professorDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-		return null;
-		
+		mappers.atualizarCadastroDeDto(dto, professor, professorDao);
+		professorDao.save(professor);
+		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping

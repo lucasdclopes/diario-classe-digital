@@ -1,4 +1,6 @@
-package br.univesp.diarioclasse.constantes;
+package br.univesp.diarioclasse.enums;
+
+import javax.persistence.Converter;
 
 public enum Sexo implements IEnumParseavel {
 
@@ -14,4 +16,11 @@ public enum Sexo implements IEnumParseavel {
 
 	@Override
 	public String getDescricaoCampo() { return "sexo"; }
+	
+	@Converter(autoApply = true)
+    public static class ConverterJpa extends ConstantesJpaConverter<Sexo> {
+        public ConverterJpa() {
+            super(Sexo.class);
+        }
+    }
 }

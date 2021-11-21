@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.constantes;
+package br.univesp.diarioclasse.enums;
 
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 

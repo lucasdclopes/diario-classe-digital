@@ -17,8 +17,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.constantes.TipoEndereco;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.TipoEndereco;
 
 @Entity
 @Table(name = "cadastro_enderecos")

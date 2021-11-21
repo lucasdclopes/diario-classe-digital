@@ -2,7 +2,7 @@ package br.univesp.diarioclasse.dto.requests;
 
 import java.time.LocalDate;
 
-import br.univesp.diarioclasse.constantes.Sexo;
+import br.univesp.diarioclasse.enums.Sexo;
 
 public record CadastroParamFiltro(String nome,
 		String cpf,

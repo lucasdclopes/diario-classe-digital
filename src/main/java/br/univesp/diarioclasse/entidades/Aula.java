@@ -20,8 +20,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.constantes.StatusAula;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.StatusAula;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;

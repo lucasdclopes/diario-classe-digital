@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.univesp.diarioclasse.constantes.IEnumParseavel;
-import br.univesp.diarioclasse.constantes.TipoTelefone;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.TipoTelefone;
 
 @Entity
 @Table(name = "cadastro_telefones")

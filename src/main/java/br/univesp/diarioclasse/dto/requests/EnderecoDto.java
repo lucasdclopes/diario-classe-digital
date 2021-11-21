@@ -5,10 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.constantes.TipoEndereco;
+import br.univesp.diarioclasse.enums.TipoEndereco;
 import br.univesp.diarioclasse.validadores.SomenteDigitos;
 
-public record NovoEnderecoDto ( @NotBlank @Length(max = 300) String logradouro,
+public record EnderecoDto ( @NotBlank @Length(max = 300) String logradouro,
 		@NotBlank  @Length(max = 20) String numeroEndereco,		 
 		@Length(max = 20) String complementoEndereco,		 
 		@Length(max = 8) @NotBlank @SomenteDigitos String cep,		 
