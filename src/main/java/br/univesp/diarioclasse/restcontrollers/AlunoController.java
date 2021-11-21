@@ -45,7 +45,7 @@ public class AlunoController {
 		Aluno aluno = new Aluno(dto.nroMatricula(), dto.dtMatricula(), dto.ra(), dto.turma(), dto.nome(), dto.cpf(), dto.rg(), 
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
 		
-		aluno.validarSeJaExiste(alunoDal);
+		aluno.validarSeAlunoJaExiste(alunoDal,alunoDal);
 		
 		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, aluno)
 				.forEach(cadEnd -> aluno.adicionarEndereco(cadEnd))

@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.AlunoExistente;
+import br.univesp.diarioclasse.entidades.CadastroExistente;
 
-public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExistente {
+public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExistente, CadastroExistente {
 	
 	/*
 	@Query(value = """  
@@ -18,6 +19,17 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 			""")
 	boolean existeAlunoCadastrado(String cpf, String ra, String nroMatricula);
 	*/
+	
+	
+	//Não deixa o spring fazer automático, se não ele vai dar join na tabela de alunos. Com isto ele não vai encontrar outro tipo de cadastro com o mesmo CPF
+	//Uma outra solução seria um right join de aluno com o cadastro
+	@Override
+	@Query(value = 
+	"""  
+		SELECT CASE WHEN COUNT(cad) > 0 THEN true ELSE false END from Cadastro cad 
+		WHERE cad.cpf = :cpf
+	""")
+	boolean existsByCpf(String cpf);
 	
 	@Override
 	boolean existsByCpfOrRaOrNroMatricula(String cpf, String ra, String nroMatricula);

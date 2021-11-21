@@ -3,7 +3,6 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import javax.persistence.Table;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
-import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
 @Table(name = "cadastro_professor")
@@ -50,11 +48,6 @@ public class Professor extends Cadastro implements Serializable  {
 		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
 		this.dtAdmissao = dtAdmissao;
 		materia.ifPresent(m -> this.materia = m);
-	}
-	
-	public void validarSeJaExiste(ProfessorExistente cadastroExistente) throws EntidadeJaExisteException {
-		if(cadastroExistente.existsByCpf(super.getCpf()))
-			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
 	}
 
 	@Override

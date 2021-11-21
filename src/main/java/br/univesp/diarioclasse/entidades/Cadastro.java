@@ -27,6 +27,7 @@ import br.univesp.diarioclasse.constantes.IEnumParseavel;
 import br.univesp.diarioclasse.constantes.Sexo;
 import br.univesp.diarioclasse.constantes.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
+import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 
 @Entity
@@ -85,10 +86,26 @@ public abstract class Cadastro implements Serializable {
 			throw new DadosInvalidosException("A data de nascimento deve ser anterior a data atual", "dtNascimento");
 		this.dtNascimento = dtNascimento;
 	}
-	public void atualizarNome(String nome) throws DadosInvalidosException {
+	
+	protected void validarNome(String nome) throws DadosInvalidosException {
 		if (nome.length() < 3 || !nome.contains(" "))
 			throw new DadosInvalidosException("Por favor preencha o nome completo", "nome");
+	}
+	public void atualizarNome(String nome) throws DadosInvalidosException {
+		validarNome(nome);
 		this.nome = nome;
+	}
+	public void atualizarNomeMae(String nomeMae) throws DadosInvalidosException {
+		validarNome(nome);
+		this.nomeMae = nomeMae;
+	}
+	public void atualizarNomePai(String nomePai) throws DadosInvalidosException {
+		validarNome(nome);
+		this.nomePai = nomePai;
+	}
+	public void validarSeJaExiste(CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
+		if(cadastroExistente.existsByCpf(this.getCpf()))
+			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf");
 	}
 	
 	public void adicionarEndereco(Endereco endereco) {

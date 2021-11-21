@@ -24,11 +24,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
 import br.univesp.diarioclasse.dto.requests.NovoProfessorDto;
 import br.univesp.diarioclasse.dto.responses.ListaProfessorDto;
+import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.helpers.CadastroMappers;
+import br.univesp.diarioclasse.repositorios.CadastroRepository;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 
 @RestController

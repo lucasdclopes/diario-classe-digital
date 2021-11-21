@@ -58,7 +58,8 @@ public class Aluno extends Cadastro implements Serializable {
 		turma.ifPresent(t -> this.turma = t);
 	}
 	
-	public void validarSeJaExiste(AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+	public void validarSeAlunoJaExiste(AlunoExistente alunoExistente, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
+		super.validarSeJaExiste(cadastroExistente);
 		if(alunoExistente.existsByCpfOrRaOrNroMatricula(super.getCpf(), this.ra, this.nroMatricula))
 			throw new EntidadeJaExisteException("Já existe um cadastro com estes dados","cpf,ra,nroMatricula");
 	}

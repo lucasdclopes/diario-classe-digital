@@ -1,6 +1,6 @@
 package br.univesp.diarioclasse.entidades;
 
-public interface ProfessorExistente {
+public interface CadastroExistente {
 
 	boolean existsByCpf(String cpf);
 }
