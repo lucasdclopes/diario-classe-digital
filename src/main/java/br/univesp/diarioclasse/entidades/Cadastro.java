@@ -71,7 +71,7 @@ public abstract class Cadastro implements Serializable {
 	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
 			String nomePai, TipoCadastro tipoCadastro) throws DadosInvalidosException {
 		atualizarNome(nome);
-		this.cpf = cpf;
+		this.cpf = cpf.strip();
 		atualizarRg(rg);
 		definirDtNascimento(dtNascimento);
 		atualizarSexo(sexo);
@@ -94,24 +94,24 @@ public abstract class Cadastro implements Serializable {
 	
 	public void atualizarNome(String nome) throws DadosInvalidosException {
 		validarNome(nome);
-		this.nome = nome;
+		this.nome = nome.strip();
 	}
 	public void atualizarNomeMae(String nomeMae) throws DadosInvalidosException {
 		validarNome(nome);
-		this.nomeMae = nomeMae;
+		this.nomeMae = nomeMae.strip();
 	}
 	public void atualizarNomePai(String nomePai) throws DadosInvalidosException {
 		validarNome(nome);
-		this.nomePai = nomePai;
+		this.nomePai = nomePai.strip();
 	}
 	public void atualizarCpf(String cpf, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
 		if (!this.cpf.equalsIgnoreCase(cpf)) {//só é necessário se o cpf realmente mudou. Caso contrário vai dar erro que o cpf já existe (no caso, o cpf do próprio cadastro)
-			this.cpf = cpf;
+			this.cpf = cpf.strip();
 			validarSeJaExiste(cadastroExistente);
 		}
 	}
 	public void atualizarRg(String rg) {
-		this.rg = rg;
+		this.rg = rg.strip();
 	}
 	public void atualizarDtNascimento(LocalDate dtNascimento) throws DadosInvalidosException {
 		definirDtNascimento(dtNascimento);

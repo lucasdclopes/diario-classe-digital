@@ -52,9 +52,9 @@ public class Aluno extends Cadastro implements Serializable {
 	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
 			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai ) throws DadosInvalidosException {
 		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO);
-		this.nroMatricula = nroMatricula;
+		this.nroMatricula = nroMatricula.strip();
 		this.dtMatricula = dtMatricula;
-		this.ra = ra;
+		this.ra = ra.strip();
 		turma.ifPresent(t -> this.turma = t);
 	}
 	
@@ -75,6 +75,7 @@ public class Aluno extends Cadastro implements Serializable {
 	}
 	
 	public void atualizarNroMatricula(String nroMatricula, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		nroMatricula.strip();
 		if (!this.nroMatricula.equalsIgnoreCase(nroMatricula)) {//só é necessário se o nroMatricula realmente mudou. Caso contrário vai dar erro que o nroMatricula já existe (no caso, o nroMatricula do próprio cadastro)
 			this.nroMatricula = nroMatricula;
 			validarSeJaExisteMatricula(alunoExistente);
@@ -82,6 +83,7 @@ public class Aluno extends Cadastro implements Serializable {
 	}
 	
 	public void atualizarRa(String ra, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		ra = ra.strip();
 		if (!this.ra.equalsIgnoreCase(ra)) {//só é necessário se o ra realmente mudou. Caso contrário vai dar erro que o ra já existe (no caso, o ra do próprio cadastro)
 			this.ra = ra;
 			validarSeJaExisteRa(alunoExistente);
