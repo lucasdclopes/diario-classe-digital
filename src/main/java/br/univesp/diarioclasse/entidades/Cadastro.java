@@ -46,11 +46,13 @@ public abstract class Cadastro implements Serializable {
 	@NotNull @NotBlank @Column(unique = true) 
 	@NaturalId(mutable = true)
 	private String cpf;
+	@NotBlank
 	private String rg;
 	@NotNull
 	private LocalDate dtNascimento;
 	@NotNull
 	private Sexo sexo;
+	@NotBlank
 	private String nomeMae;
 	private String nomePai; 
 	@NotNull
@@ -102,7 +104,7 @@ public abstract class Cadastro implements Serializable {
 	}
 	public void atualizarNomePai(String nomePai) throws DadosInvalidosException {
 		validarNome(nome);
-		this.nomePai = nomePai.strip();
+		this.nomePai = nomePai != null? nomePai.strip():null; //não é obrigatório
 	}
 	public void atualizarCpf(String cpf, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
 		if (!this.cpf.equalsIgnoreCase(cpf)) {//só é necessário se o cpf realmente mudou. Caso contrário vai dar erro que o cpf já existe (no caso, o cpf do próprio cadastro)

@@ -50,26 +50,31 @@ public class PopularBase  {
 		Turma turmaFundamental2 = new Turma("2a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
 		Turma turmaFundamental3 = new Turma("3a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
 		Turma turmaFundamental4 = new Turma("4a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
-		Turma turmaFundamental3 = new Turma("5a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("6a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("7a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("8a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("9a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("5a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("6a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("7a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("8a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental3 = new Turma("9a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamentalII = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaMedioB = new Turma("1a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedioA = new Turma("1a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
-		turmaDao.saveAll(Arrays.asList(turmaFundamentalII,turmaMedioB,turmaMedioA));
+		Turma turmaFundamental5 = new Turma("5a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental6 = new Turma("6a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental7 = new Turma("7a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental8 = new Turma("8a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental9 = new Turma("9a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental10 = new Turma("5a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental11 = new Turma("6a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental12 = new Turma("7a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental13 = new Turma("8a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental14 = new Turma("9a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaMedioB = new Turma("1a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedioA = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio2B = new Turma("2a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio2A = new Turma("2a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio3B = new Turma("3a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio3A = new Turma("3a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		turmaDao.saveAll(Arrays.asList(turmaFundamental1,turmaFundamental2,turmaFundamental3,turmaFundamental4,turmaFundamental5,turmaFundamental6,
+				turmaFundamental7,turmaFundamental8,turmaFundamental9,turmaFundamental10,turmaFundamental11,turmaFundamental12,turmaFundamental13,
+				turmaFundamental14,turmaMedioB,turmaMedioA,turmaMedio2B,turmaMedio2A,turmaMedio3B,turmaMedio3A));
 		
 		
 		
-		Aluno lex = new Aluno("123456",LocalDate.now(),"11111", Optional.of(turmaFundamentalII), "Lex Murphy", "46001471037", "46001471037", LocalDate.now(), 
+		Aluno lex = new Aluno("123456",LocalDate.now(),"11111", Optional.of(turmaFundamental5), "Lex Murphy", "46001471037", "46001471037", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe do Joãozinho", "Pai do Joãozinho");
-		Aluno Tim = new Aluno("123457",LocalDate.now(),"11112", Optional.of(turmaFundamentalII), "Tim Murphy", "66881503016", "66881503016", LocalDate.now(), 
+		Aluno Tim = new Aluno("123457",LocalDate.now(),"11112", Optional.of(turmaFundamental5), "Tim Murphy", "66881503016", "66881503016", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
 		Aluno Dennis = new Aluno("123458",LocalDate.now(),"11113", Optional.of(turmaMedioB), "Dennis Nedry", "33017780031", "33017780031", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
@@ -108,32 +113,32 @@ public class PopularBase  {
 		
 		LocalDate maiorDeIdade = LocalDate.now().minus(20, ChronoUnit.YEARS);
 		
-		Professor henry = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Henry Wu", "121212121212", "121212121212", maiorDeIdade, Sexo.MASCULINO, null, null);
-		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "13131331313", "13131331313", maiorDeIdade, Sexo.MASCULINO, null, null);
-		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "1414141414", "1414141414", maiorDeIdade, Sexo.MASCULINO, null, null);
+		Professor henry = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Henry Wu", "121212121212", "121212121212", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null);
+		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "13131331313", "13131331313", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null);
+		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "1414141414", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null);
 		
 		
-		Professor oracle = new Professor(LocalDate.now(), Optional.of(histMe), "O Oráculo", "15155515515", "15155515515", maiorDeIdade, Sexo.FEMININO, null, null);
-		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioMe), "Dr. Ellie Sattler", "1161666616", "1161666616", maiorDeIdade, Sexo.FEMININO, null, null);
-		Professor Morpheus = new Professor(LocalDate.now(), Optional.of(matMe), "Morpheus Fishburne", "117171717177", "117171717177", maiorDeIdade, Sexo.MASCULINO, null, null);
+		Professor oracle = new Professor(LocalDate.now(), Optional.of(histMe), "O Oráculo", "15155515515", "15155515515", maiorDeIdade, Sexo.FEMININO, "nome da mãe", null);
+		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioMe), "Dr. Ellie Sattler", "1161666616", "1161666616", maiorDeIdade, Sexo.FEMININO, "nome da mãe", null);
+		Professor Morpheus = new Professor(LocalDate.now(), Optional.of(matMe), "Morpheus Fishburne", "117171717177", "117171717177", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null);
 		
 		profDao.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus));
 		
-		CalendarioAula aula1Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turmaFundamentalII);
+		CalendarioAula aula1Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turmaFundamental5);
 		CalendarioAula aula2Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turmaMedioA);
 		calendarioAulaDao.saveAll(Arrays.asList(
 				aula1Calendario,
 				aula2Calendario,
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turmaFundamentalII),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turmaMedioA),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamentalII),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA),
 				
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turmaFundamentalII),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turmaMedioA),
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turmaFundamentalII),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turmaMedioA),
-				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamentalII),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA)
 				));
 		
