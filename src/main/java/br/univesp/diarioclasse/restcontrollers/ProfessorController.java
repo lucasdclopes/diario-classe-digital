@@ -37,19 +37,19 @@ import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 @RequestMapping("/professores")
 public class ProfessorController {
 
-	@Autowired private ProfessorRepository professorDal;
+	@Autowired private ProfessorRepository professorDao;
 	@Autowired private CadastroMappers mappers;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody NovoProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 		
-		boolean existe = professorDal.existsByCpf(dto.cpf());
+		boolean existe = professorDao.existsByCpf(dto.cpf());
 		System.out.print(existe);
 		
 		Professor professor = new  Professor(dto.dtAdmissao(), dto.materia(), dto.nome(), dto.cpf(), dto.rg(), 
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
 		
-		professor.validarSeJaExiste(professorDal);
+		professor.validarSeJaExiste(professorDao);
 		
 		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, professor)
 				.forEach(cadEnd -> professor.adicionarEndereco(cadEnd))
@@ -59,7 +59,7 @@ public class ProfessorController {
 				.forEach(cadTel -> professor.adicionarTelefone(cadTel))
 		);
 
-		Integer id = professorDal.save(professor).getIdProfessor();
+		Integer id = professorDao.save(professor).getIdProfessor();
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/professores/{id}",id);
 		return ResponseEntity.created(uri).build();
 
@@ -67,14 +67,14 @@ public class ProfessorController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Professor> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Optional<Professor> professor = professorDal.findById(id);
+		Optional<Professor> professor = professorDao.findById(id);
 		return ResponseEntity.ok(professor.orElseThrow(() -> new EntidadeNaoEncontradaException()));
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Professor> atualizar(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		//TODO: Atualizar o endreço e telefone
-		Professor professor = professorDal.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		Professor professor = professorDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		return null;
 		
 	}
@@ -84,7 +84,7 @@ public class ProfessorController {
 			@PageableDefault(sort = "dtAdmissao", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaProfessorDto> pagina = professorDal.paginar(cadParams.cpf(),cadParams.nome(),paginacao);
+		Page<ListaProfessorDto> pagina = professorDao.paginar(cadParams.cpf(),cadParams.nome(),paginacao);
 		if (pagina.hasContent()) {
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		}

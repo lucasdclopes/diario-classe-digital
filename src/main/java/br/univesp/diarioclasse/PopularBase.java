@@ -31,17 +31,17 @@ import br.univesp.diarioclasse.repositorios.TurmaRepository;
 public class PopularBase  {
 
 	@Autowired
-	private AlunoRepository alunoDal;
+	private AlunoRepository alunoDao;
 	@Autowired
-	private ProfessorRepository profDal;
+	private ProfessorRepository profDao;
 	@Autowired
-	private MateriaRepository materiaDal;
+	private MateriaRepository materiaDao;
 	@Autowired
-	private TurmaRepository turmaDal;
+	private TurmaRepository turmaDao;
 	@Autowired
-	private CalendarioAulaRepository calendarioAulaDal;
+	private CalendarioAulaRepository calendarioAulaDao;
 	@Autowired
-	private AulaRepository aulaDal;
+	private AulaRepository aulaDao;
 	
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {
@@ -49,7 +49,7 @@ public class PopularBase  {
 		Turma turma1 = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
 		Turma turma2 = new Turma("1a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
 		Turma turma3 = new Turma("5a ano A", PeridoEstudo.VESPERTINO,TipoNivelEnsino.MEDIO);
-		turmaDal.saveAll(Arrays.asList(turma1,turma2,turma3));
+		turmaDao.saveAll(Arrays.asList(turma1,turma2,turma3));
 		
 		
 		
@@ -80,7 +80,7 @@ public class PopularBase  {
 		Aluno Donald = new Aluno("123468",LocalDate.now(),"123468", Optional.of(turma2), "Donald Gennaro", "55904133030", "55904133030", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null);
 		
-		alunoDal.saveAll(Arrays.asList(
+		alunoDao.saveAll(Arrays.asList(
 				lex,Tim,Dennis,Apoc,DuJour,Cypher,Dozer,Mouse,Rhineheart,Switch,Tank,Trinity,Donald
 				));
 		
@@ -90,7 +90,7 @@ public class PopularBase  {
 		Materia bioMe = new Materia("Biologia",TipoNivelEnsino.MEDIO);
 		Materia histF1 = new Materia("História",TipoNivelEnsino.FUNDAMENTAL_I);
 		Materia histMe = new Materia("História",TipoNivelEnsino.MEDIO);
-		materiaDal.saveAll(Arrays.asList(matF1,matMe,bioF1,bioMe,histF1,histMe));
+		materiaDao.saveAll(Arrays.asList(matF1,matMe,bioF1,bioMe,histF1,histMe));
 		
 		LocalDate maiorDeIdade = LocalDate.now().minus(20, ChronoUnit.YEARS);
 		
@@ -103,11 +103,11 @@ public class PopularBase  {
 		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioMe), "Dr. Ellie Sattler", "1161666616", "1161666616", maiorDeIdade, Sexo.FEMININO, null, null);
 		Professor Morpheus = new Professor(LocalDate.now(), Optional.of(matMe), "Morpheus Fishburne", "117171717177", "117171717177", maiorDeIdade, Sexo.MASCULINO, null, null);
 		
-		profDal.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus));
+		profDao.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus));
 		
 		CalendarioAula aula1Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turma1);
 		CalendarioAula aula2Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turma3);
-		calendarioAulaDal.saveAll(Arrays.asList(
+		calendarioAulaDao.saveAll(Arrays.asList(
 				aula1Calendario,
 				aula2Calendario,
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turma1),

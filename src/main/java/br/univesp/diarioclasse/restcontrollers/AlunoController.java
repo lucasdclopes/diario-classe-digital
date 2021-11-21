@@ -35,7 +35,7 @@ import br.univesp.diarioclasse.repositorios.AlunoRepository;
 @RequestMapping("/alunos")
 public class AlunoController {
 
-	@Autowired private AlunoRepository alunoDal;
+	@Autowired private AlunoRepository alunoDao;
 	
 	@Autowired private CadastroMappers mappers;
 	
@@ -45,7 +45,7 @@ public class AlunoController {
 		Aluno aluno = new Aluno(dto.nroMatricula(), dto.dtMatricula(), dto.ra(), dto.turma(), dto.nome(), dto.cpf(), dto.rg(), 
 				dto.dtNascimento(), dto.sexo(), dto.nomeMae(), dto.nomePai());
 		
-		aluno.validarSeAlunoJaExiste(alunoDal,alunoDal);
+		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 		
 		dto.enderecos().ifPresent( lista -> mappers.novoEnderecoDtoParaEndereco(lista, aluno)
 				.forEach(cadEnd -> aluno.adicionarEndereco(cadEnd))
@@ -55,7 +55,7 @@ public class AlunoController {
 				.forEach(cadTel -> aluno.adicionarTelefone(cadTel))
 		);
 			
-		Integer id = alunoDal.save(aluno).getIdAluno();
+		Integer id = alunoDao.save(aluno).getIdAluno();
 		
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/alunos/{id}",id);
 		return ResponseEntity.created(uri).build();
@@ -64,7 +64,7 @@ public class AlunoController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Optional<Aluno> aluno = alunoDal.findById(id);
+		Optional<Aluno> aluno = alunoDao.findById(id);
 		return ResponseEntity.ok(aluno.orElseThrow(() -> new EntidadeNaoEncontradaException()));
 	}
 	
@@ -73,7 +73,7 @@ public class AlunoController {
 			@PageableDefault(sort = "dtMatricula", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaAlunosDto> pagina = alunoDal.paginar(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome(),paginacao);
+		Page<ListaAlunosDto> pagina = alunoDao.paginar(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome(),paginacao);
 		if (pagina.hasContent()) {
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		}
