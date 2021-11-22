@@ -26,7 +26,6 @@ import br.univesp.diarioclasse.dto.queryparams.CadastroParams;
 import br.univesp.diarioclasse.dto.requests.AlunoDto;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
-import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;

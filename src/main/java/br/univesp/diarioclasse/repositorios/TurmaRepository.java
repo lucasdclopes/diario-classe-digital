@@ -21,7 +21,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer>, TurmaUni
 			SELECT new br.univesp.diarioclasse.dto.responses.ListaTurmasDto (idTurma, descTurma, tpPeriodo, tpNivelEnsino) 
 			FROM Turma tu
 			WHERE
-			 (:descTurma is null or tu.descTurma = :descTurma) AND (:tpPeriodo is null or tu.tpPeriodo = :tpPeriodo) AND
+			 (:descTurma is null or tu.descTurma like :descTurma%) AND (:tpPeriodo is null or tu.tpPeriodo = :tpPeriodo) AND
 			 (:tpNivelEnsino is null or tu.tpNivelEnsino = :tpNivelEnsino)
 			""")
 	Page<ListaTurmasDto> paginar(String descTurma, TipoNivelEnsino tpNivelEnsino, PeridoEstudo tpPeriodo,

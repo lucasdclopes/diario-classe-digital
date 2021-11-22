@@ -29,4 +29,19 @@ public interface IEnumParseavel {
 		}      
 		throw new ConstanteInvalidaException("Valor inválido para " + enums[0].getDescricaoCampo() ,value);
 	}
+	
+	/**
+	 * Parseia pelo nome da constante. Igual ao valueOf, mas joga uma exceção específica do sistema. Para não precisar lidar em cada caso com o IllegalArgument
+	 * @throws ConstanteInvalidaException se não existir a constante
+	 */
+	public static <E extends Enum<E> & IEnumParseavel> E valueOfTratado(String value, Class<E> clazz) throws ConstanteInvalidaException {
+		if (value == null)
+			return null;
+		E[] enums = clazz.getEnumConstants();  
+		try {
+			return Enum.valueOf(clazz, value);
+		} catch (IllegalArgumentException e) {
+			throw new ConstanteInvalidaException("Valor inválido para " + enums[0].getDescricaoCampo() ,value);
+		}
+	}
 }

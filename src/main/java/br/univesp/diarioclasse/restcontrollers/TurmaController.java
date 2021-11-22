@@ -25,6 +25,9 @@ import br.univesp.diarioclasse.dto.queryparams.TurmaParams;
 import br.univesp.diarioclasse.dto.requests.TurmaDto;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.entidades.Turma;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.PeridoEstudo;
+import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -66,7 +69,10 @@ public class TurmaController {
 			@PageableDefault(sort = {"tpNivelEnsino","descTurma"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaTurmasDto> pagina = turmaDao.paginar(params.descTurma(),params.tpNivelEnsino(),params.tpPeriodo(),paginacao);
+		Page<ListaTurmasDto> pagina = turmaDao.paginar(params.descTurma(),
+				IEnumParseavel.valueOfTratado(params.tpNivelEnsino(),TipoNivelEnsino.class),
+				IEnumParseavel.valueOfTratado(params.tpPeriodo(),PeridoEstudo.class)
+				,paginacao);
 		if (pagina.hasContent()) 
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		else

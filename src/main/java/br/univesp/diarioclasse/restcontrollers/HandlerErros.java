@@ -3,6 +3,8 @@ package br.univesp.diarioclasse.restcontrollers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import br.univesp.diarioclasse.dto.responses.ErroCampoDto;
 import br.univesp.diarioclasse.dto.responses.ErroSimplesDto;
+import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -26,10 +29,13 @@ import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 
 @RestControllerAdvice
 public class HandlerErros {
+	
+	Logger logger = LoggerFactory.getLogger(HandlerErros.class);
 
 	@Autowired
 	private MessageSource messageSource;
 	
+	//Erros de validação das anotações
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List<ErroCampoDto> handle(MethodArgumentNotValidException exception) {
@@ -45,24 +51,35 @@ public class HandlerErros {
 		return dto;
 	}
 	
+	//Erro de valores inválidos de regras do domínio
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(DadosInvalidosException.class)
 	public ErroCampoDto handle(DadosInvalidosException exception) {
 		return new ErroCampoDto(exception.getCampoInvalido(), exception.getMessage());
 	}
 	
+	//Erro de operação inválida para a situação daquele objeto
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(EstadoObjetoInvalidoExcpetion.class)
 	public ErroSimplesDto handle(EstadoObjetoInvalidoExcpetion exception) {
 		return new ErroSimplesDto(exception.getMessage());
 	}
+
+	//valores de constantes inválidos
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ExceptionHandler(ConstanteInvalidaException.class)
+	public ErroSimplesDto handle(ConstanteInvalidaException exception) {
+		return new ErroSimplesDto(exception.getMessage() + "(" + exception.getValorEnviado() + ")");
+	}
 	
+	//erro de duplicidade. Já existe o que está tentando gravar
 	@ResponseStatus(code = HttpStatus.CONFLICT)
 	@ExceptionHandler(EntidadeJaExisteException.class)
 	public ErroCampoDto handle(EntidadeJaExisteException exception) {
 		return new ErroCampoDto(exception.getCampoRepeticao(), exception.getMessage());
 	}
 	
+	//não foi encontrado
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ErroSimplesDto handle(EntidadeNaoEncontradaException exception) {
@@ -70,6 +87,7 @@ public class HandlerErros {
 	}
 	
 	
+	//Dados técnicamente inválidos. Json mal formado, constante inválida, etc
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ErroSimplesDto handle(HttpMessageNotReadableException exception) {
@@ -79,6 +97,14 @@ public class HandlerErros {
 			if (exception.getCause() instanceof InvalidFormatException e)
 				return new ErroSimplesDto("A requisição possui uma constante inválida. " + e.getOriginalMessage());
 		}
-		throw exception;
+		throw exception;//nenhum dos casos previstos, deixa a exceção ir para cima
+	}
+	
+	//qualquer outro erro não previsto. Não retorna o erro pro usuário, mas loga internamente
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(Exception.class)
+	public ErroSimplesDto handle(Exception exception) {
+		logger.error(exception.getMessage(), exception);
+		return new ErroSimplesDto("Ocorreu um erro, logs foram gravados. Contate o suporte");
 	}
 }
