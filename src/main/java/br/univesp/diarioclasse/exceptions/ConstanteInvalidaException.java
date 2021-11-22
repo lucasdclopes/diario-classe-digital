@@ -3,14 +3,8 @@ package br.univesp.diarioclasse.exceptions;
 public class ConstanteInvalidaException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private String valorEnviado;
 
-	public ConstanteInvalidaException(String message,String valorEnviado) {
+	public ConstanteInvalidaException(String message) {
 		super(message);
-		this.valorEnviado = valorEnviado;
 	}
-
-	public String getValorEnviado() {
-		return valorEnviado;
-	} 
 }

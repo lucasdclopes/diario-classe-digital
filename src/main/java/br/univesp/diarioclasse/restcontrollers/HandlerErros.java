@@ -69,7 +69,7 @@ public class HandlerErros {
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(ConstanteInvalidaException.class)
 	public ErroSimplesDto handle(ConstanteInvalidaException exception) {
-		return new ErroSimplesDto(exception.getMessage() + "(" + exception.getValorEnviado() + ")");
+		return new ErroSimplesDto(exception.getMessage());
 	}
 	
 	//erro de duplicidade. Já existe o que está tentando gravar

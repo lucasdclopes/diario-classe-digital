@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.entidades.TurmaUnica;
-import br.univesp.diarioclasse.enums.PeridoEstudo;
+import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 
 public interface TurmaRepository extends JpaRepository<Turma, Integer>, TurmaUnica {
@@ -24,7 +24,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer>, TurmaUni
 			 (:descTurma is null or tu.descTurma like :descTurma%) AND (:tpPeriodo is null or tu.tpPeriodo = :tpPeriodo) AND
 			 (:tpNivelEnsino is null or tu.tpNivelEnsino = :tpNivelEnsino)
 			""")
-	Page<ListaTurmasDto> paginar(String descTurma, TipoNivelEnsino tpNivelEnsino, PeridoEstudo tpPeriodo,
+	Page<ListaTurmasDto> paginar(String descTurma, TipoNivelEnsino tpNivelEnsino, PeriodoEstudo tpPeriodo,
 			Pageable paginacao);
 	
 }

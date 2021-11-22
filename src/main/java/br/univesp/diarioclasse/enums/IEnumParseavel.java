@@ -1,5 +1,7 @@
 package br.univesp.diarioclasse.enums;
 
+import java.util.Arrays;
+
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 
 public interface IEnumParseavel {
@@ -27,7 +29,9 @@ public interface IEnumParseavel {
 				return e; 
 			}
 		}      
-		throw new ConstanteInvalidaException("Valor inválido para " + enums[0].getDescricaoCampo() ,value);
+		StringBuilder constantes = new StringBuilder().append("");
+		Arrays.asList(enums).forEach(s -> constantes.append("["+s+"]") );
+		throw new ConstanteInvalidaException(String.format("Valor inválido %s para %s. Os valores possíveis são: %s",value,enums[0].getDescricaoCampo(),constantes));
 	}
 	
 	/**
@@ -41,7 +45,9 @@ public interface IEnumParseavel {
 		try {
 			return Enum.valueOf(clazz, value);
 		} catch (IllegalArgumentException e) {
-			throw new ConstanteInvalidaException("Valor inválido para " + enums[0].getDescricaoCampo() ,value);
+			StringBuilder constantes = new StringBuilder().append("");
+			Arrays.asList(enums).forEach(s -> constantes.append("["+s+"]") );
+			throw new ConstanteInvalidaException(String.format("Valor inválido %s para %s. Os valores possíveis são: %s",value,enums[0].getDescricaoCampo(),constantes));
 		}
 	}
 }

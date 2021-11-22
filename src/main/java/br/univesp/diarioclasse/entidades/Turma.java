@@ -16,9 +16,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.enums.PeridoEstudo;
+import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 
 @Entity
 @Table(name = "turmas")
@@ -29,11 +30,11 @@ public class Turma implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idTurma;
 	@NotNull @Length(max = 15)
-	@NaturalId //não tem sentido várias turmas no mesmo período com o mesmo nome. Por ex 1a ano B é o suficiente
+	@NaturalId(mutable = true) //não tem sentido várias turmas no mesmo período com o mesmo nome. Por ex 1a ano B é o suficiente
 	private String descTurma;
 	@NotNull
-	private PeridoEstudo tpPeriodo;
-	@NotNull @NaturalId 
+	private PeriodoEstudo tpPeriodo;
+	@NotNull @NaturalId(mutable = true)
 	private TipoNivelEnsino tpNivelEnsino;
 	
 	
@@ -52,7 +53,7 @@ public class Turma implements Serializable {
 	@Deprecated
 	public Turma() {}
 
-	public Turma(String descTurma, PeridoEstudo tpPeriodo, TipoNivelEnsino tpNivelEnsino) {
+	public Turma(String descTurma, PeriodoEstudo tpPeriodo, TipoNivelEnsino tpNivelEnsino) {
 		this.descTurma = descTurma;
 		this.tpNivelEnsino = tpNivelEnsino;
 		this.tpPeriodo = tpPeriodo;
@@ -70,6 +71,14 @@ public class Turma implements Serializable {
 		} 
 	}
 	
+	public void atualizarTpPeriodo(PeriodoEstudo tpPeriodo) throws EstadoObjetoInvalidoExcpetion {
+		throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o período do estudo da turma");
+	}
+	
+	public void atualizarTpNivelEnsino(TipoNivelEnsino tpNivelEnsino) throws EstadoObjetoInvalidoExcpetion {
+		throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da turma");
+	}
+	
 	public Integer getIdTurma() {
 		return idTurma;
 	}
@@ -82,7 +91,7 @@ public class Turma implements Serializable {
 		return tpNivelEnsino;
 	}
 
-	public PeridoEstudo getTpPeriodo() {
+	public PeriodoEstudo getTpPeriodo() {
 		return tpPeriodo;
 	}	
 	

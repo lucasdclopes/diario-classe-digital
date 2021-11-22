@@ -17,7 +17,7 @@ import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.enums.DiaDaSemana;
-import br.univesp.diarioclasse.enums.PeridoEstudo;
+import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
@@ -43,26 +43,26 @@ public class PopularBase  {
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {
 		
-		Turma turmaFundamental1 = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
-		Turma turmaFundamental2 = new Turma("2a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
-		Turma turmaFundamental3 = new Turma("3a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
-		Turma turmaFundamental4 = new Turma("4a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
-		Turma turmaFundamental5 = new Turma("5a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental6 = new Turma("6a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental7 = new Turma("7a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental8 = new Turma("8a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental9 = new Turma("9a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental10 = new Turma("5a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental11 = new Turma("6a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental12 = new Turma("7a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental13 = new Turma("8a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaFundamental14 = new Turma("9a ano B", PeridoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
-		Turma turmaMedioB = new Turma("1a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedioA = new Turma("1a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedio2B = new Turma("2a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedio2A = new Turma("2a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedio3B = new Turma("3a ano B", PeridoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
-		Turma turmaMedio3A = new Turma("3a ano A", PeridoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turmaFundamental1 = new Turma("1a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
+		Turma turmaFundamental2 = new Turma("2a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
+		Turma turmaFundamental3 = new Turma("3a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
+		Turma turmaFundamental4 = new Turma("4a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
+		Turma turmaFundamental5 = new Turma("5a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental6 = new Turma("6a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental7 = new Turma("7a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental8 = new Turma("8a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental9 = new Turma("9a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental10 = new Turma("5a ano B", PeriodoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental11 = new Turma("6a ano B", PeriodoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental12 = new Turma("7a ano B", PeriodoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental13 = new Turma("8a ano B", PeriodoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaFundamental14 = new Turma("9a ano B", PeriodoEstudo.VESPERTINO,TipoNivelEnsino.FUNDAMENTAL_II);
+		Turma turmaMedioB = new Turma("1a ano B", PeriodoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedioA = new Turma("1a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio2B = new Turma("2a ano B", PeriodoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio2A = new Turma("2a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio3B = new Turma("3a ano B", PeriodoEstudo.NOTURNO,TipoNivelEnsino.MEDIO);
+		Turma turmaMedio3A = new Turma("3a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.MEDIO);
 		turmaDao.saveAll(Arrays.asList(turmaFundamental1,turmaFundamental2,turmaFundamental3,turmaFundamental4,turmaFundamental5,turmaFundamental6,
 				turmaFundamental7,turmaFundamental8,turmaFundamental9,turmaFundamental10,turmaFundamental11,turmaFundamental12,turmaFundamental13,
 				turmaFundamental14,turmaMedioB,turmaMedioA,turmaMedio2B,turmaMedio2A,turmaMedio3B,turmaMedio3A));
