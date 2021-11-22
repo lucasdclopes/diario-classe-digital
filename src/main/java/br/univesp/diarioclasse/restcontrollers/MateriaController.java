@@ -21,68 +21,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.univesp.diarioclasse.dto.queryparams.TurmaParams;
+import br.univesp.diarioclasse.dto.queryparams.MateriaParams;
+import br.univesp.diarioclasse.dto.requests.MateriaDto;
 import br.univesp.diarioclasse.dto.requests.TurmaDto;
-import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
+import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
+import br.univesp.diarioclasse.entidades.Materia;
+import br.univesp.diarioclasse.entidades.MateriaUnica;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
-import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
-import br.univesp.diarioclasse.repositorios.TurmaRepository;
+import br.univesp.diarioclasse.repositorios.MateriaRepository;
 
 @RestController
-@RequestMapping("/turmas")
-public class TurmaController {
+@RequestMapping("/materias")
+public class MateriaController {
 
-	@Autowired private TurmaRepository turmaDao;
+	@Autowired private MateriaRepository materiaDao;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody TurmaDto dto, UriComponentsBuilder uriBuilder) 
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody MateriaDto dto, UriComponentsBuilder uriBuilder) 
 			throws EntidadeJaExisteException, DadosInvalidosException{
 		
-		Turma turma = new Turma(dto.descTurma(), dto.tpPeriodo(), dto.tpNivelEnsino());
-		turma.validar(turmaDao);
-		Integer id = turmaDao.save(turma).getIdTurma();
-		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/turmas/{id}",id);
+		Materia materia = new Materia(dto.descMateria(), dto.tpNivelEnsino());
+		materia.validar(materiaDao);
+		Integer id = materiaDao.save(materia).getIdMateria();
+		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/materias/{id}",id);
 		return ResponseEntity.created(uri).build();
 
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Turma> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Optional<Turma> turma = turmaDao.findById(id);
+	public ResponseEntity<Materia> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+		Optional<Materia> turma = materiaDao.findById(id);
 		return ResponseEntity.ok(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody TurmaDto dto) 
+	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody MateriaDto dto) 
 			throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException, EstadoObjetoInvalidoExcpetion{
 		
-		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-		if (dto.descTurma() != null)
-			turma.atualizarDescTurma(dto.descTurma(), turmaDao);
+		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		if (dto.descMateria() != null)
+			materia.atualizarDescMateria(dto.descMateria(),materiaDao);
 		if(dto.tpNivelEnsino() != null)
-			turma.atualizarTpNivelEnsino(dto.tpNivelEnsino());
-		if (dto.tpPeriodo() != null) {
-			turma.atualizarTpPeriodo(dto.tpPeriodo());
-		}
-		turmaDao.save(turma);
+			materia.atualizarTpNivelEnsino(dto.tpNivelEnsino());
+		materiaDao.save(materia);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ListaTurmasDto>> listar(TurmaParams params,
-			@PageableDefault(sort = {"tpNivelEnsino","descTurma"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
+	public ResponseEntity<List<ListaMateriasDto>> listar(MateriaParams params,
+			@PageableDefault(sort = {"tpNivelEnsino","descMateria"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaTurmasDto> pagina = turmaDao.paginar(params.descTurma(),
+		Page<ListaMateriasDto> pagina = materiaDao.paginar(params.descMateria(),
 				IEnumParseavel.valueOfTratado(params.tpNivelEnsino(),TipoNivelEnsino.class),
-				IEnumParseavel.valueOfTratado(params.tpPeriodo(),PeriodoEstudo.class)
-				,paginacao);
+				paginacao);
 		if (pagina.hasContent()) 
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		else
