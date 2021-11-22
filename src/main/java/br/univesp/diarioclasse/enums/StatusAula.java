@@ -1,5 +1,7 @@
 package br.univesp.diarioclasse.enums;
 
+import javax.persistence.Converter;
+
 public enum StatusAula implements IEnumParseavel {
 	
 	AGENDADA("A"),INICIADA("I"),FINALIZADA("F");
@@ -13,4 +15,11 @@ public enum StatusAula implements IEnumParseavel {
 
 	@Override
 	public String getDescricaoCampo() { return "Status da aula"; }
+	
+	@Converter(autoApply = true)
+    public static class ConverterJpa extends ConstantesJpaConverter<StatusAula> {
+        public ConverterJpa() {
+            super(StatusAula.class);
+        }
+    }
 }

@@ -21,7 +21,6 @@ import br.univesp.diarioclasse.enums.PeridoEstudo;
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
-import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
@@ -40,8 +39,6 @@ public class PopularBase  {
 	private TurmaRepository turmaDao;
 	@Autowired
 	private CalendarioAulaRepository calendarioAulaDao;
-	@Autowired
-	private AulaRepository aulaDao;
 	
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {

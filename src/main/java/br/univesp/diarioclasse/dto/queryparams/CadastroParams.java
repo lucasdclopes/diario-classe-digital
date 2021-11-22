@@ -1,10 +1,10 @@
-package br.univesp.diarioclasse.dto.requests;
+package br.univesp.diarioclasse.dto.queryparams;
 
 import java.time.LocalDate;
 
 import br.univesp.diarioclasse.enums.Sexo;
 
-public record CadastroParamFiltro(String nome,
+public record CadastroParams(String nome,
 		String cpf,
 		String rg,
 		LocalDate dtNascimento,

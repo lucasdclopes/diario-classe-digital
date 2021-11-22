@@ -2,6 +2,10 @@ package br.univesp.diarioclasse.enums;
 
 import javax.persistence.AttributeConverter;
 
+/**
+ * Classe base convesora de enums para entidades JPA
+ * @param <T> enum a ser convertido
+ */
 public abstract class ConstantesJpaConverter <T extends Enum<T> & IEnumParseavel> implements AttributeConverter<T, String> {
 
 	 private final Class<T> clazz;

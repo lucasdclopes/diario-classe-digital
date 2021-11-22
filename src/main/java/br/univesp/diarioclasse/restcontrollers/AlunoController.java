@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.univesp.diarioclasse.dto.queryparams.AlunoParams;
+import br.univesp.diarioclasse.dto.queryparams.CadastroParams;
 import br.univesp.diarioclasse.dto.requests.AlunoDto;
-import br.univesp.diarioclasse.dto.requests.AlunoParamFiltro;
-import br.univesp.diarioclasse.dto.requests.CadastroParamFiltro;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Professor;
@@ -88,7 +88,7 @@ public class AlunoController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParamFiltro AlunoParams,CadastroParamFiltro cadParams,
+	public ResponseEntity<List<ListaAlunosDto>> listar(AlunoParams AlunoParams,CadastroParams cadParams,
 			@PageableDefault(sort = "dtMatricula", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			

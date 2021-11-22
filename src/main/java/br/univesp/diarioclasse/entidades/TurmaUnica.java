@@ -1,7 +1,9 @@
 package br.univesp.diarioclasse.entidades;
 
-//Ao invés de enviar o repositório inteiro para quem verifica a unicidade, envia só a interface, para que as implemetações possíveis sejam restritas
-public interface CadastroExistente {
+import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 
-	boolean existsByCpf(String cpf);
+//Ao invés de enviar o repositório inteiro para quem verifica a unicidade, envia só a interface, para que as implemetações possíveis sejam restritas
+public interface TurmaUnica {
+
+	boolean existsByDescTurmaAndTpNivelEnsino(String descTurma, TipoNivelEnsino tpNivelEnsino);
 }
