@@ -2,6 +2,7 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
@@ -38,12 +41,15 @@ public class Turma implements Serializable {
 	private TipoNivelEnsino tpNivelEnsino;
 	
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
 	private List<Aluno> alunos = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
 	private List<Aula> aulas = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
 	private List<CalendarioAula> tiposAulas = new ArrayList<>();
 	
@@ -95,6 +101,20 @@ public class Turma implements Serializable {
 
 	public PeriodoEstudo getTpPeriodo() {
 		return tpPeriodo;
+	}
+
+	public List<Aluno> getAlunos() {
+		return Collections.unmodifiableList(alunos);
+	}
+
+	public List<Aula> getAulas() {
+		return Collections.unmodifiableList(aulas);
+	}
+
+	public List<CalendarioAula> getTiposAulas() {
+		return Collections.unmodifiableList(tiposAulas);
 	}	
+	
+	
 	
 }

@@ -3,6 +3,7 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
@@ -34,10 +37,11 @@ public class Aluno extends Cadastro implements Serializable {
 	@NotNull @Column(unique = true)
 	private String ra;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idTurma")
 	private Turma turma;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
@@ -118,5 +122,14 @@ public class Aluno extends Cadastro implements Serializable {
 	public LocalDate getDtMatricula() {
 		return dtMatricula;
 	}
+	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public List<AulaPresencaAluno> getPresencaAlunos() {
+		return Collections.unmodifiableList(presencaAlunos);
+	}
+	
 	
 }
