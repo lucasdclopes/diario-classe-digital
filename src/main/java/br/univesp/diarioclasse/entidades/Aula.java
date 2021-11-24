@@ -43,9 +43,11 @@ public class Aula implements Serializable {
 	@NotNull @Length(min = 1, max = 1)
 	private String statusAula;
 	
+	/*
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "idCalendarioAula")
 	private CalendarioAula calendarioAula;
+	*/
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "idTurma")
@@ -54,6 +56,10 @@ public class Aula implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, optional =  false)
 	@JoinColumn(name = "idProfessor")
 	private Professor professor;
+	
+	@ManyToOne(fetch = FetchType.EAGER, optional =  false)
+	@JoinColumn(name = "idMateria")
+	private Materia materia;
 	
 	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
@@ -70,7 +76,7 @@ public class Aula implements Serializable {
 					, DateHelper.paraFormatoBr(dtAula),calendarioAula.getDiaSemana().name().toLowerCase()), "dtAula");
 		this.dtAula = dtAula;
 		this.statusAula = statusAula.getCodigo();
-		this.calendarioAula = calendarioAula;
+		//this.calendarioAula = calendarioAula;
 		this.turma = turma;
 		this.professor = professor;
 	}

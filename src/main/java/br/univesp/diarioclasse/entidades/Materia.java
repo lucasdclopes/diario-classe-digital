@@ -46,6 +46,10 @@ public class Materia implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<Professor> professores = new ArrayList<>();
 	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
+	private List<Aula> aulas = new ArrayList<>();
+	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
 	 */
@@ -91,6 +95,10 @@ public class Materia implements Serializable {
 
 	public List<Professor> getProfessores() {
 		return Collections.unmodifiableList(professores);
+	}
+
+	public List<Aula> getAulas() {
+		return Collections.unmodifiableList(aulas);
 	}
 
 	@Override

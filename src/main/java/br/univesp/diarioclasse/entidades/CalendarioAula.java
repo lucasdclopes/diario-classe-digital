@@ -2,9 +2,6 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -48,8 +44,10 @@ public class CalendarioAula implements Serializable {
 	@JoinColumn(name = "idTurma")
 	private Turma turma;
 	
+	/*
 	@OneToMany(mappedBy = "calendarioAula")
 	private List<Aula> aulas = new ArrayList<>();
+	*/
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
@@ -102,9 +100,11 @@ public class CalendarioAula implements Serializable {
 		return hrFim;
 	}
 
+	/*
 	public List<Aula> getAulas() {
 		return Collections.unmodifiableList(aulas);
 	}
+	*/
 
 	public Materia getMateria() {
 		return materia;

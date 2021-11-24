@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
 import br.univesp.diarioclasse.dto.requests.CalendarioAulaDto;
-import br.univesp.diarioclasse.dto.requests.MateriaDto;
 import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesCalendarioAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
@@ -89,19 +87,6 @@ public class CalendarioAulaController {
 		return ResponseEntity.ok(detalhes);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody MateriaDto dto) 
-			throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException, EstadoObjetoInvalidoExcpetion{
-		
-		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-		if (dto.descMateria() != null)
-			materia.atualizarDescMateria(dto.descMateria(),materiaDao);
-		if(dto.tpNivelEnsino() != null)
-			materia.atualizarTpNivelEnsino(dto.tpNivelEnsino());
-		materiaDao.save(materia);
-		return ResponseEntity.ok().build();
-	}
-	
 	@GetMapping
 	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
 			@PageableDefault(sort = {"diaSemana","turma.descTurma","hrInicio"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
@@ -121,12 +106,8 @@ public class CalendarioAulaController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> remover(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
 		
-		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-		if (!materia.getProfessores().isEmpty())
-			throw new EstadoObjetoInvalidoExcpetion("Não é possível deletar uma matéria que tenha professores lessionando");
-		if (!materia.getCalendarioAula().isEmpty())
-			throw new EstadoObjetoInvalidoExcpetion("Não é possível deletar uma matéria que esteja no calendário de aulas");
-		materiaDao.delete(materia);
+		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		calendarioDao.delete(calendario);
 		return ResponseEntity.noContent().build();
 		
 		
