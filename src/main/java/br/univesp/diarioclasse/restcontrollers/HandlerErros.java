@@ -97,7 +97,10 @@ public class HandlerErros {
 			if (exception.getCause() instanceof InvalidFormatException e)
 				return new ErroSimplesDto("A requisição possui uma constante inválida. " + e.getOriginalMessage());
 		}
-		throw exception;//nenhum dos casos previstos, deixa a exceção ir para cima
+		logger.warn("Um controller detectou um HttpMessageNotReadableException com cause vazio: " + exception.getMessage(),
+				exception
+				);//provavelmente é body vazio. Mas como é um tratamento interno do framework, deixa um log
+		return new ErroSimplesDto("A requisição tem formato inválido ou o request body está faltando ");
 	}
 	
 	//qualquer outro erro não previsto. Não retorna o erro pro usuário, mas loga internamente

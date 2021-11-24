@@ -72,11 +72,13 @@ public class Turma implements Serializable {
 	}
 	
 	public void atualizarTpPeriodo(PeriodoEstudo tpPeriodo) throws EstadoObjetoInvalidoExcpetion {
-		throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o período do estudo da turma");
+		if (this.tpPeriodo != tpPeriodo)
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o período do estudo da turma");
 	}
 	
 	public void atualizarTpNivelEnsino(TipoNivelEnsino tpNivelEnsino) throws EstadoObjetoInvalidoExcpetion {
-		throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da turma");
+		if (this.tpNivelEnsino != tpNivelEnsino)
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da turma");
 	}
 	
 	public Integer getIdTurma() {

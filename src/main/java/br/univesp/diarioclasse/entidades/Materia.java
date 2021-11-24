@@ -37,7 +37,7 @@ public class Materia implements Serializable {
 	private TipoNivelEnsino tpNivelEnsino;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
-	private List<CalendarioAula> tipoAula = new ArrayList<>();
+	private List<CalendarioAula> calendarioAula = new ArrayList<>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<Professor> professor = new ArrayList<>();
@@ -71,7 +71,8 @@ public class Materia implements Serializable {
 		} 
 	}
 	public void atualizarTpNivelEnsino(TipoNivelEnsino tpNivelEnsino) throws EstadoObjetoInvalidoExcpetion {
-		throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da matéria");
+		if (this.tpNivelEnsino != tpNivelEnsino)
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da matéria");
 	}
 	
 	
@@ -80,8 +81,8 @@ public class Materia implements Serializable {
 		return idMateria;
 	}
 
-	public List<CalendarioAula> getTipoAula() {
-		return Collections.unmodifiableList(tipoAula);
+	public List<CalendarioAula> getCalendarioAula() {
+		return Collections.unmodifiableList(calendarioAula);
 	}
 
 	public List<Professor> getProfessor() {

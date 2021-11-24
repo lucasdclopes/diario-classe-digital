@@ -2,7 +2,6 @@ package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -12,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +23,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.queryparams.MateriaParams;
 import br.univesp.diarioclasse.dto.requests.MateriaDto;
-import br.univesp.diarioclasse.dto.requests.TurmaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesMateriaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesMateriaDto.ProfessorMateria;
 import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
 import br.univesp.diarioclasse.entidades.Materia;
-import br.univesp.diarioclasse.entidades.MateriaUnica;
-import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
@@ -55,9 +54,15 @@ public class MateriaController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Materia> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Optional<Materia> turma = materiaDao.findById(id);
-		return ResponseEntity.ok(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+	public ResponseEntity<DetalhesMateriaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+				
+		DetalhesMateriaDto detalhes = new DetalhesMateriaDto(
+				materia.getIdMateria(),materia.getDescMateria(),materia.getTpNivelEnsino(),
+				materia.getProfessor().stream().map(ProfessorMateria::new).toList()
+				);
+		
+		return ResponseEntity.ok(detalhes);
 	}
 	
 	@PutMapping("/{id}")
@@ -86,6 +91,20 @@ public class MateriaController {
 		else
 			throw new EntidadeNaoEncontradaException();
 			
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> remover(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
+		
+		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		if (!materia.getProfessor().isEmpty())
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível deletar uma matéria que tenha professores lessionando");
+		if (!materia.getCalendarioAula().isEmpty())
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível deletar uma matéria que esteja no calendário de aulas");
+		materiaDao.delete(materia);
+		return ResponseEntity.noContent().build();
+		
+		
 	}
 	
 }

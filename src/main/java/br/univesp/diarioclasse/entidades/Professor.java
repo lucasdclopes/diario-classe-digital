@@ -36,7 +36,7 @@ public class Professor extends Cadastro implements Serializable  {
 	private List<Aula> aulas = new ArrayList<>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
-	private List<CalendarioAula> tipoAula = new ArrayList<>();
+	private List<CalendarioAula> calendarioAula = new ArrayList<>();
 
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
