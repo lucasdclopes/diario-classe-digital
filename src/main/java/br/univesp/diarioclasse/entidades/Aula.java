@@ -158,6 +158,22 @@ public class Aula implements Serializable {
 			throw new EstadoObjetoInvalidoExcpetion("Nem todos os alunos foram considerados na lista de presença");
 		this.dtHrFinalizada = hrFinalizacao;
 	}
+	
+	public Integer getIdAula() {
+		return idAula;
+	}
+
+	public LocalDate getDtAula() {
+		return dtAula;
+	}
+
+	public LocalDateTime getDtHrIniciada() {
+		return dtHrIniciada;
+	}
+
+	public LocalDateTime getDtHrFinalizada() {
+		return dtHrFinalizada;
+	}
 
 	@Override
 	public int hashCode() {

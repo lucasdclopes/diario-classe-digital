@@ -40,7 +40,7 @@ public class Materia implements Serializable {
 	private List<CalendarioAula> calendarioAula = new ArrayList<>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
-	private List<Professor> professor = new ArrayList<>();
+	private List<Professor> professores = new ArrayList<>();
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
@@ -85,8 +85,8 @@ public class Materia implements Serializable {
 		return Collections.unmodifiableList(calendarioAula);
 	}
 
-	public List<Professor> getProfessor() {
-		return Collections.unmodifiableList(professor);
+	public List<Professor> getProfessores() {
+		return Collections.unmodifiableList(professores);
 	}
 
 	@Override

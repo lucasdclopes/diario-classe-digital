@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class DateHelper {
 
 	public final static String patternDataPtBr = "dd/MM/yyyy"; 
+	public final static String patternHoraPtBr = "HH:mm:ss"; 
 	public final static String patternDataHoraPtBr = "dd/MM/yyyy HH:mm:ss"; 
 	
 	private final static DateTimeFormatter formatadorPtBr = DateTimeFormatter.ofPattern(patternDataPtBr);

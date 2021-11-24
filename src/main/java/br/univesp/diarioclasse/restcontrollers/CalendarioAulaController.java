@@ -21,46 +21,71 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.univesp.diarioclasse.dto.queryparams.MateriaParams;
+import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
+import br.univesp.diarioclasse.dto.requests.CalendarioAulaDto;
 import br.univesp.diarioclasse.dto.requests.MateriaDto;
-import br.univesp.diarioclasse.dto.responses.DetalhesMateriaDto;
-import br.univesp.diarioclasse.dto.responses.DetalhesMateriaDto.ProfessorMateria;
+import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesCalendarioAulaDto;
+import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
+import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
+import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
+import br.univesp.diarioclasse.entidades.Professor;
+import br.univesp.diarioclasse.entidades.Turma;
+import br.univesp.diarioclasse.enums.DiaDaSemana;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
+import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
+import br.univesp.diarioclasse.repositorios.ProfessorRepository;
+import br.univesp.diarioclasse.repositorios.TurmaRepository;
 
 @RestController
-@RequestMapping("/materias")
-public class MateriaController {
+@RequestMapping("/calendario-aulas")
+public class CalendarioAulaController {
 
+	@Autowired private CalendarioAulaRepository calendarioDao;
+	@Autowired private ProfessorRepository professorDao;
 	@Autowired private MateriaRepository materiaDao;
+	@Autowired private TurmaRepository turmaDao;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody MateriaDto dto, UriComponentsBuilder uriBuilder) 
-			throws EntidadeJaExisteException, DadosInvalidosException{
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody CalendarioAulaDto dto, UriComponentsBuilder uriBuilder) 
+			throws EntidadeJaExisteException, DadosInvalidosException, EntidadeNaoEncontradaException{
 		
-		Materia materia = new Materia(dto.descMateria(), dto.tpNivelEnsino());
-		materia.validar(materiaDao);
-		Integer id = materiaDao.save(materia).getIdMateria();
-		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/materias/{id}",id);
+		CalendarioAula calendario = new CalendarioAula(
+				dto.diaSemana(),dto.hrInicio(),dto.hrFim(),
+				materiaDao.findById(dto.idMateria()).orElseThrow(() -> new EntidadeNaoEncontradaException("A matéria informada não foi encontrada")),
+				professorDao.findById(dto.idProfessor()).orElseThrow(() -> new EntidadeNaoEncontradaException("O professor informado não foi encontrado")),
+				turmaDao.findById(dto.idTurma()).orElseThrow(() -> new EntidadeNaoEncontradaException("A turma informada não foi encontrada"))
+				);
+		
+		calendario.validar(calendarioDao);
+		Integer id = calendarioDao.save(calendario).getIdCalendarioAula();
+		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/calendario-aulas/{id}",id);
 		return ResponseEntity.created(uri).build();
 
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<DetalhesMateriaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
-		Materia materia = materiaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-				
-		DetalhesMateriaDto detalhes = new DetalhesMateriaDto(
-				materia.getIdMateria(),materia.getDescMateria(),materia.getTpNivelEnsino(),
-				materia.getProfessores().stream().map(ProfessorMateria::new).toList()
+	public ResponseEntity<DetalhesCalendarioAulaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		
+		Materia materia = calendario.getMateria();
+		Professor professor = calendario.getProfessor();
+		Turma turma = calendario.getTurma();
+		DetalhesCalendarioAulaDto detalhes = new DetalhesCalendarioAulaDto(
+				calendario.getIdCalendarioAula(), calendario.getDiaSemana(), calendario.getHrInicio(), calendario.getHrFim(), 
+				new ListaMateriasDto(materia.getIdMateria(), materia.getDescMateria(), materia.getTpNivelEnsino()),
+				new CadastroDadosBasicosDto(professor.getIdCadastro(), professor.getNome()),
+				new ListaTurmasDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino())
 				);
+
 		
 		return ResponseEntity.ok(detalhes);
 	}
@@ -79,13 +104,14 @@ public class MateriaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<ListaMateriasDto>> listar(MateriaParams params,
-			@PageableDefault(sort = {"tpNivelEnsino","descMateria"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
+	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
+			@PageableDefault(sort = {"diaSemana","turma.descTurma","hrInicio"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaMateriasDto> pagina = materiaDao.paginar(params.descMateria(),
-				IEnumParseavel.valueOfTratado(params.tpNivelEnsino(),TipoNivelEnsino.class),
-				paginacao);
+		
+		Page<ListaCalendarioAulaDto> pagina = calendarioDao.paginar(
+				IEnumParseavel.valueOfTratado(params.diaSemana(),DiaDaSemana.class), 
+				params.idTurma(), params.idMateria(),params.idProfessor(), paginacao);
 		if (pagina.hasContent()) 
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		else

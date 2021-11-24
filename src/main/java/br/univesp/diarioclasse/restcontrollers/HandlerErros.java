@@ -83,7 +83,9 @@ public class HandlerErros {
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ErroSimplesDto handle(EntidadeNaoEncontradaException exception) {
-		return new ErroSimplesDto("Não foram encontrados dados para os valores especificados");
+		return new ErroSimplesDto(
+				exception.getMessage()!=null?exception.getMessage():"Não foram encontrados dados para os valores especificados"
+					);
 	}
 	
 	

@@ -3,6 +3,7 @@ package br.univesp.diarioclasse.entidades;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,7 +18,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.univesp.diarioclasse.enums.DiaDaSemana;
-import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 
 @Entity
@@ -30,7 +30,7 @@ public class CalendarioAula implements Serializable {
 	private Integer idCalendarioAula;
 	
 	@NotNull
-	private String diaSemana;
+	private DiaDaSemana diaSemana;
 	@NotNull
 	private LocalTime hrInicio;
 	@NotNull
@@ -74,7 +74,7 @@ public class CalendarioAula implements Serializable {
 					, turma.getTpNivelEnsino().getDescricaoAmigavel(),professor.getMateria().getTpNivelEnsino().getDescricaoAmigavel())
 					, "turma");
 			
-		this.diaSemana = diaSemana.getCodigo();
+		this.diaSemana = diaSemana;
 		this.hrInicio = hrInicio;
 		this.hrFim = hrFim;
 		this.materia = materia;
@@ -82,6 +82,29 @@ public class CalendarioAula implements Serializable {
 		this.turma = turma;
 	}
 
+	public void validar(CalendarioAulaExistente calendarioDao) throws DadosInvalidosException{
+		if (calendarioDao.verificaConflitoHorarios(hrInicio, hrFim, diaSemana, turma.getIdTurma(), professor.getIdCadastro()))
+			throw new DadosInvalidosException(
+					"Esta aula conflita com outra aula no calendário. Verifique se os horários batem ou se o professor não está já registrado em outra aula neste horário ", 
+					"hrInicio,hrFim");
+	}
+	
+
+	public Integer getIdCalendarioAula() {
+		return idCalendarioAula;
+	}
+
+	public LocalTime getHrInicio() {
+		return hrInicio;
+	}
+
+	public LocalTime getHrFim() {
+		return hrFim;
+	}
+
+	public List<Aula> getAulas() {
+		return Collections.unmodifiableList(aulas);
+	}
 
 	public Materia getMateria() {
 		return materia;
@@ -96,7 +119,7 @@ public class CalendarioAula implements Serializable {
 	}
 	
 	public DiaDaSemana getDiaSemana() {
-		return IEnumParseavel.parse(diaSemana, DiaDaSemana.class);
+		return diaSemana;
 	}
 	
 }

@@ -2,6 +2,8 @@ package br.univesp.diarioclasse.enums;
 
 import java.time.DayOfWeek;
 
+import javax.persistence.Converter;
+
 public enum DiaDaSemana implements IEnumParseavel {
 	
 	//Não estou usando diretamente a java.time.DayOfWeek para evitar problemas nas tabelas do bd caso a oracle mude alguma coisa na api
@@ -16,6 +18,13 @@ public enum DiaDaSemana implements IEnumParseavel {
 
 	@Override
 	public String getDescricaoCampo() { return "dia da semana"; }
+	
+	@Converter(autoApply = true)
+    public static class ConverterJpa extends ConstantesJpaConverter<DiaDaSemana> {
+        public ConverterJpa() {
+            super(DiaDaSemana.class);
+        }
+    }
 	
 	public DayOfWeek toDayOfWeek() {
 		return switch (this) { // arrow -> dispensa o break
