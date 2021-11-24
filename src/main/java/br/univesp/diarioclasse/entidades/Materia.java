@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
@@ -36,9 +38,11 @@ public class Materia implements Serializable {
 	@NotNull
 	private TipoNivelEnsino tpNivelEnsino;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<CalendarioAula> calendarioAula = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "materia")
 	private List<Professor> professores = new ArrayList<>();
 	

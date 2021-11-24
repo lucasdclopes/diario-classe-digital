@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
@@ -32,9 +35,11 @@ public class Professor extends Cadastro implements Serializable  {
 	@JoinColumn(name = "idMateria")
 	private Materia materia;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
 	private List<Aula> aulas = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "professor")
 	private List<CalendarioAula> calendarioAula = new ArrayList<>();
 
@@ -71,8 +76,12 @@ public class Professor extends Cadastro implements Serializable  {
 		super.adicionarTelefone(telefone);
 	}
 	
-	
-
+	public List<Aula> getAulas() {
+		return Collections.unmodifiableList(aulas);
+	}
+	public List<CalendarioAula> getCalendarioAula() {
+		return Collections.unmodifiableList(calendarioAula);
+	}
 	public Integer getIdProfessor() {
 		return super.getIdCadastro();
 	}
