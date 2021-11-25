@@ -45,7 +45,8 @@ public interface CalendarioAulaRepository extends JpaRepository<CalendarioAula, 
 			 (:diaSemana is null or cal.diaSemana = :diaSemana) AND 
 			 (:idCadastro is null or prof.idCadastro = :idCadastro) AND
 			 (:idTurma is null or tur.idTurma = :idTurma) AND
-			 (:idMateria is null or mat.idMateria = :idMateria)
+			 (:idMateria is null or mat.idMateria = :idMateria) AND
+			 (:hrAula is null or :hrAula BETWEEN cal.hrInicio AND cal.hrFim)
 			""")
-	Page<ListaCalendarioAulaDto> paginar(DiaDaSemana diaSemana, Integer idTurma, Integer idMateria, Integer idCadastro, Pageable paginacao);
+	Page<ListaCalendarioAulaDto> paginar(DiaDaSemana diaSemana, Integer idTurma, Integer idMateria, Integer idCadastro, LocalTime hrAula, Pageable paginacao);
 }

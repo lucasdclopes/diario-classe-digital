@@ -95,13 +95,15 @@ public class CalendarioAulaController {
 		
 		Page<ListaCalendarioAulaDto> pagina = calendarioDao.paginar(
 				IEnumParseavel.valueOfTratado(params.diaSemana(),DiaDaSemana.class), 
-				params.idTurma(), params.idMateria(),params.idProfessor(), paginacao);
+				params.idTurma(), params.idMateria(),params.idProfessor(), params.hrAula(), paginacao);
 		if (pagina.hasContent()) 
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		else
 			throw new EntidadeNaoEncontradaException();
 			
 	}
+	
+	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> remover(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
