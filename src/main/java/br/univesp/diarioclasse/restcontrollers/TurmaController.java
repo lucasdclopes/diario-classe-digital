@@ -54,6 +54,7 @@ public class TurmaController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Turma> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+		//TODO: Retornar os alunos da turma e o calendário de aulas da turma com um detalhesdto
 		Optional<Turma> turma = turmaDao.findById(id);
 		return ResponseEntity.ok(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
 	}

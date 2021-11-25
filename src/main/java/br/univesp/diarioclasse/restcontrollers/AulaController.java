@@ -111,7 +111,7 @@ public class AulaController {
 	
 	@PutMapping("/{id}/presencas")
 	public ResponseEntity<Object> atualizarPresencas(@PathVariable Integer id, @Valid @RequestBody List<PresencaAlunoDto> dtos) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException{
-		
+		//TODO: Precisa passar a lista de alunos pro usuário. Passar a lista de alunos da turma. Depois, quando fechar a aula, ve se estão todos na chamada
 		Aula aula = aulaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("A aula informada não foi encontrada"));
 		
 		for (PresencaAlunoDto presenca : dtos) {
