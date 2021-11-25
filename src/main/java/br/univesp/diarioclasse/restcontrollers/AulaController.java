@@ -52,7 +52,7 @@ public class AulaController {
 	@Autowired private DtoMappers mappers;
 	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AulaDto dto, UriComponentsBuilder uriBuilder) 
+	public ResponseEntity<DetalhesAulaDto> cadastrar(@Valid @RequestBody AulaDto dto, UriComponentsBuilder uriBuilder) 
 			throws EntidadeJaExisteException, DadosInvalidosException, EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
 		
 		CalendarioAula calendario = calendarioDao.findById(dto.idCalendarioAula()).orElseThrow(() -> new EntidadeNaoEncontradaException());
@@ -60,7 +60,9 @@ public class AulaController {
 		Aula aula = Aula.comecarAulaDoCalendario(dto.dtAula(), calendario);
 
 		Integer id = aulaDao.save(aula).getIdAula();
-		return ResponseEntity.created(ControllerHelper.montarUriLocalResource(uriBuilder,"/aulas/{id}",id)).build();
+		DetalhesAulaDto detalhes = mappers.aulaParaDtoDetalhado(aula);
+		
+		return ResponseEntity.created(ControllerHelper.montarUriLocalResource(uriBuilder,"/aulas/{id}",id)).body(detalhes);
 
 	}
 	
@@ -68,26 +70,8 @@ public class AulaController {
 	public ResponseEntity<DetalhesAulaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		Aula aula = aulaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		
-		Materia materia = aula.getMateria();
-		Professor professor = aula.getProfessor();
-		Turma turma = aula.getTurma();
-		
-		DetalhesAulaDto detalhes = new DetalhesAulaDto(aula.getIdAula(), aula.getDtAula(), aula.getDtHrIniciada(), aula.getDtHrFinalizada(), aula.getStatusAula(),
-				mappers.materiaParaDto(materia), 
-				mappers.cadastroParaDtoSimples(professor), 
-				mappers.turmaPataDto(turma),
-				aula.getPresencaAlunos().stream().map(PresencaAlunoAulaDto::new).toList());
-		
-				/*
-		DetalhesCalendarioAulaDto detalhes = new DetalhesCalendarioAulaDto(
-				calendario.getIdCalendarioAula(), calendario.getDiaSemana(), calendario.getHrInicio(), calendario.getHrFim(), 
-				new ListaMateriasDto(materia.getIdMateria(), materia.getDescMateria(), materia.getTpNivelEnsino()),
-				new CadastroDadosBasicosDto(professor.getIdCadastro(), professor.getNome()),
-				new ListaTurmasDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino())
-				);
-				*/
+		DetalhesAulaDto detalhes = mappers.aulaParaDtoDetalhado(aula);
 
-		
 		return ResponseEntity.ok(detalhes);
 	}
 	

@@ -23,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.queryparams.TurmaParams;
 import br.univesp.diarioclasse.dto.requests.TurmaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesTurmaDto;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
@@ -32,6 +33,7 @@ import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
+import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.TurmaRepository;
 
 @RestController
@@ -39,6 +41,7 @@ import br.univesp.diarioclasse.repositorios.TurmaRepository;
 public class TurmaController {
 
 	@Autowired private TurmaRepository turmaDao;
+	@Autowired private DtoMappers mappers;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody TurmaDto dto, UriComponentsBuilder uriBuilder) 
@@ -53,10 +56,11 @@ public class TurmaController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Turma> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
+	public ResponseEntity<DetalhesTurmaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		//TODO: Retornar os alunos da turma e o calendário de aulas da turma com um detalhesdto
 		Optional<Turma> turma = turmaDao.findById(id);
-		return ResponseEntity.ok(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+		DetalhesTurmaDto detalhes = mappers.turmaPataDetalhesDto(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+		return ResponseEntity.ok(detalhes);
 	}
 	
 	@PutMapping("/{id}")

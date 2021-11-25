@@ -8,10 +8,12 @@ import br.univesp.diarioclasse.dto.requests.CadastroDto;
 import br.univesp.diarioclasse.dto.requests.EnderecoDto;
 import br.univesp.diarioclasse.dto.requests.TelefoneDto;
 import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
-import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
-import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
+import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesTurmaDto;
+import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.CadastroExistente;
 import br.univesp.diarioclasse.entidades.Endereco;
@@ -42,8 +44,21 @@ public class DtoMappers {
 		return new ListaTurmasDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino());
 	}
 	
+	public DetalhesTurmaDto turmaPataDetalhesDto(Turma turma) {
+		return new DetalhesTurmaDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino(),
+				turma.getAlunos().stream().map(this::cadastroParaDtoSimples).toList());
+	}
+	
 	public CadastroDadosBasicosDto cadastroParaDtoSimples(Cadastro cadastro) {
 		return new CadastroDadosBasicosDto(cadastro.getIdCadastro(), cadastro.getNome());
+	}
+	
+	public DetalhesAulaDto aulaParaDtoDetalhado(Aula aula) {
+		return new DetalhesAulaDto(aula.getIdAula(), aula.getDtAula(), aula.getDtHrIniciada(), aula.getDtHrFinalizada(), aula.getStatusAula(),
+				this.materiaParaDto(aula.getMateria()), 
+				this.cadastroParaDtoSimples(aula.getProfessor()), 
+				this.turmaPataDto(aula.getTurma()),
+				aula.getPresencaAlunos().stream().map(PresencaAlunoAulaDto::new).toList());
 	}
 	
 	public ListaMateriasDto materiaParaDto(Materia materia) {

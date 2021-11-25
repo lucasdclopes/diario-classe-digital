@@ -58,6 +58,13 @@ public class AulaPresencaAluno implements Serializable {
 		//TODO: Se der tempo, adicionar uma foto/scan do atestado
 		this.hasAtestado = true;
 	}
+	
+	public void marcarPresenca() {
+		this.isPresente = true;
+	}
+	public void marcarFalta() {	
+		this.isPresente = false;
+	}
 
 	
 	public Aula getAula() {

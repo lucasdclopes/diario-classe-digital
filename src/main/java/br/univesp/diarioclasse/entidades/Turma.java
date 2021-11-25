@@ -87,6 +87,10 @@ public class Turma implements Serializable {
 			throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da turma");
 	}
 	
+	public String getNomeTurmaComNivel() {
+		return this.descTurma + " do " + this.getTpNivelEnsino().getDescricaoAmigavel();
+	}
+	
 	public Integer getIdTurma() {
 		return idTurma;
 	}

@@ -73,27 +73,27 @@ public class PopularBase  {
 				Sexo.FEMININO, "Mãe do Joãozinho", "Pai do Joãozinho");
 		Aluno Tim = new Aluno("123457",LocalDate.now(),"11112", Optional.of(turmaFundamental5), "Tim Murphy", "66881503016", "66881503016", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
-		Aluno Dennis = new Aluno("123458",LocalDate.now(),"11113", Optional.of(turmaMedioB), "Dennis Nedry", "33017780031", "33017780031", LocalDate.now(), 
+		Aluno Dennis = new Aluno("123458",LocalDate.now(),"11113", Optional.of(turmaMedioA), "Dennis Nedry", "33017780031", "33017780031", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe do Joãozinho", "Pai do Joãozinho");
-		Aluno Apoc = new Aluno("123459",LocalDate.now(),"123459", Optional.of(turmaMedioB), "Apoc Arahanga", "31455317004", "31455317004", LocalDate.now(), 
+		Aluno Apoc = new Aluno("123459",LocalDate.now(),"123459", Optional.of(turmaMedioA), "Apoc Arahanga", "31455317004", "31455317004", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe dele", null);
-		Aluno DuJour = new Aluno("123460",LocalDate.now(),"123460", Optional.of(turmaMedioB), "DuJour Gray", "83885605066", "83885605066", LocalDate.now(), 
+		Aluno DuJour = new Aluno("123460",LocalDate.now(),"123460", Optional.of(turmaMedioA), "DuJour Gray", "83885605066", "83885605066", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe", "Pai");
-		Aluno Cypher = new Aluno("123461",LocalDate.now(),"123461", Optional.of(turmaMedioB), "Cypher Reagan", "31504681088", "31504681088", LocalDate.now(), 
+		Aluno Cypher = new Aluno("123461",LocalDate.now(),"123461", Optional.of(turmaMedioA), "Cypher Reagan", "31504681088", "31504681088", LocalDate.now(), 
 				Sexo.DESCONHECIDO, "Mãe", "Pai");
-		Aluno Dozer = new Aluno("123462",LocalDate.now(),"123462", Optional.of(turmaMedioB), "Dozer Nebuchadnezzar", "35764261082", "35764261082", LocalDate.now(), 
+		Aluno Dozer = new Aluno("123462",LocalDate.now(),"123462", Optional.of(turmaMedioA), "Dozer Nebuchadnezzar", "35764261082", "35764261082", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", "Pai");
-		Aluno Mouse = new Aluno("123463",LocalDate.now(),"123463", Optional.of(turmaMedioB), "Mouse Nebuchadnezzar", "25730251017", "25730251017", LocalDate.now(), 
+		Aluno Mouse = new Aluno("123463",LocalDate.now(),"123463", Optional.of(turmaMedioA), "Mouse Nebuchadnezzar", "25730251017", "25730251017", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null);
-		Aluno Rhineheart = new Aluno("123464",LocalDate.now(),"123464", Optional.of(turmaMedioB), "Rhineheart Metacortex", "26370561002", "26370561002", LocalDate.now(), 
+		Aluno Rhineheart = new Aluno("123464",LocalDate.now(),"123464", Optional.of(turmaMedioA), "Rhineheart Metacortex", "26370561002", "26370561002", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null);
-		Aluno Switch = new Aluno("123465",LocalDate.now(),"123465", Optional.of(turmaMedioB), "Switch McClory", "31132802067", "31132802067", LocalDate.now(), 
+		Aluno Switch = new Aluno("123465",LocalDate.now(),"123465", Optional.of(turmaMedioA), "Switch McClory", "31132802067", "31132802067", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe", null);
-		Aluno Tank = new Aluno("123466",LocalDate.now(),"123466", Optional.of(turmaMedioB), "Tank Chong", "68529544048", "68529544048", LocalDate.now(), 
+		Aluno Tank = new Aluno("123466",LocalDate.now(),"123466", Optional.of(turmaMedioA), "Tank Chong", "68529544048", "68529544048", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null);
-		Aluno Trinity = new Aluno("123467",LocalDate.now(),"123467", Optional.of(turmaMedioB), "Trinity Moss", "92475725095", "92475725095", LocalDate.now(), 
+		Aluno Trinity = new Aluno("123467",LocalDate.now(),"123467", Optional.of(turmaMedioA), "Trinity Moss", "92475725095", "92475725095", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe", null);
-		Aluno Donald = new Aluno("123468",LocalDate.now(),"123468", Optional.of(turmaMedioB), "Donald Gennaro", "55904133030", "55904133030", LocalDate.now(), 
+		Aluno Donald = new Aluno("123468",LocalDate.now(),"123468", Optional.of(turmaMedioA), "Donald Gennaro", "55904133030", "55904133030", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null);
 		
 		alunoDao.saveAll(Arrays.asList(

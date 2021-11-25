@@ -112,21 +112,34 @@ public class Aula implements Serializable {
 			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula que está agendada. A aula atual está " + statusAula.name().toLowerCase());
 	}
 
-	public void adicionarChamadaIndividual(AulaPresencaAluno itemPresenca) throws EntidadeJaExisteException {
+	public void adicionarChamadaIndividual(AulaPresencaAluno novoItemPresenca) throws EntidadeJaExisteException, DadosInvalidosException {
 		
-		if (!itemPresenca.getAula().equals(this)) //se a aula aqui é a mesma do outro objeto
+		
+		if (!novoItemPresenca.getAula().equals(this)) //se a aula aqui é a mesma do outro objeto
 			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um item de chamada com referencia de aula vazia ou diferente desta aula.");
-		if (presencaAlunos.contains(itemPresenca))  //se o aluno já não foi colocado na lista de chamada. O objeto implementa o equals, então pode usar o contains
-			throw new EntidadeJaExisteException(String.format("a chamada deste aluno (%s) já foi incluida",itemPresenca.getAluno().getNome()), "itemPresencaAluno");
+		if (!novoItemPresenca.getAluno().getTurma().equals(this.getTurma())) {
+			Turma turmaAluno = novoItemPresenca.getAluno().getTurma();
+			throw new DadosInvalidosException(String.format("Não pode ser feita a chamada do aluno %s pois é da turma %s. A aula atual é da turma %s",
+					novoItemPresenca.getAluno().getNome(),turmaAluno.getNomeTurmaComNivel(),this.turma.getNomeTurmaComNivel()), "idAluno");
+		}
+		if (presencaAlunos.contains(novoItemPresenca)) { //se o aluno já não foi colocado na lista de chamada. O objeto implementa o equals, então pode usar o contains
+			AulaPresencaAluno itemPresencaAtual = presencaAlunos.get(presencaAlunos.indexOf(novoItemPresenca));
+			if (novoItemPresenca.isPresente())
+				itemPresencaAtual.marcarPresenca();
+			else
+				itemPresencaAtual.marcarFalta();
+				
+			//throw new EntidadeJaExisteException(String.format("a chamada deste aluno (%s) já foi incluida",novoItemPresenca.getAluno().getNome()), "itemPresencaAluno");
+		}
 		else
-			presencaAlunos.add(itemPresenca);
+			presencaAlunos.add(novoItemPresenca);
 	}
 	
 	/**
 	 * Adiciona de uma vez a lista completa de chamada
 	 * @throws EntidadeJaExisteException caso já exista uma lista de chamada sendo feita, ou caso exista repetição de alunos
 	 */
-	public void adicionarListaChamada(List<AulaPresencaAluno> presencaAlunos) throws EntidadeJaExisteException {
+	public void adicionarListaChamada(List<AulaPresencaAluno> presencaAlunos) throws EntidadeJaExisteException, DadosInvalidosException {
 		if (!presencaAlunos.isEmpty())
 			throw new EntidadeJaExisteException("Já existe uma lista de chamada em andamento", "presencaAlunos");
 		else
