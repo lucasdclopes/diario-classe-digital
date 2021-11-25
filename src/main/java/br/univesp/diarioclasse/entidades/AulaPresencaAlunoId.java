@@ -19,7 +19,6 @@ public class AulaPresencaAlunoId implements Serializable {
 	private Integer idAula;
 	public AulaPresencaAlunoId() {} 
 	public AulaPresencaAlunoId(Integer idAluno, Integer idAula) {
-		super();
 		this.idAluno = idAluno;
 		this.idAula = idAula;
 	}

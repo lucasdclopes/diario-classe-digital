@@ -10,6 +10,4 @@ import br.univesp.diarioclasse.helpers.DateHelper;
 
 public record AulaDto(
 		@JsonFormat(pattern=DateHelper.patternDataPtBr) @NotNull LocalDate dtAula, 
-		@NotNull Integer idCalendarioAula) {
-
-}
+		@NotNull Integer idCalendarioAula) {}

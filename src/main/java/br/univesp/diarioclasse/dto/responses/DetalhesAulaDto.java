@@ -19,15 +19,15 @@ public record DetalhesAulaDto(
 		ListaMateriasDto materia,
 		CadastroDadosBasicosDto professor,
 		ListaTurmasDto turma,
-		List<PresencaAlunosAulaDto> presencaAlunos
+		List<PresencaAlunoAulaDto> presencaAlunos
 		) {
 	
-		public static class PresencaAlunosAulaDto {
+		public static class PresencaAlunoAulaDto {
 			private CadastroDadosBasicosDto aluno;
 			private boolean isPresente;
 			private boolean hasAtestado;
 			
-			public PresencaAlunosAulaDto(AulaPresencaAluno presencaAluno) {
+			public PresencaAlunoAulaDto(AulaPresencaAluno presencaAluno) {
 				this.aluno = new CadastroDadosBasicosDto(
 						presencaAluno.getAluno().getIdAluno(), presencaAluno.getAluno().getNome());
 				this.isPresente = presencaAluno.isPresente();

@@ -5,37 +5,33 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
 import br.univesp.diarioclasse.dto.requests.AulaDto;
+import br.univesp.diarioclasse.dto.requests.PresencaAlunoDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto;
-import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunosAulaDto;
-import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
+import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
+import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Aula;
+import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.entidades.Turma;
-import br.univesp.diarioclasse.enums.DiaDaSemana;
-import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.DtoMappers;
+import br.univesp.diarioclasse.repositorios.AlunoRepository;
 import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
@@ -51,6 +47,7 @@ public class AulaController {
 	@Autowired private ProfessorRepository professorDao;
 	@Autowired private MateriaRepository materiaDao;
 	@Autowired private TurmaRepository turmaDao;
+	@Autowired private AlunoRepository alunoDao;
 	
 	@Autowired private DtoMappers mappers;
 	
@@ -79,7 +76,7 @@ public class AulaController {
 				mappers.materiaParaDto(materia), 
 				mappers.cadastroParaDtoSimples(professor), 
 				mappers.turmaPataDto(turma),
-				aula.getPresencaAlunos().stream().map(PresencaAlunosAulaDto::new).toList());
+				aula.getPresencaAlunos().stream().map(PresencaAlunoAulaDto::new).toList());
 		
 				/*
 		DetalhesCalendarioAulaDto detalhes = new DetalhesCalendarioAulaDto(
@@ -94,6 +91,7 @@ public class AulaController {
 		return ResponseEntity.ok(detalhes);
 	}
 	
+	/*
 	@GetMapping
 	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
 			@PageableDefault(sort = {"diaSemana","turma.descTurma","hrInicio"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
@@ -109,7 +107,27 @@ public class AulaController {
 			throw new EntidadeNaoEncontradaException();
 			
 	}
+	*/
 	
+	@PutMapping("/{id}/presencas")
+	public ResponseEntity<Object> atualizarPresencas(@PathVariable Integer id, @Valid @RequestBody List<PresencaAlunoDto> dtos) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException{
+		
+		Aula aula = aulaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("A aula informada não foi encontrada"));
+		
+		for (PresencaAlunoDto presenca : dtos) {
+			Aluno aluno = alunoDao.findById(presenca.idAluno()).orElseThrow(() -> new EntidadeNaoEncontradaException("O aluno informado não foi encontrado"));
+			aula.adicionarChamadaIndividual(new AulaPresencaAluno(
+					aula,
+					aluno, 
+					presenca.isPresente())
+					);
+		}  
+		
+		aulaDao.save(aula);
+		return ResponseEntity.ok().build();
+	}
+	
+	/*
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> remover(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
 		
@@ -119,5 +137,6 @@ public class AulaController {
 		
 		
 	}
+	*/
 	
 }

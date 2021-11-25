@@ -11,6 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -103,6 +104,13 @@ public class HandlerErros {
 				exception
 				);//provavelmente é body vazio. Mas como é um tratamento interno do framework, deixa um log
 		return new ErroSimplesDto("A requisição tem formato inválido ou o request body está faltando ");
+	}
+	
+	@ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ErroSimplesDto handle(HttpRequestMethodNotSupportedException exception) throws HttpRequestMethodNotSupportedException {
+		logger.info(exception.getMessage(), exception);//o client está mandando o verbo errado. Não é problema da api
+		return new ErroSimplesDto(exception.getMessage());
 	}
 	
 	//qualquer outro erro não previsto. Não retorna o erro pro usuário, mas loga internamente

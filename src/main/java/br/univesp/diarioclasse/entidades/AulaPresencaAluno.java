@@ -48,7 +48,6 @@ public class AulaPresencaAluno implements Serializable {
 	
 
 	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) throws EntidadeJaExisteException {
-		super();
 		this.aula = aula;
 		this.aluno = aluno;
 		this.isPresente = isPresente;
@@ -81,9 +80,10 @@ public class AulaPresencaAluno implements Serializable {
 		return id;
 	}
 
+
 	@Override
-	public int hashCode() {	
-		return Objects.hash(id);
+	public int hashCode() {
+		return Objects.hash(aluno, aula);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class AulaPresencaAluno implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AulaPresencaAluno other = (AulaPresencaAluno) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(aluno, other.aluno) && Objects.equals(aula, other.aula);
 	}
-	
+		
 }

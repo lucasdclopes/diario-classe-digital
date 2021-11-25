@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -64,7 +63,7 @@ public class Aula implements Serializable {
 	private Materia materia;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE} )
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
 	/**
@@ -118,7 +117,7 @@ public class Aula implements Serializable {
 		if (!itemPresenca.getAula().equals(this)) //se a aula aqui é a mesma do outro objeto
 			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um item de chamada com referencia de aula vazia ou diferente desta aula.");
 		if (presencaAlunos.contains(itemPresenca))  //se o aluno já não foi colocado na lista de chamada. O objeto implementa o equals, então pode usar o contains
-			throw new EntidadeJaExisteException("a chamada deste aluno já foi incluida", "itemPresencaAluno");
+			throw new EntidadeJaExisteException(String.format("a chamada deste aluno (%s) já foi incluida",itemPresenca.getAluno().getNome()), "itemPresencaAluno");
 		else
 			presencaAlunos.add(itemPresenca);
 	}
