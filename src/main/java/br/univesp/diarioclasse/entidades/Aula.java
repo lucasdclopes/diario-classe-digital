@@ -153,7 +153,7 @@ public class Aula implements Serializable {
 	 */
 	public void adicionarTodaTurmaNaListaChamada() throws EntidadeJaExisteException, DadosInvalidosException {
 		for (Aluno aluno : turma.getAlunos()) {
-			adicionarChamadaIndividual(new AulaPresencaAluno(this, aluno, false));
+			adicionarChamadaIndividual(new AulaPresencaAluno(this, aluno));
 		}
 	}
 	
@@ -161,7 +161,10 @@ public class Aula implements Serializable {
 	 * Diz se todos os alunos foram adicionados na lista de chamada
 	 */
 	public boolean isTodosOsAlunosVerificados() {
-		//TODO: Verificar como fazer essa validação
+		for (AulaPresencaAluno aulaPresencaAluno : presencaAlunos) {
+			if(aulaPresencaAluno.isPresente() == null)
+				return false;
+		}
 		return true;
 	}
 	
@@ -186,6 +189,7 @@ public class Aula implements Serializable {
 		if (!this.isTodosOsAlunosVerificados())
 			throw new EstadoObjetoInvalidoExcpetion("Nem todos os alunos foram considerados na lista de presença");
 		this.dtHrFinalizada = hrFinalizacao;
+		this.statusAula = StatusAula.FINALIZADA;
 	}
 	
 	public Integer getIdAula() {

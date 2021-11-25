@@ -36,7 +36,7 @@ public class AulaPresencaAluno implements Serializable {
 	@JoinColumn(name = "idAluno")
 	private Aluno aluno; 
 
-	private boolean isPresente;
+	private Boolean isPresente;
 	private boolean hasAtestado;
 	
 	/**
@@ -48,9 +48,13 @@ public class AulaPresencaAluno implements Serializable {
 	
 
 	public AulaPresencaAluno(Aula aula, Aluno aluno, boolean isPresente) throws EntidadeJaExisteException {
+		this(aula,aluno);
+		this.isPresente = isPresente;
+	}
+	
+	public AulaPresencaAluno(Aula aula, Aluno aluno) throws EntidadeJaExisteException {
 		this.aula = aula;
 		this.aluno = aluno;
-		this.isPresente = isPresente;
 		this.hasAtestado = false;
 	}
 	
@@ -75,7 +79,7 @@ public class AulaPresencaAluno implements Serializable {
 		return aluno;
 	}
 
-	public boolean isPresente() {
+	public Boolean isPresente() {
 		return isPresente;
 	}
 	

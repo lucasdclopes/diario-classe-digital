@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,17 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.univesp.diarioclasse.dto.queryparams.AulaParams;
+import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
 import br.univesp.diarioclasse.dto.requests.AulaDto;
 import br.univesp.diarioclasse.dto.requests.PresencaAlunoDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto;
-import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
+import br.univesp.diarioclasse.dto.responses.ListaAulasDto;
+import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
-import br.univesp.diarioclasse.entidades.Materia;
-import br.univesp.diarioclasse.entidades.Professor;
-import br.univesp.diarioclasse.entidades.Turma;
+import br.univesp.diarioclasse.enums.DiaDaSemana;
+import br.univesp.diarioclasse.enums.IEnumParseavel;
+import br.univesp.diarioclasse.enums.StatusAula;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -35,9 +42,6 @@ import br.univesp.diarioclasse.repositorios.AlunoRepository;
 import br.univesp.diarioclasse.repositorios.AulaPresencaAlunoRepository;
 import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
-import br.univesp.diarioclasse.repositorios.MateriaRepository;
-import br.univesp.diarioclasse.repositorios.ProfessorRepository;
-import br.univesp.diarioclasse.repositorios.TurmaRepository;
 
 @RestController
 @RequestMapping("/aulas")
@@ -60,7 +64,7 @@ public class AulaController {
 		aula.adicionarTodaTurmaNaListaChamada();
 		Integer id = aulaDao.save(aula).getIdAula();
 		
-		DetalhesAulaDto detalhes = mappers.aulaParaDtoDetalhado(aula);
+		DetalhesAulaDto detalhes = mappers.aulaParaDetalhesDto(aula);
 		
 		return ResponseEntity.created(ControllerHelper.montarUriLocalResource(uriBuilder,"/aulas/{id}",id)).body(detalhes);
 
@@ -70,28 +74,30 @@ public class AulaController {
 	public ResponseEntity<DetalhesAulaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		Aula aula = aulaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		
-		DetalhesAulaDto detalhes = mappers.aulaParaDtoDetalhado(aula);
+		DetalhesAulaDto detalhes = mappers.aulaParaDetalhesDto(aula);
 
 		return ResponseEntity.ok(detalhes);
 	}
 	
-	/*
+	
 	@GetMapping
-	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
-			@PageableDefault(sort = {"diaSemana","turma.descTurma","hrInicio"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
+	public ResponseEntity<List<ListaAulasDto>> listar(AulaParams params,
+			@PageableDefault(sort = {"dtHrIniciada"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
 		
-		Page<ListaCalendarioAulaDto> pagina = calendarioDao.paginar(
-				IEnumParseavel.valueOfTratado(params.diaSemana(),DiaDaSemana.class), 
-				params.idTurma(), params.idMateria(),params.idProfessor(), paginacao);
-		if (pagina.hasContent()) 
-			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
+		Page<Aula> pagina = aulaDao.paginar(params.dtAula(),params.hrAula(),
+				IEnumParseavel.valueOfTratado(params.statusAula(), StatusAula.class),
+				params.idTurma(),params.idMateria(),params.idProfessor(),paginacao);
+
+		if (pagina.hasContent()) {
+			List<ListaAulasDto> aulas = pagina.getContent().stream().map(mappers::aulaParaDto).toList();
+			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(aulas);
+		}
 		else
 			throw new EntidadeNaoEncontradaException();
 			
 	}
-	*/
 	
 	@PutMapping("/{id}/presencas")
 	public ResponseEntity<Object> atualizarPresencas(@PathVariable Integer id, @Valid @RequestBody List<PresencaAlunoDto> dtos) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException{
@@ -106,6 +112,17 @@ public class AulaController {
 					presenca.isPresente())
 					);
 		}  
+		
+		aulaDao.save(aula);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/{id}/finalizar")
+	public ResponseEntity<Object> finalizarAula(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EntidadeJaExisteException, DadosInvalidosException, EstadoObjetoInvalidoExcpetion{
+		//TODO: Precisa passar a lista de alunos pro usuário. Passar a lista de alunos da turma. Depois, quando fechar a aula, ve se estão todos na chamada
+		Aula aula = aulaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("A aula informada não foi encontrada"));
+		
+		aula.finalizarAula();
 		
 		aulaDao.save(aula);
 		return ResponseEntity.ok().build();

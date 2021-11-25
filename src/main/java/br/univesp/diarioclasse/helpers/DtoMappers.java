@@ -13,6 +13,7 @@ import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesTurmaDto;
+import br.univesp.diarioclasse.dto.responses.ListaAulasDto;
 import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.CadastroExistente;
@@ -53,7 +54,14 @@ public class DtoMappers {
 		return new CadastroDadosBasicosDto(cadastro.getIdCadastro(), cadastro.getNome());
 	}
 	
-	public DetalhesAulaDto aulaParaDtoDetalhado(Aula aula) {
+	public ListaAulasDto aulaParaDto(Aula aula) {
+		return new ListaAulasDto(aula.getIdAula(), aula.getDtAula(), aula.getDtHrIniciada(), aula.getDtHrFinalizada(), aula.getStatusAula(),
+				this.materiaParaDto(aula.getMateria()), 
+				this.cadastroParaDtoSimples(aula.getProfessor()), 
+				this.turmaPataDto(aula.getTurma()));
+	}
+	
+	public DetalhesAulaDto aulaParaDetalhesDto(Aula aula) {
 		return new DetalhesAulaDto(aula.getIdAula(), aula.getDtAula(), aula.getDtHrIniciada(), aula.getDtHrFinalizada(), aula.getStatusAula(),
 				this.materiaParaDto(aula.getMateria()), 
 				this.cadastroParaDtoSimples(aula.getProfessor()), 

@@ -24,7 +24,7 @@ public record DetalhesAulaDto(
 	
 		public static class PresencaAlunoAulaDto {
 			private CadastroDadosBasicosDto aluno;
-			private boolean isPresente;
+			private Boolean isPresente; //é possível ser null: não marcou ainda nem falta nem presença
 			private boolean hasAtestado;
 			
 			public PresencaAlunoAulaDto(AulaPresencaAluno presencaAluno) {
@@ -35,7 +35,7 @@ public record DetalhesAulaDto(
 			}
 
 			public CadastroDadosBasicosDto getAluno() {	return aluno; }
-			public boolean isPresente() { return isPresente; }
+			public Boolean isPresente() { return isPresente; }
 			public boolean isHasAtestado() { return hasAtestado; }
 				
 		}
