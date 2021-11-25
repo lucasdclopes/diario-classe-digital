@@ -2,4 +2,8 @@ package br.univesp.diarioclasse.dto.queryparams;
 
 import java.time.LocalDate;
 
-public record AlunoParams(String nroMatricula, LocalDate dtMatricula, String ra) {}
+import org.springframework.format.annotation.DateTimeFormat;
+
+import br.univesp.diarioclasse.helpers.DateHelper;
+
+public record AlunoParams(String nroMatricula, @DateTimeFormat(pattern = DateHelper.patternDataPtBr) LocalDate dtMatricula, String ra) {}

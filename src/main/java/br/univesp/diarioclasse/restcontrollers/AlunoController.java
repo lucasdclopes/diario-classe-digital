@@ -29,7 +29,7 @@ import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
-import br.univesp.diarioclasse.helpers.CadastroMappers;
+import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
 
 @RestController
@@ -38,7 +38,7 @@ public class AlunoController {
 
 	@Autowired private AlunoRepository alunoDao;
 	
-	@Autowired private CadastroMappers mappers;
+	@Autowired private DtoMappers mappers;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{

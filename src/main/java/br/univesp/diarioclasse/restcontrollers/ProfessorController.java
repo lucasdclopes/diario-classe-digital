@@ -28,7 +28,7 @@ import br.univesp.diarioclasse.entidades.Professor;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
-import br.univesp.diarioclasse.helpers.CadastroMappers;
+import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 
 @RestController
@@ -36,7 +36,7 @@ import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 public class ProfessorController {
 
 	@Autowired private ProfessorRepository professorDao;
-	@Autowired private CadastroMappers mappers;
+	@Autowired private DtoMappers mappers;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody ProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{

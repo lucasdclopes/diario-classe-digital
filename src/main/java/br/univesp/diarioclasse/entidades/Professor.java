@@ -16,11 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
+import br.univesp.diarioclasse.helpers.DateHelper;
 
 @Entity
 @Table(name = "cadastro_professor")
@@ -29,6 +31,7 @@ public class Professor extends Cadastro implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@JsonFormat(pattern=DateHelper.patternDataPtBr) 
 	private LocalDate dtAdmissao;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

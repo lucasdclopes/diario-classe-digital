@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Entity
@@ -22,11 +24,13 @@ public class AulaPresencaAluno implements Serializable {
 	@EmbeddedId
 	private AulaPresencaAlunoId id = new AulaPresencaAlunoId();
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional =  false)
 	@MapsId("idAula")
 	@JoinColumn(name = "idAula")
 	private Aula aula; 
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@MapsId("idAluno")
 	@JoinColumn(name = "idAluno")
@@ -68,8 +72,8 @@ public class AulaPresencaAluno implements Serializable {
 	public boolean isPresente() {
 		return isPresente;
 	}
-
-	public boolean isHasAtestado() {
+	
+	public boolean hasAtestado() {
 		return hasAtestado;
 	}
 

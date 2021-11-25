@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.univesp.diarioclasse.enums.IEnumParseavel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.univesp.diarioclasse.enums.StatusAula;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
@@ -41,7 +43,7 @@ public class Aula implements Serializable {
 	private LocalDateTime dtHrIniciada;
 	private LocalDateTime dtHrFinalizada;
 	@NotNull @Length(min = 1, max = 1)
-	private String statusAula;
+	private StatusAula statusAula;
 	
 	/*
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -61,6 +63,7 @@ public class Aula implements Serializable {
 	@JoinColumn(name = "idMateria")
 	private Materia materia;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
@@ -75,7 +78,7 @@ public class Aula implements Serializable {
 			throw new DadosInvalidosException(String.format("A aula não pode ser iniciada na data %s pois o calendário dela é para %s " 
 					, DateHelper.paraFormatoBr(dtAula),calendarioAula.getDiaSemana().name().toLowerCase()), "dtAula");
 		this.dtAula = dtAula;
-		this.statusAula = statusAula.getCodigo();
+		this.statusAula = statusAula;
 		//this.calendarioAula = calendarioAula;
 		this.turma = turma;
 		this.professor = professor;
@@ -102,12 +105,11 @@ public class Aula implements Serializable {
 	 * @throws EstadoObjetoInvalidoExcpetion se a aula está em um status que não pode ser agendada
 	 */
 	public void iniciarAula() throws EstadoObjetoInvalidoExcpetion {
-		StatusAula statusAtual = IEnumParseavel.parse(this.statusAula, StatusAula.class);
-		if ( statusAtual==StatusAula.AGENDADA ) {
+		if ( this.statusAula==StatusAula.AGENDADA ) {
 			this.dtHrIniciada = LocalDateTime.now();
-			this.statusAula = StatusAula.INICIADA.getCodigo();
+			this.statusAula = StatusAula.INICIADA;
 		} else
-			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula que está agendada. A aula atual está " + statusAtual.name().toLowerCase());
+			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula que está agendada. A aula atual está " + statusAula.name().toLowerCase());
 	}
 
 	public void adicionarChamadaIndividual(AulaPresencaAluno itemPresenca) throws EntidadeJaExisteException {
@@ -156,9 +158,8 @@ public class Aula implements Serializable {
 	 * @throws EstadoObjetoInvalidoExcpetion se o status da aula não suporta essa operação
 	 */
 	public void finalizarAula(LocalDateTime hrFinalizacao) throws EstadoObjetoInvalidoExcpetion {
-		StatusAula statusAtual = IEnumParseavel.parse(this.statusAula, StatusAula.class);
-		if ( statusAtual==StatusAula.FINALIZADA ) {
-			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula em andamento. A aula atual está " + statusAtual.name().toLowerCase());
+		if ( this.statusAula==StatusAula.FINALIZADA ) {
+			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula em andamento. A aula atual está " + statusAula.name().toLowerCase());
 		}
 		if (!this.isTodosOsAlunosVerificados())
 			throw new EstadoObjetoInvalidoExcpetion("Nem todos os alunos foram considerados na lista de presença");
@@ -179,6 +180,26 @@ public class Aula implements Serializable {
 
 	public LocalDateTime getDtHrFinalizada() {
 		return dtHrFinalizada;
+	}
+
+	public StatusAula getStatusAula() {
+		return statusAula;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public Materia getMateria() {
+		return materia;
+	}
+
+	public List<AulaPresencaAluno> getPresencaAlunos() {
+		return Collections.unmodifiableList(presencaAlunos);
 	}
 
 	@Override

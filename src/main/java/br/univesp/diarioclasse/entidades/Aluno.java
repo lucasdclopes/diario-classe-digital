@@ -17,12 +17,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+import br.univesp.diarioclasse.helpers.DateHelper;
 
 @Entity
 @Table(name = "cadastro_alunos")
@@ -33,6 +35,7 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	@NotNull @Column(unique = true)
 	private String nroMatricula;
+	@JsonFormat(pattern=DateHelper.patternDataPtBr) 
 	private LocalDate dtMatricula;
 	@NotNull @Column(unique = true)
 	private String ra;

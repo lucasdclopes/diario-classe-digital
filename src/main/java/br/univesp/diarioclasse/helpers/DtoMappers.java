@@ -7,15 +7,20 @@ import org.springframework.stereotype.Component;
 import br.univesp.diarioclasse.dto.requests.CadastroDto;
 import br.univesp.diarioclasse.dto.requests.EnderecoDto;
 import br.univesp.diarioclasse.dto.requests.TelefoneDto;
+import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
+import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
+import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.CadastroExistente;
 import br.univesp.diarioclasse.entidades.Endereco;
+import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Telefone;
+import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 
 @Component
-public class CadastroMappers {
+public class DtoMappers {
 
 	public List<Endereco> novoEnderecoDtoParaEndereco (List<EnderecoDto> enderecos, Cadastro cadastro) {
 		return enderecos.stream().map(end -> (
@@ -29,6 +34,18 @@ public class CadastroMappers {
 		return telefones.stream().map(tel -> (		
 				new Telefone(tel.tpTelefone(), tel.ddd(), tel.numeroTelefone(), cadastro)))	
 				.toList();
+	}
+	
+	public ListaTurmasDto turmaPataDto(Turma turma) {
+		return new ListaTurmasDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino());
+	}
+	
+	public CadastroDadosBasicosDto cadastroParaDtoSimples(Cadastro cadastro) {
+		return new CadastroDadosBasicosDto(cadastro.getIdCadastro(), cadastro.getNome());
+	}
+	
+	public ListaMateriasDto materiaParaDto(Materia materia) {
+		return new ListaMateriasDto(materia.getIdMateria(), materia.getDescMateria(),materia.getTpNivelEnsino());
 	}
 	
 	public void atualizarCadastroDeDto(CadastroDto cadastroDto, Cadastro cadastro, CadastroExistente cadastroExistente) throws EntidadeJaExisteException, DadosInvalidosException {

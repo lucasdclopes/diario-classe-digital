@@ -23,12 +23,15 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
+import br.univesp.diarioclasse.helpers.DateHelper;
 
 @Entity
 @Table(name = "cadastros")
@@ -48,7 +51,7 @@ public abstract class Cadastro implements Serializable {
 	private String cpf;
 	@NotBlank
 	private String rg;
-	@NotNull
+	@NotNull @JsonFormat(pattern=DateHelper.patternDataPtBr) 
 	private LocalDate dtNascimento;
 	@NotNull
 	private Sexo sexo;
