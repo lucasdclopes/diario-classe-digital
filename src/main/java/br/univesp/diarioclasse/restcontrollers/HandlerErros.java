@@ -97,7 +97,7 @@ public class HandlerErros {
 			if (exception.getCause() instanceof JsonParseException)
 				return new ErroSimplesDto("A requisição tem formato inválido. Possívelmente o json está incorreto");
 			if (exception.getCause() instanceof InvalidFormatException e)
-				return new ErroSimplesDto("A requisição possui uma constante inválida. " + e.getOriginalMessage());
+				return new ErroSimplesDto("A requisição possui um campo com constante ou formatação inválida. " + e.getOriginalMessage());
 		}
 		logger.warn("Um controller detectou um HttpMessageNotReadableException com cause vazio: " + exception.getMessage(),
 				exception

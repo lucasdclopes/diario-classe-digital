@@ -22,11 +22,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
 import br.univesp.diarioclasse.dto.requests.CalendarioAulaDto;
-import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesCalendarioAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
-import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
-import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
 import br.univesp.diarioclasse.entidades.Professor;

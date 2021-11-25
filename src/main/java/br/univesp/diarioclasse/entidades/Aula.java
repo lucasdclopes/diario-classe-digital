@@ -42,7 +42,7 @@ public class Aula implements Serializable {
 	private LocalDate dtAula;
 	private LocalDateTime dtHrIniciada;
 	private LocalDateTime dtHrFinalizada;
-	@NotNull @Length(min = 1, max = 1)
+	@NotNull
 	private StatusAula statusAula;
 	
 	/*
@@ -73,7 +73,7 @@ public class Aula implements Serializable {
 	@Deprecated
 	public Aula() {}
 
-	private Aula(LocalDate dtAula,StatusAula statusAula, CalendarioAula calendarioAula, Turma turma, Professor professor) throws DadosInvalidosException {
+	private Aula(LocalDate dtAula,StatusAula statusAula, CalendarioAula calendarioAula, Turma turma, Professor professor, Materia materia) throws DadosInvalidosException {
 		if (dtAula.getDayOfWeek() != calendarioAula.getDiaSemana().toDayOfWeek())
 			throw new DadosInvalidosException(String.format("A aula não pode ser iniciada na data %s pois o calendário dela é para %s " 
 					, DateHelper.paraFormatoBr(dtAula),calendarioAula.getDiaSemana().name().toLowerCase()), "dtAula");
@@ -82,20 +82,21 @@ public class Aula implements Serializable {
 		//this.calendarioAula = calendarioAula;
 		this.turma = turma;
 		this.professor = professor;
+		this.materia = materia;
 	}
 	
 	/**
 	 * Agenda a aula com os dados do calendário de aula
 	 */
 	public static Aula agendarAulaDoCalendario(LocalDate dtAula, CalendarioAula calendarioAula) throws DadosInvalidosException {
-		return new Aula(dtAula, StatusAula.AGENDADA, calendarioAula, calendarioAula.getTurma(), calendarioAula.getProfessor());
+		return new Aula(dtAula, StatusAula.AGENDADA, calendarioAula, calendarioAula.getTurma(), calendarioAula.getProfessor(),calendarioAula.getMateria());
 	}
 	
 	/**
 	 * Inicia a aula agora com os dados do calendário de aula
 	 */
 	public static Aula comecarAulaDoCalendario(LocalDate dtAula, CalendarioAula calendarioAula) throws DadosInvalidosException, EstadoObjetoInvalidoExcpetion {
-		Aula aula = new Aula(dtAula, StatusAula.AGENDADA, calendarioAula, calendarioAula.getTurma(), calendarioAula.getProfessor());
+		Aula aula = new Aula(dtAula, StatusAula.AGENDADA, calendarioAula, calendarioAula.getTurma(), calendarioAula.getProfessor(),calendarioAula.getMateria());
 		aula.iniciarAula();
 		return aula;
 	}
