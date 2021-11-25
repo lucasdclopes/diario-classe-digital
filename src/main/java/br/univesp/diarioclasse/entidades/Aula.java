@@ -63,7 +63,7 @@ public class Aula implements Serializable {
 	private Materia materia;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE} )
+	@OneToMany(mappedBy = "aula", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH} )
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
 	/**
@@ -146,6 +146,15 @@ public class Aula implements Serializable {
 			for (AulaPresencaAluno aulaPresencaAluno : presencaAlunos) { //ao invés de atribuir uma vez, passa por este método para executar todas as validações
 				this.adicionarChamadaIndividual(aulaPresencaAluno);
 			}
+	}
+	
+	/**
+	 * Pega a turma que está nesta aula e adiciona todos os alunos na lista de chamada
+	 */
+	public void adicionarTodaTurmaNaListaChamada() throws EntidadeJaExisteException, DadosInvalidosException {
+		for (Aluno aluno : turma.getAlunos()) {
+			adicionarChamadaIndividual(new AulaPresencaAluno(this, aluno, false));
+		}
 	}
 	
 	/**

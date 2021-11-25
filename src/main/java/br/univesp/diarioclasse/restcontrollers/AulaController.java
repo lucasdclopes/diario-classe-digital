@@ -32,6 +32,7 @@ import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.repositorios.AulaPresencaAlunoRepository;
 import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
@@ -44,10 +45,8 @@ public class AulaController {
 
 	@Autowired private AulaRepository aulaDao;
 	@Autowired private CalendarioAulaRepository calendarioDao;
-	@Autowired private ProfessorRepository professorDao;
-	@Autowired private MateriaRepository materiaDao;
-	@Autowired private TurmaRepository turmaDao;
 	@Autowired private AlunoRepository alunoDao;
+	@Autowired private AulaPresencaAlunoRepository presencaDao;
 	
 	@Autowired private DtoMappers mappers;
 	
@@ -58,8 +57,9 @@ public class AulaController {
 		CalendarioAula calendario = calendarioDao.findById(dto.idCalendarioAula()).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		
 		Aula aula = Aula.comecarAulaDoCalendario(dto.dtAula(), calendario);
-
+		aula.adicionarTodaTurmaNaListaChamada();
 		Integer id = aulaDao.save(aula).getIdAula();
+		
 		DetalhesAulaDto detalhes = mappers.aulaParaDtoDetalhado(aula);
 		
 		return ResponseEntity.created(ControllerHelper.montarUriLocalResource(uriBuilder,"/aulas/{id}",id)).body(detalhes);
