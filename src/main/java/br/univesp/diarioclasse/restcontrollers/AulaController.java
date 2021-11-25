@@ -20,17 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.univesp.diarioclasse.dto.queryparams.AulaParams;
-import br.univesp.diarioclasse.dto.queryparams.CalendarioAulaParams;
 import br.univesp.diarioclasse.dto.requests.AulaDto;
 import br.univesp.diarioclasse.dto.requests.PresencaAlunoDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaAulasDto;
-import br.univesp.diarioclasse.dto.responses.ListaCalendarioAulaDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.AulaPresencaAluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
-import br.univesp.diarioclasse.enums.DiaDaSemana;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.enums.StatusAula;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
@@ -39,7 +36,6 @@ import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
-import br.univesp.diarioclasse.repositorios.AulaPresencaAlunoRepository;
 import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 
@@ -50,7 +46,6 @@ public class AulaController {
 	@Autowired private AulaRepository aulaDao;
 	@Autowired private CalendarioAulaRepository calendarioDao;
 	@Autowired private AlunoRepository alunoDao;
-	@Autowired private AulaPresencaAlunoRepository presencaDao;
 	
 	@Autowired private DtoMappers mappers;
 	
