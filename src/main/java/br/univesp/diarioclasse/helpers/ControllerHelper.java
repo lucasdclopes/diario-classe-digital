@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.restcontrollers;
+package br.univesp.diarioclasse.helpers;
 
 import java.net.URI;
 

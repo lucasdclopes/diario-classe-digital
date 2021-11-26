@@ -33,6 +33,7 @@ import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
+import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
 
 @RestController
