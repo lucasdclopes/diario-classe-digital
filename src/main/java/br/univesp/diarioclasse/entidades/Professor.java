@@ -52,8 +52,8 @@ public class Professor extends Cadastro implements Serializable  {
 	@Deprecated
 	public Professor() {}
 	public Professor(LocalDate dtAdmissao, Optional<Materia> materia, String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
-			String nomeMae, String nomePai ) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR);
+			String nomeMae, String nomePai, String emailContato ) throws DadosInvalidosException {
+		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.PROFESSOR, emailContato);
 		this.dtAdmissao = dtAdmissao;
 		materia.ifPresent(m -> this.materia = m);
 	}

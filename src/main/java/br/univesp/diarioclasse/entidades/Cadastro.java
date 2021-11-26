@@ -61,6 +61,8 @@ public abstract class Cadastro implements Serializable {
 	@NotNull
 	private TipoCadastro tipoCadastro;
 	private Boolean isAtivo;
+	@NotNull
+	private String emailContato;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -74,7 +76,7 @@ public abstract class Cadastro implements Serializable {
 	public Cadastro() {}
 	
 	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
-			String nomePai, TipoCadastro tipoCadastro) throws DadosInvalidosException {
+			String nomePai, TipoCadastro tipoCadastro, String emailContato) throws DadosInvalidosException {
 		atualizarNome(nome);
 		this.cpf = cpf.strip();
 		atualizarRg(rg);
@@ -82,6 +84,7 @@ public abstract class Cadastro implements Serializable {
 		atualizarSexo(sexo);
 		atualizarNomeMae(nomeMae);
 		atualizarNomePai(nomePai);
+		atualizarEmailContato(emailContato);
 		this.tipoCadastro = tipoCadastro;
 		this.isAtivo = true;
 	} 
@@ -127,6 +130,9 @@ public abstract class Cadastro implements Serializable {
 	}
 	public void atualizarSexo(Sexo sexo) {
 		this.sexo = sexo;
+	}
+	public void atualizarEmailContato(String emailContato) {
+		this.emailContato = emailContato.strip();
 	}
 	public void darBaixa() throws EstadoObjetoInvalidoExcpetion {
 		if (this.isAtivo())
@@ -182,6 +188,9 @@ public abstract class Cadastro implements Serializable {
 	}
 	public boolean isAtivo() {
 		return isAtivo;
+	}
+	public String getEmailContato() {
+		return emailContato;
 	}
 	public List<Endereco> getEnderecos() {
 		return Collections.unmodifiableList(enderecos);

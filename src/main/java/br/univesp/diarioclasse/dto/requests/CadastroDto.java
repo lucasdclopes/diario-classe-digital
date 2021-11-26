@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
@@ -29,10 +30,14 @@ public class CadastroDto {
 		private String nomeMae;
 		@Length(max = 200) 
 		private String nomePai;
+		@Email @NotBlank @Length(max = 200)
+		private String emailContato;
+		
 		@Valid 
 		private List<EnderecoDto> enderecos;
 		@Valid 
 		private List<TelefoneDto> telefones;
+		
 		public CadastroDto() {}
 		public String getNome() {
 			return nome;
@@ -54,6 +59,9 @@ public class CadastroDto {
 		}
 		public String getNomePai() {
 			return nomePai;
+		}
+		public String getEmailContato() {
+			return emailContato;
 		}
 		public List<EnderecoDto> getEnderecos() {
 			return enderecos;

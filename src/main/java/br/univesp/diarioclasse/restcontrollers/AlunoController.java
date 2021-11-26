@@ -45,7 +45,7 @@ public class AlunoController {
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
 		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getRa(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
-				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai());
+				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai(), dto.getEmailContato());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 		

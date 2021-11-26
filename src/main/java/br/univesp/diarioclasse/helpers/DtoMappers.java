@@ -88,6 +88,8 @@ public class DtoMappers {
 			cadastro.atualizarDtNascimento(cadastroDto.getDtNascimento());
 		if (cadastroDto.getSexo()!= null)
 			cadastro.atualizarSexo(cadastroDto.getSexo());
+		if (cadastroDto.getEmailContato()!= null)
+			cadastro.atualizarEmailContato(cadastroDto.getEmailContato());
 		
 	}
 }
