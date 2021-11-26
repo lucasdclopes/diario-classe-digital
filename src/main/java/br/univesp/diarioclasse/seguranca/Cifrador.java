@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.helpers;
+package br.univesp.diarioclasse.seguranca;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

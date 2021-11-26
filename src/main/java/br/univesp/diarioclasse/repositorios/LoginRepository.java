@@ -18,7 +18,10 @@ public interface LoginRepository extends JpaRepository<Login, Integer>, LoginUni
 	""")
 	boolean existsBy(String emailLogin);
 	
-	//equivale a select * from dbo.login where emailLogin = :emailLogin
+	//equivale a select * from dbo.login where email_login = :emailLogin
 	Optional<Login> findByEmailLogin(String emailLogin);
+	
+	//equivale a select * from dbo.login where token_acesso = :tokenAcesso
+	Optional<Login> findByTokenAcesso(String tokenAcesso);
 	
 }

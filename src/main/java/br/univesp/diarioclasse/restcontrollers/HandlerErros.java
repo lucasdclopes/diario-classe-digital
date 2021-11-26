@@ -42,7 +42,9 @@ public class HandlerErros {
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(AutenticacaoException.class)
 	public ErroSimplesDto handle(AutenticacaoException exception) {
-		return new ErroSimplesDto("Usuário ou senha inválidos");
+		return new ErroSimplesDto(
+				exception.getMessage()!=null?exception.getMessage():"Usuário ou senha inválidos"
+					);
 	}
 	
 	

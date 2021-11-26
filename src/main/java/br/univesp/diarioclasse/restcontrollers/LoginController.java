@@ -21,12 +21,11 @@ import br.univesp.diarioclasse.exceptions.AutenticacaoException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
-import br.univesp.diarioclasse.helpers.Cifrador;
 import br.univesp.diarioclasse.helpers.ControllerHelper;
-import br.univesp.diarioclasse.helpers.DtoMappers;
-import br.univesp.diarioclasse.helpers.GeradorToken;
 import br.univesp.diarioclasse.repositorios.CadastroRepository;
 import br.univesp.diarioclasse.repositorios.LoginRepository;
+import br.univesp.diarioclasse.seguranca.Cifrador;
+import br.univesp.diarioclasse.seguranca.GeradorToken;
 
 @RestController
 @RequestMapping("/")
@@ -52,12 +51,14 @@ public class LoginController {
 	}
 	
 	@PostMapping("/logar")
-	public ResponseEntity<LoginOkDto> logar(@Valid @RequestBody LoginDto dto) throws AutenticacaoException {
+	public ResponseEntity<LoginOkDto> logar(@Valid @RequestBody LoginDto dto) {
 		Login login = loginDao.findByEmailLogin(dto.emailLogin().strip()).orElseThrow(() -> new AutenticacaoException()); //busca pelo email, que retorna um optional. Se não existir, joga erro...
 		if (!login.isSenhaValida(dto.senha(), new Cifrador())) //já bateu o email no select, bate a senha, passando o cifrador. Concentrando tudo no mesmo cifrador é mais fácil trocar a criptografia caso necessário
 			throw new AutenticacaoException(); //o handler pega este erro e trata adequadamente
 		else {
 			String token = new GeradorToken().gerarTokenAcesso(login);
+			login.definirTokenAcesso(token);
+			loginDao.save(login);
 			return ResponseEntity.ok(new LoginOkDto(token)); //responde com o token de acesso
 		}
 		

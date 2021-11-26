@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.NaturalId;
 
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
-import br.univesp.diarioclasse.helpers.Cifrador;
+import br.univesp.diarioclasse.seguranca.Cifrador;
 
 @Entity
 @Table(name =  "cadastro_logins")
@@ -33,7 +33,7 @@ public class Login {
 	private LocalDateTime dtUltimoAcesso; //se passar de X minutos depois do último acesso, invalida o token
 	private LocalDateTime dtCriacaoTokenAtual; //quando o token foi criado. 
 	
-	@OneToOne(fetch = FetchType.LAZY,optional = false)
+	@OneToOne(fetch = FetchType.EAGER,optional = false)
 	@JoinColumn(name = "idCadastro")
 	private Cadastro cadastro;
 	
@@ -56,6 +56,16 @@ public class Login {
 	
 	public boolean isSenhaValida(String senhaTentiva, Cifrador cifrador) {
 		return (this.senha.equals(cifrador.hashearSenha(senhaTentiva.strip())));
+	}
+	
+	public void definirTokenAcesso(String token) {
+		this.tokenAcesso = token;
+		this.dtCriacaoTokenAtual = LocalDateTime.now();
+		this.dtUltimoAcesso = LocalDateTime.now();
+	}
+	
+	public void atualizarUltimoAcesso() {
+		this.dtUltimoAcesso = LocalDateTime.now();
 	}
 	
 	public Cadastro getCadastro() {

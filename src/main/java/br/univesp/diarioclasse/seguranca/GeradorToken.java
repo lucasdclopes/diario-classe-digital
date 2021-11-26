@@ -1,4 +1,4 @@
-package br.univesp.diarioclasse.helpers;
+package br.univesp.diarioclasse.seguranca;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
