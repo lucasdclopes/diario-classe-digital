@@ -11,6 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import br.univesp.diarioclasse.entidades.Administrador;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.CalendarioAula;
 import br.univesp.diarioclasse.entidades.Materia;
@@ -21,6 +22,7 @@ import br.univesp.diarioclasse.enums.PeriodoEstudo;
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.repositorios.CadastroRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
@@ -29,19 +31,17 @@ import br.univesp.diarioclasse.repositorios.TurmaRepository;
 @Component
 public class PopularBase  {
 
-	@Autowired
-	private AlunoRepository alunoDao;
-	@Autowired
-	private ProfessorRepository profDao;
-	@Autowired
-	private MateriaRepository materiaDao;
-	@Autowired
-	private TurmaRepository turmaDao;
-	@Autowired
-	private CalendarioAulaRepository calendarioAulaDao;
+	@Autowired private AlunoRepository alunoDao;
+	@Autowired private ProfessorRepository profDao;
+	@Autowired private CadastroRepository cadDao;
+	@Autowired private MateriaRepository materiaDao;
+	@Autowired private TurmaRepository turmaDao;
+	@Autowired private CalendarioAulaRepository calendarioAulaDao;
 	
 	@EventListener({ContextRefreshedEvent.class})
 	public void run() throws Exception {
+		
+
 		
 		Turma turmaFundamental1 = new Turma("1a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
 		Turma turmaFundamental2 = new Turma("2a ano A", PeriodoEstudo.MATUTINO,TipoNivelEnsino.FUNDAMENTAL_I);
@@ -112,6 +112,11 @@ public class PopularBase  {
 		materiaDao.saveAll(Arrays.asList(matF1,matMe,bioF1,bioMe,histF1,histMe,fisF1,fisMe,quimF1,quimMe));
 		
 		LocalDate maiorDeIdade = LocalDate.now().minus(20, ChronoUnit.YEARS);
+		
+		Administrador adm= new Administrador("Super adm", "25849707085", "46001471037", maiorDeIdade, 
+				Sexo.FEMININO, "Mãe do adm", "Pai do adm","adm@gerente.com.br");
+		
+		cadDao.save(adm);
 		
 		Professor henry = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Henry Wu", "15417265020", "121212121212", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
 		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "45269888041", "13131331313", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");

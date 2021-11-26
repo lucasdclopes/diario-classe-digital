@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -68,6 +69,9 @@ public abstract class Cadastro implements Serializable {
 	private List<Endereco> enderecos = new ArrayList<>();
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Telefone> telefones = new ArrayList<>();
+	
+	@OneToOne(mappedBy = "cadastro")
+	private Login login;
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.

@@ -4,7 +4,7 @@ import javax.persistence.Converter;
 
 public enum TipoCadastro implements IEnumParseavel {
 	
-	ALUNO("A"),PROFESSOR("P");
+	ALUNO("ALU"),PROFESSOR("PRO"),ADMINISTRATIVO("ADM");
 	
     private String value;
 
