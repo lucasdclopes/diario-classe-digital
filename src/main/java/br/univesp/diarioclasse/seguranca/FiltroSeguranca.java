@@ -41,32 +41,36 @@ public class FiltroSeguranca extends OncePerRequestFilter {
     		throws ServletException, IOException {
     	
     	//recupera o token dos cabeçalhos e procura por ele no banco. Carrega os dados do usuário para esta requisição
-    	String token = request.getHeader("token");
     	
-    	try {
-	    	if (token == null || token.isBlank())
-	    		throw new AutenticacaoException("header com o token não foi encontrado");
+    	if (!request.getMethod().equalsIgnoreCase("OPTIONS")) {
+    	
+	    	String token = request.getHeader("token");
 	    	
-	    	Login login = loginDao.findByTokenAcesso(token.strip()).orElseThrow(() -> new AutenticacaoException("O acesso é inválido. Realize login novamente"));
-	    	//verifica se faz mais de meia hora que o user fez algo. Se sim, invalida o acesso
-	    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(30, ChronoUnit.MINUTES)))
-	    		throw new AutenticacaoException("Seu acesso expirou devido a um longo tempo de inatividade");
-	    	else
-	    		login.atualizarUltimoAcesso();
-	    	
-	    	logado.idCadastro = login.getCadastro().getIdCadastro();
-	    	logado.tipoCadastro = login.getCadastro().getTipoCadastro();
-	    	
-    	} catch (AutenticacaoException e) {
-    		//monta o response http "na mão"
-    		response.setStatus(HttpStatus.UNAUTHORIZED.value());	
-    		response.setContentType("application/json");
-    		response.setCharacterEncoding("UTF8");
-    		ErroSimplesDto erro = handlerPadrao.handle(e);
-    		//Transforma o objeto em Json
-            String jsonResponse = new ObjectMapper().writeValueAsString(erro);		
-    		response.getWriter().write(jsonResponse);
-    		return;
+	    	try {
+		    	if (token == null || token.isBlank())
+		    		throw new AutenticacaoException("header com o token não foi encontrado");
+		    	
+		    	Login login = loginDao.findByTokenAcesso(token.strip()).orElseThrow(() -> new AutenticacaoException("O acesso é inválido. Realize login novamente"));
+		    	//verifica se faz mais de meia hora que o user fez algo. Se sim, invalida o acesso
+		    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(30, ChronoUnit.MINUTES)))
+		    		throw new AutenticacaoException("Seu acesso expirou devido a um longo tempo de inatividade");
+		    	else
+		    		login.atualizarUltimoAcesso();
+		    	
+		    	logado.idCadastro = login.getCadastro().getIdCadastro();
+		    	logado.tipoCadastro = login.getCadastro().getTipoCadastro();
+		    	
+	    	} catch (AutenticacaoException e) {
+	    		//monta o response http "na mão"
+	    		response.setStatus(HttpStatus.UNAUTHORIZED.value());	
+	    		response.setContentType("application/json");
+	    		response.setCharacterEncoding("UTF8");
+	    		ErroSimplesDto erro = handlerPadrao.handle(e);
+	    		//Transforma o objeto em Json
+	            String jsonResponse = new ObjectMapper().writeValueAsString(erro);		
+	    		response.getWriter().write(jsonResponse);
+	    		return;
+	    	}
     	}
   
     	
