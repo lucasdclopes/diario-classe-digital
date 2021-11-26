@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import br.univesp.diarioclasse.dto.responses.ErroCampoDto;
 import br.univesp.diarioclasse.dto.responses.ErroSimplesDto;
+import br.univesp.diarioclasse.exceptions.AutenticacaoException;
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
@@ -35,6 +36,15 @@ public class HandlerErros {
 
 	@Autowired
 	private MessageSource messageSource;
+	
+	
+	//Erros de login
+	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(AutenticacaoException.class)
+	public ErroSimplesDto handle(AutenticacaoException exception) {
+		return new ErroSimplesDto("Usuário ou senha inválidos");
+	}
+	
 	
 	//Erros de validação das anotações
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)

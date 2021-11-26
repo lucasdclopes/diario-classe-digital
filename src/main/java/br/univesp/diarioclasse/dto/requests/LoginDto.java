@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public record LoginDto(
-		@NotBlank @Email String email, 
+		@NotBlank @Email String emailLogin, 
 		@NotBlank String senha) {
 
 }
