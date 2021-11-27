@@ -60,7 +60,7 @@ public class LoginController {
 			String token = new GeradorToken().gerarTokenAcesso(login);
 			login.definirTokenAcesso(token);
 			loginDao.save(login);
-			return ResponseEntity.ok(new LoginOkDto(token,login.getCadastro().getIdCadastro(),login.getCadastro().getNome())
+			return ResponseEntity.ok(new LoginOkDto(token,login.getCadastro().getIdCadastro(),login.getCadastro().getNome(),login.getCadastro().getTipoCadastro())
 					); //responde com o token de acesso
 		}
 		

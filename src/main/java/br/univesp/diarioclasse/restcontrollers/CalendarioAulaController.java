@@ -90,7 +90,7 @@ public class CalendarioAulaController {
 	
 	@GetMapping
 	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
-			@PageableDefault(sort = {"diaSemana","turma.descTurma","hrInicio"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
+			@PageableDefault(sort = {"diaSemana","hrInicio","turma.descTurma"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
 		

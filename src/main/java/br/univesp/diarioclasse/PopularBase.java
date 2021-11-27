@@ -103,11 +103,11 @@ public class PopularBase  {
 				Sexo.MASCULINO, "Mãe", null,"teste@teste.com.br");
 		Aluno Switch = new Aluno("123465",LocalDate.now(),"123465", Optional.of(turmaMedioA), "Switch McClory", "31132802067", "31132802067", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe", null,"teste@teste.com.br");
-		Aluno Tank = new Aluno("123466",LocalDate.now(),"123466", Optional.of(turmaMedioA), "Tank Chong", "68529544048", "68529544048", LocalDate.now(), 
+		Aluno Tank = new Aluno("123466",LocalDate.now(),"123466", Optional.of(turmaFundamental14), "Tank Chong", "68529544048", "68529544048", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null,"teste@teste.com.br");
-		Aluno Trinity = new Aluno("123467",LocalDate.now(),"123467", Optional.of(turmaMedioA), "Trinity Moss", "92475725095", "92475725095", LocalDate.now(), 
+		Aluno Trinity = new Aluno("123467",LocalDate.now(),"123467", Optional.of(turmaFundamental7), "Trinity Moss", "92475725095", "92475725095", LocalDate.now(), 
 				Sexo.FEMININO, "Mãe", null,"teste@teste.com.br");
-		Aluno Donald = new Aluno("123468",LocalDate.now(),"123468", Optional.of(turmaMedioA), "Donald Gennaro", "55904133030", "55904133030", LocalDate.now(), 
+		Aluno Donald = new Aluno("123468",LocalDate.now(),"123468", Optional.of(turmaFundamental14), "Donald Gennaro", "55904133030", "55904133030", LocalDate.now(), 
 				Sexo.MASCULINO, "Mãe", null,"teste@teste.com.br");
 		
 		alunoDao.saveAll(Arrays.asList(
@@ -131,8 +131,7 @@ public class PopularBase  {
 		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "45269888041", "13131331313", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
 		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "97624893061", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
 		Professor Victor = new Professor(LocalDate.now(), Optional.of(fisF1), "Dr. Victor Frankenstein", "99448909012", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
-		Professor walter = new Professor(LocalDate.now(), Optional.of(quimF1), "Walter White", "19933688090", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
-		
+		Professor walter = new Professor(LocalDate.now(), Optional.of(quimF1), "Walter White", "19933688090", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"walter@white.com.br");
 		
 		Professor oracle = new Professor(LocalDate.now(), Optional.of(histMe), "O Oráculo", "95764898064", "15155515515", maiorDeIdade, Sexo.FEMININO, "nome da mãe", null,"teste@teste.com.br");
 		Professor ellie = new Professor(LocalDate.now(), Optional.of(bioMe), "Dr. Ellie Sattler", "98066036051", "1161666616", maiorDeIdade, Sexo.FEMININO, "nome da mãe", null,"teste@teste.com.br");
@@ -142,18 +141,29 @@ public class PopularBase  {
 		
 		profDao.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus,Emmet,walter,Victor,coop));
 		
+		Login loginwalter = new Login(walter.getEmailContato(), "123456",walter,new Cifrador());
+		
+		loginDao.save(loginwalter);
+		
 		//CalendarioAula aula1Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioF1, henry, turmaFundamental5);
 		//CalendarioAula aula2Calendario = new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(9,0), LocalTime.of(10, 0), bioMe, ellie, turmaMedioA);
 		calendarioAulaDao.saveAll(Arrays.asList(
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(07,0), LocalTime.of(8, 0), quimF1, walter, turmaFundamental7),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), quimF1, walter, turmaFundamental5),
+				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), quimF1, walter, turmaFundamental14),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(07,00), LocalTime.of(8,0), fisF1, Victor, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(07,00), LocalTime.of(8,0), fisMe, Emmet, turmaMedioA),
-				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), quimF1, walter, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(9,0), LocalTime.of(10, 0), quimMe, coop, turmaMedioA),				
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), histF1, alan, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turmaMedioA),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEGUNDA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA),
 			
+				
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(07,0), LocalTime.of(8, 0), quimF1, walter, turmaFundamental7),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), quimF1, walter, turmaFundamental5),
+				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(10,0), LocalTime.of(11, 0), quimF1, walter, turmaFundamental5),
+				
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(07,00), LocalTime.of(8,0), fisF1, Victor, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(07,00), LocalTime.of(8,0), fisMe, Emmet, turmaMedioA),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(9,0), LocalTime.of(10, 0), quimF1, walter, turmaFundamental5),
@@ -165,6 +175,9 @@ public class PopularBase  {
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.TERCA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA),
 				
+				
+				new CalendarioAula(DiaDaSemana.QUARTA, LocalTime.of(12,0), LocalTime.of(13, 0), quimF1, walter, turmaFundamental14),
+				new CalendarioAula(DiaDaSemana.QUARTA, LocalTime.of(13,0), LocalTime.of(14, 0), quimF1, walter, turmaFundamental14),
 				
 				new CalendarioAula(DiaDaSemana.QUARTA, LocalTime.of(07,00), LocalTime.of(8,0), fisF1, Victor, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.QUARTA, LocalTime.of(07,00), LocalTime.of(8,0), fisMe, Emmet, turmaMedioA),
@@ -187,6 +200,8 @@ public class PopularBase  {
 				new CalendarioAula(DiaDaSemana.QUINTA, LocalTime.of(10,0), LocalTime.of(11, 0), matMe, Morpheus, turmaMedioA),
 				new CalendarioAula(DiaDaSemana.QUINTA, LocalTime.of(11,30), LocalTime.of(12, 30), matF1, ian, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.QUINTA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA),
+				
+				new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(12,0), LocalTime.of(13, 0), quimF1, walter, turmaFundamental7),
 				
 				new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(07,00), LocalTime.of(8,0), fisF1, Victor, turmaFundamental5),
 				new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(07,00), LocalTime.of(8,0), fisMe, Emmet, turmaMedioA),
