@@ -68,7 +68,8 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 	    		response.setContentType("application/json");
 	            response.setHeader("Access-Control-Allow-Origin", corsOrigin);
 	            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    		response.setCharacterEncoding("UTF8");
+	    		response.setHeader("Access-Control-Expose-Headers", "*");
+	            response.setCharacterEncoding("UTF8");
 	    		ErroSimplesDto erro = handlerPadrao.handle(e);
 	    		//Transforma o objeto em Json
 	            String jsonResponse = new ObjectMapper().writeValueAsString(erro);		
