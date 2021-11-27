@@ -9,9 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,12 +27,15 @@ import br.univesp.diarioclasse.restcontrollers.HandlerErros;
 public class FiltroSeguranca extends OncePerRequestFilter {
 
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(FiltroSeguranca.class);
+	//private static final Logger LOGGER = LoggerFactory.getLogger(FiltroSeguranca.class);
 	
 	@Autowired private LoginRepository loginDao;
 	@Autowired private UsuarioLogado logado;
 	
 	@Autowired private HandlerErros handlerPadrao; //não cai automático no handler padrão quando estamos em um filtro
+	
+	@Value("${cors.allowedOrigins}")
+	private String corsOrigin;
 	
 	//roda antes de todas as requisições (exceto na /Login) para verificar se o token é válido
     @Override
@@ -64,6 +66,8 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 	    		//monta o response http "na mão"
 	    		response.setStatus(HttpStatus.UNAUTHORIZED.value());	
 	    		response.setContentType("application/json");
+	            response.setHeader("Access-Control-Allow-Origin", corsOrigin);
+	            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	    		response.setCharacterEncoding("UTF8");
 	    		ErroSimplesDto erro = handlerPadrao.handle(e);
 	    		//Transforma o objeto em Json
