@@ -1,6 +1,7 @@
 package br.univesp.diarioclasse.restcontrollers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -48,6 +49,9 @@ public class HandlerErros {
 	}
 	
 	
+	//Sempre volta uma lista quando é 422, mesmo que só tenha um erro.
+	//Fica mais fácil pro client caso ele já saiba que o 422 é semper uma lista
+	
 	//Erros de validação das anotações
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -67,22 +71,22 @@ public class HandlerErros {
 	//Erro de valores inválidos de regras do domínio
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(DadosInvalidosException.class)
-	public ErroCampoDto handle(DadosInvalidosException exception) {
-		return new ErroCampoDto(exception.getCampoInvalido(), exception.getMessage());
+	public List<ErroCampoDto> handle(DadosInvalidosException exception) {
+		return Arrays.asList(new ErroCampoDto(exception.getCampoInvalido(), exception.getMessage()));
 	}
 	
 	//Erro de operação inválida para a situação daquele objeto
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(EstadoObjetoInvalidoExcpetion.class)
-	public ErroSimplesDto handle(EstadoObjetoInvalidoExcpetion exception) {
-		return new ErroSimplesDto(exception.getMessage());
+	public List<ErroSimplesDto> handle(EstadoObjetoInvalidoExcpetion exception) {
+		return Arrays.asList(new ErroSimplesDto(exception.getMessage()));
 	}
 
 	//valores de constantes inválidos
 	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(ConstanteInvalidaException.class)
-	public ErroSimplesDto handle(ConstanteInvalidaException exception) {
-		return new ErroSimplesDto(exception.getMessage());
+	public List<ErroSimplesDto> handle(ConstanteInvalidaException exception) {
+		return Arrays.asList(new ErroSimplesDto(exception.getMessage()));
 	}
 	
 	//erro de duplicidade. Já existe o que está tentando gravar
