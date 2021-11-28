@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TipoNivelEnsino implements IEnumParseavel {
 	
-	INFANTIL("IN","Ensino infantil"),
-	FUNDAMENTAL_I("F1","Ensino fundamental I"),
-	FUNDAMENTAL_II("F2","Ensino fundamental II"),
-	MEDIO("ME","Ensino Médio");
+	INFANTIL("IN","Infantil"),
+	FUNDAMENTAL_I("F1","Fundamental I"),
+	FUNDAMENTAL_II("F2","Fundamental II"),
+	MEDIO("ME","Médio");
 	
 	private String value;
 	private String valueAmigavel;
