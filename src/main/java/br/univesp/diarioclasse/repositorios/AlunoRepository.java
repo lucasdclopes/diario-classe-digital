@@ -47,5 +47,14 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 			""")
 	Page<ListaAlunosDto> paginar(String cpf, String ra, String nroMatricula, String nome,Pageable paginacao);
 	
+	@Query(value =  """ 
+			SELECT  count(*) as totalFaltas
+			FROM cadastro_alunos al
+			JOIN aula_presenca_alunos pres ON al.id_aluno = pres.id_aluno
+			WHERE al.id_aluno = :idAluno 
+			AND pres.is_presente = 'false'
+			""", nativeQuery = true) //nativeQuery, roda SQL nativo direto no sql server, ao invés de utilizar o JPA
+	public Long calcularTotalFaltas(Integer idAluno);
+	
 	
 }
