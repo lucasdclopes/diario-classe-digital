@@ -34,7 +34,7 @@ import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
 
 @RestController
-@RequestMapping("/alunos")
+@RequestMapping("/api/alunos")
 public class AlunoController {
 
 	@Autowired private AlunoRepository alunoDao;

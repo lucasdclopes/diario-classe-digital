@@ -29,7 +29,7 @@ import br.univesp.diarioclasse.seguranca.Cifrador;
 import br.univesp.diarioclasse.seguranca.GeradorToken;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class LoginController {
 	
 	@Autowired private LoginRepository loginDao;

@@ -41,7 +41,7 @@ import br.univesp.diarioclasse.repositorios.AulaRepository;
 import br.univesp.diarioclasse.repositorios.CalendarioAulaRepository;
 
 @RestController
-@RequestMapping("/aulas")
+@RequestMapping("/api/aulas")
 public class AulaController {
 
 	@Autowired private AulaRepository aulaDao;

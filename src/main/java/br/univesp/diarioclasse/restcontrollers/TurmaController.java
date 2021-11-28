@@ -37,7 +37,7 @@ import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.TurmaRepository;
 
 @RestController
-@RequestMapping("/turmas")
+@RequestMapping("/api/turmas")
 public class TurmaController {
 
 	@Autowired private TurmaRepository turmaDao;

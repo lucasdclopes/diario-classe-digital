@@ -86,6 +86,6 @@ public class FiltroSeguranca extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) //não roda o filtro para o /Login. 
     		throws ServletException {
         String path = request.getRequestURI();
-        return "/logar".equals(path);
+        return (!path.startsWith("/api")) || path.equals("/api/logar");
     }
 }

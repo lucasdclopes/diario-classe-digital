@@ -37,7 +37,7 @@ import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.repositorios.MateriaRepository;
 
 @RestController
-@RequestMapping("/materias")
+@RequestMapping("/api/materias")
 public class MateriaController {
 
 	@Autowired private MateriaRepository materiaDao;

@@ -33,7 +33,7 @@ import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 
 @RestController
-@RequestMapping("/professores")
+@RequestMapping("/api/professores")
 public class ProfessorController {
 
 	@Autowired private ProfessorRepository professorDao;
