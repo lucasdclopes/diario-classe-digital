@@ -233,7 +233,10 @@ public class PopularBase  {
 				new CalendarioAula(DiaDaSemana.SEXTA, LocalTime.of(11,30), LocalTime.of(12, 30), histMe, oracle, turmaMedioA),
 				
 				new CalendarioAula(DiaDaSemana.SABADO, LocalTime.of(9,0), LocalTime.of(10, 0), quimF1, walter, turmaFundamental5),
-				new CalendarioAula(DiaDaSemana.SABADO, LocalTime.of(10,0), LocalTime.of(11, 0), quimF1, walter, turmaFundamental5)
+				new CalendarioAula(DiaDaSemana.SABADO, LocalTime.of(10,0), LocalTime.of(11, 0), quimF1, walter, turmaFundamental5),
+				
+				new CalendarioAula(DiaDaSemana.DOMINGO, LocalTime.of(13,10), LocalTime.of(14, 00), matF1, ian, turmaFundamental5),
+				new CalendarioAula(DiaDaSemana.DOMINGO, LocalTime.of(14,00), LocalTime.of(14, 50), matF1, ian, turmaFundamental5)
 				
 				));
 		

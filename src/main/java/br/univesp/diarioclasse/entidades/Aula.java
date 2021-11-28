@@ -187,7 +187,7 @@ public class Aula implements Serializable {
 			throw new EstadoObjetoInvalidoExcpetion("A aula atual já está finalizada");
 		}
 		if (!this.isTodosOsAlunosVerificados())
-			throw new EstadoObjetoInvalidoExcpetion("Nem todos os alunos foram considerados na lista de presença");
+			throw new EstadoObjetoInvalidoExcpetion("A lista de presenças ainda não foi salva!");
 		this.dtHrFinalizada = hrFinalizacao;
 		this.statusAula = StatusAula.FINALIZADA;
 	}
