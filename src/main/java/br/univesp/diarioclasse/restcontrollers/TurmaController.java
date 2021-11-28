@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.TurmaRepository;
+import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @RestController
 @RequestMapping("/api/turmas")
@@ -42,6 +44,7 @@ public class TurmaController {
 
 	@Autowired private TurmaRepository turmaDao;
 	@Autowired private DtoMappers mappers;
+	@Autowired private UsuarioLogado usuarioLogado;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody TurmaDto dto, UriComponentsBuilder uriBuilder) 
@@ -62,6 +65,14 @@ public class TurmaController {
 		Long totalFaltas = turmaDao.calcularTotalFaltasTurma(id);
 		DetalhesTurmaDto detalhes = mappers.turmaPataDetalhesDto(turma,totalFaltas);
 		return ResponseEntity.ok(detalhes);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deletarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
+		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		turma.validarDelecao(usuarioLogado);
+		turmaDao.delete(turma);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/{id}")

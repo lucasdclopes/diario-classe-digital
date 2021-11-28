@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import br.univesp.diarioclasse.dto.responses.ErroCampoDto;
 import br.univesp.diarioclasse.dto.responses.ErroSimplesDto;
 import br.univesp.diarioclasse.exceptions.AutenticacaoException;
+import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.ConstanteInvalidaException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
@@ -45,6 +46,15 @@ public class HandlerErros {
 	public ErroSimplesDto handle(AutenticacaoException exception) {
 		return new ErroSimplesDto(
 				exception.getMessage()!=null?exception.getMessage():"Usuário ou senha inválidos"
+					);
+	}
+	
+	//Erros de permissão de acesso
+	@ResponseStatus(code = HttpStatus.FORBIDDEN)
+	@ExceptionHandler(AutorizacaoException.class)
+	public ErroSimplesDto handle(AutorizacaoException exception) {
+		return new ErroSimplesDto(
+				exception.getMessage()!=null?exception.getMessage():"Você não possui permissão para acessar este recurso"
 					);
 	}
 	

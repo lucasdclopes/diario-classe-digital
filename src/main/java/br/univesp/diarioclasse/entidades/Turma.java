@@ -20,9 +20,12 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.PeriodoEstudo;
+import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
+import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
+import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @Entity
 @Table(name = "turmas")
@@ -50,7 +53,7 @@ public class Turma implements Serializable {
 	private List<Aula> aulas = new ArrayList<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "turma", fetch = FetchType.LAZY,orphanRemoval = true)
 	private List<CalendarioAula> tiposAulas = new ArrayList<>();
 	
 	/**
@@ -68,6 +71,15 @@ public class Turma implements Serializable {
 	public void validar (TurmaUnica turmaUnica) throws EntidadeJaExisteException {
 		if (turmaUnica.existsByDescTurmaAndTpNivelEnsino(this.descTurma,this.tpNivelEnsino))
 			throw new EntidadeJaExisteException("Já existe outra turma com este nome no " + this.tpNivelEnsino.getDescricaoAmigavel() , "descTurma");
+	}
+	
+	public void validarDelecao(UsuarioLogado usuarioLogado) throws EstadoObjetoInvalidoExcpetion {
+		if (usuarioLogado.getTipoCadastro() != TipoCadastro.ADMINISTRATIVO )
+			throw new AutorizacaoException("Somente um administrador pode deletar uma turma");
+		if (!this.aulas.isEmpty())
+			throw new EstadoObjetoInvalidoExcpetion("Existem aulas que foram dadas para esta turma. Por isso, para garantir a integridade dos dados, não é possível deleta-la");
+		if (!this.alunos.isEmpty())
+			throw new EstadoObjetoInvalidoExcpetion("Não é possível deletar uma turma que possua alunos");
 	}
 	
 	public void atualizarDescTurma(String descTurma, TurmaUnica turmaUnica) throws EntidadeJaExisteException {

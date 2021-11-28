@@ -59,8 +59,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 		    	else
 		    		login.atualizarUltimoAcesso();
 		    	
-		    	logado.idCadastro = login.getCadastro().getIdCadastro();
-		    	logado.tipoCadastro = login.getCadastro().getTipoCadastro();
+		    	logado.carregarUsuarioLogado(login);
 		    	
 	    	} catch (AutenticacaoException e) {
 	    		//monta o response http "na mão"
