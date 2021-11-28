@@ -9,8 +9,9 @@ import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.AlunoExistente;
 import br.univesp.diarioclasse.entidades.CadastroExistente;
+import br.univesp.diarioclasse.entidades.CalculadoraFaltasAluno;
 
-public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExistente, CadastroExistente {
+public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExistente, CadastroExistente, CalculadoraFaltasAluno {
 	
 	/*
 	@Query(value = """  
@@ -47,6 +48,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 			""")
 	Page<ListaAlunosDto> paginar(String cpf, String ra, String nroMatricula, String nome,Pageable paginacao);
 	
+	@Override
 	@Query(value =  """ 
 			SELECT  count(*) as totalFaltas
 			FROM cadastro_alunos al

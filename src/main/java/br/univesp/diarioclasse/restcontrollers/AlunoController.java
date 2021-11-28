@@ -84,7 +84,7 @@ public class AlunoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		Aluno aluno = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
-		Long totalFaltas = alunoDao.calcularTotalFaltas(id);
+		aluno.calcularTotalFaltas(alunoDao);
 		return ResponseEntity.ok(aluno);
 	}
 	

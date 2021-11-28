@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import br.univesp.diarioclasse.dto.requests.CadastroDto;
 import br.univesp.diarioclasse.dto.requests.EnderecoDto;
 import br.univesp.diarioclasse.dto.requests.TelefoneDto;
+import br.univesp.diarioclasse.dto.responses.AlunoDadosBasicosDto;
 import br.univesp.diarioclasse.dto.responses.CadastroDadosBasicosDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto;
 import br.univesp.diarioclasse.dto.responses.ListaMateriasDto;
@@ -14,6 +15,7 @@ import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesAulaDto.PresencaAlunoAulaDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesTurmaDto;
 import br.univesp.diarioclasse.dto.responses.ListaAulasDto;
+import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Aula;
 import br.univesp.diarioclasse.entidades.Cadastro;
 import br.univesp.diarioclasse.entidades.CadastroExistente;
@@ -47,12 +49,16 @@ public class DtoMappers {
 	
 	public DetalhesTurmaDto turmaPataDetalhesDto(Turma turma, Long totalFaltas) {
 		return new DetalhesTurmaDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino(),
-				turma.getAlunos().stream().map(this::cadastroParaDtoSimples).toList(),
+				turma.getAlunos().stream().map(this::alunoParaDtoSimples).toList(),
 				totalFaltas);
 	}
 	
 	public CadastroDadosBasicosDto cadastroParaDtoSimples(Cadastro cadastro) {
 		return new CadastroDadosBasicosDto(cadastro.getIdCadastro(), cadastro.getNome());
+	}
+	
+	public AlunoDadosBasicosDto alunoParaDtoSimples(Aluno aluno) {
+		return new AlunoDadosBasicosDto(aluno.getIdCadastro(), aluno.getNome(), aluno.getNroMatricula(),aluno.getRa());
 	}
 	
 	public ListaAulasDto aulaParaDto(Aula aula) {

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -49,6 +50,9 @@ public class Aluno extends Cadastro implements Serializable {
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
 	
+	@Transient //não é gravado no banco. Campo calculado
+	private Long totalFaltas;
+	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
 	 */
@@ -70,6 +74,10 @@ public class Aluno extends Cadastro implements Serializable {
 		super.validarSeJaExiste(cadastroExistente);
 		validarSeJaExisteMatricula(alunoExistente);
 		validarSeJaExisteRa(alunoExistente);
+	}
+	
+	public void calcularTotalFaltas(CalculadoraFaltasAluno calc) {
+		this.totalFaltas = calc.calcularTotalFaltas(this.getIdAluno());
 	}
 	
 	private void validarSeJaExisteMatricula(AlunoExistente alunoExistente) throws EntidadeJaExisteException {
@@ -134,8 +142,10 @@ public class Aluno extends Cadastro implements Serializable {
 	public List<AulaPresencaAluno> getPresencaAlunos() {
 		return Collections.unmodifiableList(presencaAlunos);
 	}
-
-
+	
+	public Long getTotalFaltas() {
+		return totalFaltas;
+	}
 
 	@Override
 	public int hashCode() {
