@@ -184,7 +184,7 @@ public class Aula implements Serializable {
 	 */
 	public void finalizarAula(LocalDateTime hrFinalizacao) throws EstadoObjetoInvalidoExcpetion {
 		if ( this.statusAula==StatusAula.FINALIZADA ) {
-			throw new EstadoObjetoInvalidoExcpetion("Só é possível iniciar uma aula em andamento. A aula atual está " + statusAula.name().toLowerCase());
+			throw new EstadoObjetoInvalidoExcpetion("A aula atual já está finalizada");
 		}
 		if (!this.isTodosOsAlunosVerificados())
 			throw new EstadoObjetoInvalidoExcpetion("Nem todos os alunos foram considerados na lista de presença");
