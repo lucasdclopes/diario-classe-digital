@@ -45,9 +45,10 @@ public class DtoMappers {
 		return new ListaTurmasDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino());
 	}
 	
-	public DetalhesTurmaDto turmaPataDetalhesDto(Turma turma) {
+	public DetalhesTurmaDto turmaPataDetalhesDto(Turma turma, Long totalFaltas) {
 		return new DetalhesTurmaDto(turma.getIdTurma(), turma.getDescTurma(), turma.getTpPeriodo(), turma.getTpNivelEnsino(),
-				turma.getAlunos().stream().map(this::cadastroParaDtoSimples).toList());
+				turma.getAlunos().stream().map(this::cadastroParaDtoSimples).toList(),
+				totalFaltas);
 	}
 	
 	public CadastroDadosBasicosDto cadastroParaDtoSimples(Cadastro cadastro) {

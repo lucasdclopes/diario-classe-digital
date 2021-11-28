@@ -10,4 +10,5 @@ public record DetalhesTurmaDto(
 		String descTurma,
 		PeriodoEstudo tpPeriodo,
 		TipoNivelEnsino tpNivelEnsino,
-		List<CadastroDadosBasicosDto> alunos) {}
+		List<CadastroDadosBasicosDto> alunos,
+		Long totalFaltas) {}

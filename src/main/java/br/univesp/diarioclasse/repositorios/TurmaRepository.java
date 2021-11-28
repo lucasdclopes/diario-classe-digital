@@ -36,4 +36,13 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer>, TurmaUni
 	Page<ListaTurmasDto> paginar(String descTurma, TipoNivelEnsino tpNivelEnsino, PeriodoEstudo tpPeriodo,
 			Pageable paginacao);
 	
+	@Query(value =  """ 
+			SELECT count(*) as totalFaltas
+			FROM turmas tur
+			JOIN cadastro_alunos al ON tur.id_turma = al.id_turma
+			JOIN aula_presenca_alunos pres ON al.id_aluno = pres.id_aluno
+			WHERE pres.is_presente = 'false'
+			""", nativeQuery = true) //nativeQuery, roda SQL nativo direto no sql server, ao invés de utilizar o JPA
+	public Long calcularTotalFaltasTurma(Integer idTurma);
+	
 }

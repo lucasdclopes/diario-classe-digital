@@ -2,7 +2,6 @@ package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -59,8 +58,9 @@ public class TurmaController {
 	@GetMapping("/{id}")
 	public ResponseEntity<DetalhesTurmaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		//TODO: Retornar os alunos da turma e o calendário de aulas da turma com um detalhesdto
-		Optional<Turma> turma = turmaDao.findById(id);
-		DetalhesTurmaDto detalhes = mappers.turmaPataDetalhesDto(turma.orElseThrow(() -> new EntidadeNaoEncontradaException()));
+		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		Long totalFaltas = turmaDao.calcularTotalFaltasTurma(id);
+		DetalhesTurmaDto detalhes = mappers.turmaPataDetalhesDto(turma,totalFaltas);
 		return ResponseEntity.ok(detalhes);
 	}
 	
