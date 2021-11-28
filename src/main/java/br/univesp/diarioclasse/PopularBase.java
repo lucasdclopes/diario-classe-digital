@@ -146,7 +146,7 @@ public class PopularBase  {
 		
 		Professor henry = new Professor(LocalDate.now(), Optional.of(bioF1), "Dr. Henry Wu", "15417265020", "121212121212", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
 		Professor alan = new Professor(LocalDate.now(), Optional.of(histF1), "Dr. Alan Grant", "45269888041", "13131331313", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
-		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "97624893061", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"ian@malcon.com.br");
+		Professor ian = new Professor(LocalDate.now(), Optional.of(matF1), "Dr. Ian Malcolm", "97624893061", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"ian@maicon.com.br");
 		Professor Victor = new Professor(LocalDate.now(), Optional.of(fisF1), "Dr. Victor Frankenstein", "99448909012", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"teste@teste.com.br");
 		Professor walter = new Professor(LocalDate.now(), Optional.of(quimF1), "Walter White", "19933688090", "1414141414", maiorDeIdade, Sexo.MASCULINO, "nome da mãe", null,"walter@white.com.br");
 		
