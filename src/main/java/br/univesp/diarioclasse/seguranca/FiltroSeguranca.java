@@ -59,6 +59,8 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 		    	else
 		    		login.atualizarUltimoAcesso();
 		    	
+		    	loginDao.save(login);
+		    	
 		    	logado.carregarUsuarioLogado(login);
 		    	
 	    	} catch (AutenticacaoException e) {
