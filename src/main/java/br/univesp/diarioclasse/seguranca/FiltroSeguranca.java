@@ -37,6 +37,9 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 	@Value("${cors.allowedOrigins}")
 	private String corsOrigin;
 	
+	@Value("${seguranca.token.expira-minutos}")
+	private String minExpiraToken;
+	
 	//roda antes de todas as requisições (exceto na /Login) para verificar se o token é válido
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -54,7 +57,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 		    	
 		    	Login login = loginDao.findByTokenAcesso(token.strip()).orElseThrow(() -> new AutenticacaoException("O acesso é inválido. Realize login novamente"));
 		    	//verifica se faz mais de meia hora que o user fez algo. Se sim, invalida o acesso
-		    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(30, ChronoUnit.MINUTES)))
+		    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(Long.parseLong(minExpiraToken), ChronoUnit.MINUTES)))
 		    		throw new AutenticacaoException("Seu acesso expirou devido a um longo tempo de inatividade");
 		    	else
 		    		login.atualizarUltimoAcesso();

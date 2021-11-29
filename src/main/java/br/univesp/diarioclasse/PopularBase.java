@@ -54,7 +54,7 @@ public class PopularBase  {
 		cadDao.save(adm);
 		
 		
-		Login login = new Login(adm.getEmailContato(), "123456",adm,new Cifrador());
+		Login login = new Login(adm.getEmailContato(), "1234567",adm,new Cifrador());
 		
 		loginDao.save(login);
 		
@@ -158,7 +158,7 @@ public class PopularBase  {
 		
 		profDao.saveAll(Arrays.asList(henry,alan,ian,oracle,ellie,Morpheus,Emmet,walter,Victor,coop));
 		
-		Login loginwalter = new Login(walter.getEmailContato(), "123456",walter,new Cifrador());
+		Login loginwalter = new Login(walter.getEmailContato(), "12345",walter,new Cifrador());
 		Login loginian = new Login(ian.getEmailContato(), "123456",ian,new Cifrador());
 		
 		loginDao.saveAll(Arrays.asList(loginwalter,loginian));
