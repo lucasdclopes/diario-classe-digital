@@ -59,6 +59,7 @@ public class CalendarioAula implements Serializable {
 	public CalendarioAula(DiaDaSemana diaSemana, LocalTime hrInicio, LocalTime hrFim,
 			Materia materia, Professor professor, Turma turma) throws DadosInvalidosException {
 		
+		//Valida se este objeto pode ser de fato constrúido com os dados informados
 		if (hrFim.isBefore(hrInicio))
 			throw new DadosInvalidosException("A aula não pode terminar antes de ter começado", "hrInicio");
 		
@@ -80,6 +81,10 @@ public class CalendarioAula implements Serializable {
 		this.turma = turma;
 	}
 
+	/**
+	 * Valida se os dados são consistantes
+	 * @param calendarioDao interface com o método de validação de horários
+	 */
 	public void validar(CalendarioAulaExistente calendarioDao) throws DadosInvalidosException{
 		if (calendarioDao.verificaConflitoHorarios(hrInicio, hrFim, diaSemana, turma.getIdTurma(), professor.getIdCadastro()))
 			throw new DadosInvalidosException(

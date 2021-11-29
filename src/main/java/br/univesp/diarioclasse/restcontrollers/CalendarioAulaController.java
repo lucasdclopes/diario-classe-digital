@@ -45,17 +45,28 @@ import br.univesp.diarioclasse.repositorios.TurmaRepository;
 @RequestMapping("/api/calendario-aulas")
 public class CalendarioAulaController {
 
+	/**
+	 * Objetos de acesso ao dados. Este controller precisa trabalhar com várias entidades
+	 */
 	@Autowired private CalendarioAulaRepository calendarioDao;
 	@Autowired private ProfessorRepository professorDao;
 	@Autowired private MateriaRepository materiaDao;
 	@Autowired private TurmaRepository turmaDao;
 	
+	/**
+	 * Ajuda a converter os dados das entidades para classes dtos
+	 */
 	@Autowired private DtoMappers mappers;
 	
+	/**
+	 * Nova aula no calendário
+	 */
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody CalendarioAulaDto dto, UriComponentsBuilder uriBuilder) 
 			throws EntidadeJaExisteException, DadosInvalidosException, EntidadeNaoEncontradaException{
 		
+		
+		//busca as entidades de materia, professor e turma e as utiliza para inicializar um calendario de aula
 		CalendarioAula calendario = new CalendarioAula(
 				dto.diaSemana(),dto.hrInicio(),dto.hrFim(),
 				materiaDao.findById(dto.idMateria()).orElseThrow(() -> new EntidadeNaoEncontradaException("A matéria informada não foi encontrada")),
@@ -63,17 +74,21 @@ public class CalendarioAulaController {
 				turmaDao.findById(dto.idTurma()).orElseThrow(() -> new EntidadeNaoEncontradaException("A turma informada não foi encontrada"))
 				);
 		
-		calendario.validar(calendarioDao);
-		Integer id = calendarioDao.save(calendario).getIdCalendarioAula();
+		calendario.validar(calendarioDao); //valida se os dados são consistentes
+		Integer id = calendarioDao.save(calendario).getIdCalendarioAula();//salva, recupera o id e retorna para o client da api
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/calendario-aulas/{id}",id);
 		return ResponseEntity.created(uri).build();
 
 	}
 	
+	/**
+	 * Busca dados detalhados de uma aula do calendário
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<DetalhesCalendarioAulaDto> encontrarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException{
 		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		
+		//busca as entidades de materia, cadastro e turma para retornar dado de calendário
 		Materia materia = calendario.getMateria();
 		Professor professor = calendario.getProfessor();
 		Turma turma = calendario.getTurma();
@@ -88,12 +103,17 @@ public class CalendarioAulaController {
 		return ResponseEntity.ok(detalhes);
 	}
 	
+	/**
+	 * Retorna dados em página do calendário de aula
+	 */
 	@GetMapping
 	public ResponseEntity<List<ListaCalendarioAulaDto>> listar(CalendarioAulaParams params,
 			@PageableDefault(sort = {"diaSemana","hrInicio","turma.descTurma"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
+		//tem um Pageable default caso o client da api não informe dados de paginação
 		
+		//vai na Dao e recupera alguns dados. O próprio spring filtra a paginação
 		Page<ListaCalendarioAulaDto> pagina = calendarioDao.paginar(
 				IEnumParseavel.valueOfTratado(params.diaSemana(),DiaDaSemana.class), 
 				params.idTurma(), params.idMateria(),params.idProfessor(), params.hrAula(), paginacao);
@@ -106,10 +126,13 @@ public class CalendarioAulaController {
 	
 	
 	
+	/**
+	 * Deleta uma aula do calendário
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> remover(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
 		
-		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());//não existe, retorna com erro
 		calendarioDao.delete(calendario);
 		return ResponseEntity.noContent().build();
 		
