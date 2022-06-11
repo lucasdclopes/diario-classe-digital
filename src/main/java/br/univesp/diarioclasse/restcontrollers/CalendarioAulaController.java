@@ -78,7 +78,6 @@ public class CalendarioAulaController {
 		Integer id = calendarioDao.save(calendario).getIdCalendarioAula();//salva, recupera o id e retorna para o client da api
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/calendario-aulas/{id}",id);
 		return ResponseEntity.created(uri).build();
-
 	}
 	
 	/**
@@ -97,9 +96,7 @@ public class CalendarioAulaController {
 				mappers.materiaParaDto(materia), 
 				mappers.cadastroParaDtoSimples(professor), 
 				mappers.turmaPataDto(turma)
-				);
-
-		
+				);	
 		return ResponseEntity.ok(detalhes);
 	}
 	
@@ -120,12 +117,9 @@ public class CalendarioAulaController {
 		if (pagina.hasContent()) 
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		else
-			throw new EntidadeNaoEncontradaException();
-			
+			throw new EntidadeNaoEncontradaException();		
 	}
-	
-	
-	
+
 	/**
 	 * Deleta uma aula do calendário
 	 */
@@ -134,9 +128,6 @@ public class CalendarioAulaController {
 		
 		CalendarioAula calendario = calendarioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());//não existe, retorna com erro
 		calendarioDao.delete(calendario);
-		return ResponseEntity.noContent().build();
-		
-		
-	}
-	
+		return ResponseEntity.noContent().build();				
+	}	
 }

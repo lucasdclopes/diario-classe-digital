@@ -47,39 +47,39 @@ public class FiltroSeguranca extends OncePerRequestFilter {
     	
     	//recupera o token dos cabeçalhos e procura por ele no banco. Carrega os dados do usuário para esta requisição
     	
-    	if (!request.getMethod().equalsIgnoreCase("OPTIONS")) {
+    	if (request.getMethod().equalsIgnoreCase("OPTIONS")) //OPTIONS não tem autenticação, serve pro client ver as informações do CORS
+    		return;
     	
-	    	String token = request.getHeader("token");
+    	String token = request.getHeader("token");
+    	
+    	try {
+	    	if (token == null || token.isBlank())
+	    		throw new AutenticacaoException("header com o token não foi encontrado");
 	    	
-	    	try {
-		    	if (token == null || token.isBlank())
-		    		throw new AutenticacaoException("header com o token não foi encontrado");
-		    	
-		    	Login login = loginDao.findByTokenAcesso(token.strip()).orElseThrow(() -> new AutenticacaoException("O acesso é inválido. Realize login novamente"));
-		    	//verifica se faz mais de meia hora que o user fez algo. Se sim, invalida o acesso
-		    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(Long.parseLong(minExpiraToken), ChronoUnit.MINUTES)))
-		    		throw new AutenticacaoException("Seu acesso expirou devido a um longo tempo de inatividade");
-		    	else
-		    		login.atualizarUltimoAcesso();
-		    	
-		    	loginDao.save(login);
-		    	
-		    	logado.carregarUsuarioLogado(login);
-		    	
-	    	} catch (AutenticacaoException e) {
-	    		//monta o response http "na mão"
-	    		response.setStatus(HttpStatus.UNAUTHORIZED.value());	
-	    		response.setContentType("application/json");
-	            response.setHeader("Access-Control-Allow-Origin", corsOrigin);
-	            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    		response.setHeader("Access-Control-Expose-Headers", "*");
-	            response.setCharacterEncoding("UTF8");
-	    		ErroSimplesDto erro = handlerPadrao.handle(e);
-	    		//Transforma o objeto em Json
-	            String jsonResponse = new ObjectMapper().writeValueAsString(erro);		
-	    		response.getWriter().write(jsonResponse);
-	    		return;
-	    	}
+	    	Login login = loginDao.findByTokenAcesso(token.strip()).orElseThrow(() -> new AutenticacaoException("O acesso é inválido. Realize login novamente"));
+	    	//verifica se faz mais de minExpiraToken minutos que o user fez algo. Se sim, invalida o acesso
+	    	if (LocalDateTime.now().isAfter(login.getDtUltimoAcesso().plus(Long.parseLong(minExpiraToken), ChronoUnit.MINUTES)))
+	    		throw new AutenticacaoException("Seu acesso expirou devido a um longo tempo de inatividade");
+	    	else
+	    		login.atualizarUltimoAcesso();
+	    	
+	    	loginDao.save(login);
+	    	
+	    	logado.carregarUsuarioLogado(login);
+	    	
+    	} catch (AutenticacaoException e) {
+    		//monta o response http "na mão"
+    		response.setStatus(HttpStatus.UNAUTHORIZED.value());	
+    		response.setContentType("application/json");
+            response.setHeader("Access-Control-Allow-Origin", corsOrigin);
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    		response.setHeader("Access-Control-Expose-Headers", "*");
+            response.setCharacterEncoding("UTF8");
+    		ErroSimplesDto erro = handlerPadrao.handle(e);
+    		//Transforma o objeto em Json
+            String jsonResponse = new ObjectMapper().writeValueAsString(erro);		
+    		response.getWriter().write(jsonResponse);
+    		return;
     	}
   
     	

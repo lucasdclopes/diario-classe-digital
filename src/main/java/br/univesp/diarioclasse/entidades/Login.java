@@ -54,10 +54,16 @@ public class Login {
 			throw new EntidadeJaExisteException("Já existe um login com este email","emailLogin");
 	}
 	
+	/**
+	 * Testa se a senha enviada é igual a senha armazenada (sempre hasheado)
+	 */
 	public boolean isSenhaValida(String senhaTentiva, Cifrador cifrador) {
 		return (this.senha.equals(cifrador.hashearSenha(senhaTentiva.strip())));
 	}
 	
+	/**
+	 * Gera e guarda um novo token de acesso
+	 */
 	public void definirTokenAcesso(String token) {
 		this.tokenAcesso = token;
 		this.dtCriacaoTokenAtual = LocalDateTime.now();
