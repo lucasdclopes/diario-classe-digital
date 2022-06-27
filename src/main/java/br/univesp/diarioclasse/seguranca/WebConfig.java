@@ -18,11 +18,12 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 		.allowedOrigins(corsOrigin)	        
 		.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
+		.allowCredentials(true)
 		.exposedHeaders("*"); 
 	}
 	
 	/**
-	 * Necessário para redireciotar as requests do react para o index.html dele
+	 * Necessário para redirecionar as requests do react para o index.html dele
 	 */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

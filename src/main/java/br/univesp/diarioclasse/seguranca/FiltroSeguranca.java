@@ -47,8 +47,10 @@ public class FiltroSeguranca extends OncePerRequestFilter {
     	
     	//recupera o token dos cabeçalhos e procura por ele no banco. Carrega os dados do usuário para esta requisição
     	
-    	if (request.getMethod().equalsIgnoreCase("OPTIONS")) //OPTIONS não tem autenticação, serve pro client ver as informações do CORS
+    	if (request.getMethod().equalsIgnoreCase("OPTIONS")) {  //OPTIONS não tem autenticação, serve pro client ver as informações do CORS
+    		filterChain.doFilter(request, response);
     		return;
+    	}
     	
     	String token = request.getHeader("token");
     	
