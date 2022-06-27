@@ -62,8 +62,9 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	
 	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
-			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai, String emailContato) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO, emailContato);
+			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai, String emailContato, 
+			Endereco endResidencial, Endereco endComercial, Telefone telCelular, Telefone telFixo) throws DadosInvalidosException {
+		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO, emailContato, endResidencial, endComercial, telCelular, telFixo);
 		this.nroMatricula = nroMatricula.strip();
 		this.dtMatricula = dtMatricula;
 		this.ra = ra.strip();
@@ -107,16 +108,6 @@ public class Aluno extends Cadastro implements Serializable {
 	}
 	public void atualizarDtMatricula(LocalDate dtMatricula) {
 		this.dtMatricula = dtMatricula;
-	}
-
-	@Override
-	public void adicionarEndereco(Endereco endereco) {
-		super.adicionarEndereco(endereco);	
-	}
-	
-	@Override
-	public void adicionarTelefone(Telefone telefone) {
-		super.adicionarTelefone(telefone);
 	}
 
 	public Integer getIdAluno() {

@@ -45,15 +45,9 @@ public class AlunoController {
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
 		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getRa(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
-				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai(), dto.getEmailContato());
+				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
-		
-		if (dto.getEnderecos() != null)	
-			mappers.novoEnderecoDtoParaEndereco(dto.getEnderecos(), aluno).forEach(cadEnd -> aluno.adicionarEndereco(cadEnd));
-		
-		if (dto.getTelefones() != null)
-			mappers.novoTelefoneDtoParaTelefone(dto.getTelefones(), aluno).forEach(cadTel -> aluno.adicionarTelefone(cadTel));
 			
 		Integer id = alunoDao.save(aluno).getIdAluno();
 		

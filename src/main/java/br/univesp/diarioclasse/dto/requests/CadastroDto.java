@@ -1,7 +1,6 @@
 package br.univesp.diarioclasse.dto.requests;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -11,6 +10,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.univesp.diarioclasse.entidades.Endereco;
+import br.univesp.diarioclasse.entidades.Telefone;
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.helpers.DateHelper;
 import br.univesp.diarioclasse.validadores.CpfNumerico;
@@ -32,11 +33,17 @@ public class CadastroDto {
 		private String nomePai;
 		@Email @NotBlank @Length(max = 200)
 		private String emailContato;
+
+		@Valid 
+		private Telefone telCelular;
+		@Valid 
+		private Telefone telFixo;
+
+		@Valid 
+		private Endereco endResidencial;
+		@Valid 
+		private Endereco endComercial;
 		
-		@Valid 
-		private List<EnderecoDto> enderecos;
-		@Valid 
-		private List<TelefoneDto> telefones;
 		
 		public CadastroDto() {}
 		public String getNome() {
@@ -63,11 +70,16 @@ public class CadastroDto {
 		public String getEmailContato() {
 			return emailContato;
 		}
-		public List<EnderecoDto> getEnderecos() {
-			return enderecos;
+		public Telefone getTelCelular() {
+			return telCelular;
 		}
-		public List<TelefoneDto> getTelefones() {
-			return telefones;
+		public Telefone getTelFixo() {
+			return telFixo;
 		}
-		
+		public Endereco getEndResidencial() {
+			return endResidencial;
+		}
+		public Endereco getEndComercial() {
+			return endComercial;
+		}
 }

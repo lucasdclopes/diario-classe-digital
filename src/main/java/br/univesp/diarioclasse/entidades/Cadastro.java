@@ -2,27 +2,27 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -31,7 +31,6 @@ import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
-import br.univesp.diarioclasse.exceptions.RelacaoEntidadesIlegalException;
 import br.univesp.diarioclasse.helpers.DateHelper;
 
 @Entity
@@ -65,10 +64,43 @@ public abstract class Cadastro implements Serializable {
 	@NotNull
 	private String emailContato;
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	private List<Endereco> enderecos = new ArrayList<>();
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "cadastro", cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	private List<Telefone> telefones = new ArrayList<>();
+	 @Embedded 
+	 @AttributeOverrides({
+		    @AttributeOverride(name="telDDD",column=@Column(name="celDDD")),
+		    @AttributeOverride(name="telNro",column=@Column(name="celNro"))
+	 })	
+	 private Telefone telCelular;
+	 
+	 @Embedded 
+	 @AttributeOverrides({
+		    @AttributeOverride(name="telDDD",column=@Column(name="telFixoDDD")),
+		    @AttributeOverride(name="telNro",column=@Column(name="telFixoNro"))
+	 })
+	 private Telefone telFixo;
+	
+	 @Embedded 
+	 @AttributeOverrides({
+		 @AttributeOverride(name="endLogradouro",column=@Column(name="endResLogradouro")),
+		 @AttributeOverride(name="endNumero",column=@Column(name="endResNumero")),
+		 @AttributeOverride(name="endComplemento",column=@Column(name="endResComplemento")),
+		 @AttributeOverride(name="endCEP",column=@Column(name="endResCEP")),
+		 @AttributeOverride(name="endBairro",column=@Column(name="endResBairro")),
+		 @AttributeOverride(name="endCidade",column=@Column(name="endResCidade")),
+		 @AttributeOverride(name="endUF",column=@Column(name="endResUF")),
+	 })
+	 private Endereco endResidencial;
+	 
+	 @Embedded 
+	 @AttributeOverrides({
+		 @AttributeOverride(name="endLogradouro",column=@Column(name="endComLogradouro")),
+		 @AttributeOverride(name="endNumero",column=@Column(name="endComNumero")),
+		 @AttributeOverride(name="endComplemento",column=@Column(name="endComComplemento")),
+		 @AttributeOverride(name="endCEP",column=@Column(name="endComCEP")),
+		 @AttributeOverride(name="endBairro",column=@Column(name="endComBairro")),
+		 @AttributeOverride(name="endCidade",column=@Column(name="endComCidade")),
+		 @AttributeOverride(name="endUF",column=@Column(name="endComUF")),
+	 })
+	 private Endereco endComercial;
 	
 	@OneToOne(mappedBy = "cadastro")
 	private Login login;
@@ -80,7 +112,8 @@ public abstract class Cadastro implements Serializable {
 	public Cadastro() {}
 	
 	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
-			String nomePai, TipoCadastro tipoCadastro, String emailContato) throws DadosInvalidosException {
+			String nomePai, TipoCadastro tipoCadastro, String emailContato, Endereco endResidencial, Endereco endComercial, 
+			Telefone telCelular, Telefone telFixo) throws DadosInvalidosException {
 		atualizarNome(nome);
 		this.cpf = cpf.strip();
 		atualizarRg(rg);
@@ -90,7 +123,12 @@ public abstract class Cadastro implements Serializable {
 		atualizarNomePai(nomePai);
 		atualizarEmailContato(emailContato);
 		this.tipoCadastro = tipoCadastro;
+		this.endResidencial = endResidencial;
+		this.endComercial = endComercial;
+		this.telCelular = telCelular;
+		this.telFixo = telFixo;
 		this.isAtivo = true;
+		
 	} 
 	
 	protected void definirDtNascimento(LocalDate dtNascimento) throws DadosInvalidosException{
@@ -151,16 +189,20 @@ public abstract class Cadastro implements Serializable {
 			this.isAtivo = true;
 	}
 	
-	public void adicionarEndereco(Endereco endereco) {
-		if (!endereco.getCadastro().equals(this))
-			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um endereço com referencia de cadastro vazia ou diferente deste cadastro.");
-		this.enderecos.add(endereco);
+	public void alterarEnderecoResidencial(Endereco endereco) {
+		this.endResidencial = endereco;
 	}
 	
-	public void adicionarTelefone(Telefone telefone) {
-		if (!telefone.getCadastro().equals(this))
-			throw new RelacaoEntidadesIlegalException("Não é possível adicionar um telefone com referencia de cadastro vazia ou diferente deste cadastro.");
-		this.telefones.add(telefone);
+	public void alterarEnderecoComercial(Endereco endereco) {
+		this.endComercial = endereco;
+	}
+	
+	public void alteararTelefoneFixo(Telefone telefone) {
+		this.telFixo = telefone;
+	}
+	
+	public void alteararTelefoneCelular(Telefone telefone) {
+		this.telCelular = telefone;
 	}
 
 	public Integer getIdCadastro() {
@@ -196,11 +238,21 @@ public abstract class Cadastro implements Serializable {
 	public String getEmailContato() {
 		return emailContato;
 	}
-	public List<Endereco> getEnderecos() {
-		return Collections.unmodifiableList(enderecos);
+	
+	public Telefone getTelCelular() {
+		return telCelular;
 	}
-	public List<Telefone> getTelefones() {
-		return Collections.unmodifiableList(telefones);
+
+	public Telefone getTelFixo() {
+		return telFixo;
+	}
+
+	public Endereco getEndResidencial() {
+		return endResidencial;
+	}
+
+	public Endereco getEndComercial() {
+		return endComercial;
 	}
 
 	@Override
