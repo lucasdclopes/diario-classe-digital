@@ -2,8 +2,6 @@ package br.univesp.diarioclasse.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.AttributeOverride;
@@ -22,7 +20,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

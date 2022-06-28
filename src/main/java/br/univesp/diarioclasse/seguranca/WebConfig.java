@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 		.allowedOrigins(corsOrigin)	        
 		.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
-		.allowCredentials(true)
+		//.allowCredentials(true)
 		.exposedHeaders("*"); 
 	}
 	
