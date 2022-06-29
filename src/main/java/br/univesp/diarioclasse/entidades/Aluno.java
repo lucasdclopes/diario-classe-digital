@@ -24,9 +24,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.enums.TipoCadastro;
+import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.helpers.DateHelper;
+import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @Entity
 @Table(name = "cadastro_alunos")
@@ -156,6 +158,13 @@ public class Aluno extends Cadastro implements Serializable {
 			return false;
 		Aluno other = (Aluno) obj;
 		return Objects.equals(ra, other.ra);
+	}
+
+
+
+	public void validarDelecao(UsuarioLogado usuarioLogado) {
+		if (usuarioLogado.getTipoCadastro() != TipoCadastro.ADMINISTRATIVO )
+			throw new AutorizacaoException("Somente um administrador pode deletar um aluno");
 	}
 	
 	

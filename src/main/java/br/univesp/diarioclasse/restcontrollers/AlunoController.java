@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +30,11 @@ import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
+import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @RestController
 @RequestMapping("/api/alunos")
@@ -40,6 +43,7 @@ public class AlunoController {
 	@Autowired private AlunoRepository alunoDao;
 	
 	@Autowired private DtoMappers mappers;
+	@Autowired private UsuarioLogado usuarioLogado;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
@@ -80,6 +84,14 @@ public class AlunoController {
 		Aluno aluno = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		aluno.calcularTotalFaltas(alunoDao);
 		return ResponseEntity.ok(aluno);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deletarPorid(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
+		Aluno turma = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		turma.validarDelecao(usuarioLogado);
+		alunoDao.delete(turma);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping
