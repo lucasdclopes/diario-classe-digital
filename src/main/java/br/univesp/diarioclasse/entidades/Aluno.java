@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -42,7 +45,7 @@ public class Aluno extends Cadastro implements Serializable {
 	@JsonFormat(pattern=DateHelper.patternDataPtBr) 
 	private LocalDate dtMatricula;
 	@NotNull @Column(unique = true)
-	private String ra;
+	private String NIS;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idTurma")
@@ -51,6 +54,22 @@ public class Aluno extends Cadastro implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
+	
+	@NotNull
+	private String transportador;
+
+	@NotNull
+	@Embedded 
+	 @AttributeOverrides({
+		    @AttributeOverride(name="telDDD",column=@Column(name="telDDDTransportador")),
+		    @AttributeOverride(name="telNro",column=@Column(name="telNroTransportador"))
+	 })	
+	private Telefone telTransportador;
+	
+	@NotNull
+	private String unidadeEscolar;
+	@NotNull
+	private String UBSRef;
 	
 	@Transient //não é gravado no banco. Campo calculado
 	private Long totalFaltas;
@@ -63,13 +82,17 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	
 	
-	public Aluno(String nroMatricula, LocalDate dtMatricula, String ra, Optional<Turma> turma, String nome, 
-			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae, String nomePai, String emailContato, 
-			Endereco endResidencial, Endereco endComercial, Telefone telCelular, Telefone telFixo) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ALUNO, emailContato, endResidencial, endComercial, telCelular, telFixo);
+	public Aluno(String nroMatricula, LocalDate dtMatricula, String NIS, Optional<Turma> turma, String nome, 
+			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, DadosParente mae, DadosParente pai, String emailContato, 
+			Endereco endResidencial, Endereco endComercial, Telefone telCelular, Telefone telFixo, String transportador, Telefone telTransportador, String unidadeEscolar, String UBSRef) throws DadosInvalidosException {
+		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ALUNO, emailContato, endResidencial, endComercial, telCelular, telFixo);
 		this.nroMatricula = nroMatricula.strip();
 		this.dtMatricula = dtMatricula;
-		this.ra = ra.strip();
+		this.NIS = NIS.strip();
+		this.transportador = transportador;
+		this.unidadeEscolar = unidadeEscolar;
+		this.UBSRef = UBSRef;
+		this.telTransportador = telTransportador;
 		turma.ifPresent(t -> this.turma = t);
 	}
 	
@@ -89,8 +112,8 @@ public class Aluno extends Cadastro implements Serializable {
 	}
 	
 	private void validarSeJaExisteRa(AlunoExistente alunoExistente) throws EntidadeJaExisteException {	
-		if(alunoExistente.existsByRa(this.ra))
-			throw new EntidadeJaExisteException("Já existe um aluno com este ra","ra");
+		if(alunoExistente.existsByNIS(this.NIS))
+			throw new EntidadeJaExisteException("Já existe um aluno com este NIS","NIS");
 	}
 	
 	public void atualizarNroMatricula(String nroMatricula, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
@@ -101,10 +124,10 @@ public class Aluno extends Cadastro implements Serializable {
 		}
 	}
 	
-	public void atualizarRa(String ra, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
-		ra = ra.strip();
-		if (!this.ra.equalsIgnoreCase(ra)) {//só é necessário se o ra realmente mudou. Caso contrário vai dar erro que o ra já existe (no caso, o ra do próprio cadastro)
-			this.ra = ra;
+	public void atualizarNIS(String NIS, AlunoExistente alunoExistente) throws EntidadeJaExisteException {
+		NIS = NIS.strip();
+		if (!this.NIS.equalsIgnoreCase(NIS)) {//só é necessário se o ra realmente mudou. Caso contrário vai dar erro que o ra já existe (no caso, o ra do próprio cadastro)
+			this.NIS = NIS;
 			validarSeJaExisteRa(alunoExistente);
 		}
 	}
@@ -120,8 +143,8 @@ public class Aluno extends Cadastro implements Serializable {
 		return nroMatricula;
 	}
 
-	public String getRa() {
-		return ra;
+	public String getNIS() {
+		return NIS;
 	}
 
 	public LocalDate getDtMatricula() {
@@ -139,12 +162,30 @@ public class Aluno extends Cadastro implements Serializable {
 	public Long getTotalFaltas() {
 		return totalFaltas;
 	}
+	
+	public String getTransportador() {
+		return transportador;
+	}
+
+	public Telefone getTelTransportador() {
+		return telTransportador;
+	}
+
+	public String getUnidadeEscolar() {
+		return unidadeEscolar;
+	}
+
+	public String getUBSRef() {
+		return UBSRef;
+	}
+	
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(ra);
+		result = prime * result + Objects.hash(NIS);
 		return result;
 	}
 
@@ -157,7 +198,7 @@ public class Aluno extends Cadastro implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		return Objects.equals(ra, other.ra);
+		return Objects.equals(NIS, other.NIS);
 	}
 
 

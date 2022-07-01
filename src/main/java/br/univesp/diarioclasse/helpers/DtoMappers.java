@@ -38,7 +38,7 @@ public class DtoMappers {
 	}
 	
 	public AlunoDadosBasicosDto alunoParaDtoSimples(Aluno aluno) {
-		return new AlunoDadosBasicosDto(aluno.getIdCadastro(), aluno.getNome(), aluno.getNroMatricula(),aluno.getRa());
+		return new AlunoDadosBasicosDto(aluno.getIdCadastro(), aluno.getNome(), aluno.getNroMatricula(),aluno.getNIS());
 	}
 	
 	public ListaAulasDto aulaParaDto(Aula aula) {
@@ -63,10 +63,10 @@ public class DtoMappers {
 	public void atualizarCadastroDeDto(CadastroDto cadastroDto, Cadastro cadastro, CadastroExistente cadastroExistente) throws EntidadeJaExisteException, DadosInvalidosException {
 		if (cadastroDto.getNome()!= null)
 			cadastro.atualizarNome(cadastroDto.getNome());
-		if (cadastroDto.getNomeMae()!= null)
-			cadastro.atualizarNomeMae(cadastroDto.getNomeMae());
-		if (cadastroDto.getNomePai()!= null)
-			cadastro.atualizarNomePai(cadastroDto.getNomePai());
+		if (cadastroDto.getMae()!= null)
+			cadastro.atualizarMae(cadastroDto.getMae());
+		if (cadastroDto.getPai()!= null)
+			cadastro.atualizarPai(cadastroDto.getPai());
 		if (cadastroDto.getCpf()!= null)
 			cadastro.atualizarCpf(cadastroDto.getCpf(),cadastroExistente);
 		if (cadastroDto.getRg()!= null)

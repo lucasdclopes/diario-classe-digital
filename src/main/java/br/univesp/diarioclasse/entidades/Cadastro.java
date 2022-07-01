@@ -52,14 +52,30 @@ public abstract class Cadastro implements Serializable {
 	private LocalDate dtNascimento;
 	@NotNull
 	private Sexo sexo;
-	@NotBlank
-	private String nomeMae;
-	private String nomePai; 
 	@NotNull
 	private TipoCadastro tipoCadastro;
 	private Boolean isAtivo;
 	@NotNull
 	private String emailContato;
+	
+	@NotNull
+	 @Embedded 
+	 @AttributeOverrides({
+		 @AttributeOverride(name="telContato.telDDD",column=@Column(name="telMaeDDD")),
+		 @AttributeOverride(name="telContato.telNro",column=@Column(name="telMaeNro")),
+		 @AttributeOverride(name="nome",column=@Column(name="nomeMae")),
+		 @AttributeOverride(name="CPF",column=@Column(name="cpfMae"))
+	 })
+	private DadosParente mae;
+	 
+	 @Embedded 
+	 @AttributeOverrides({
+		    @AttributeOverride(name="telContato.telDDD",column=@Column(name="telpaiDDD")),
+		    @AttributeOverride(name="telContato.telNro",column=@Column(name="telpaiNro")),
+			@AttributeOverride(name="nome",column=@Column(name="nomePai")),
+			@AttributeOverride(name="CPF",column=@Column(name="cpfPai"))
+	 })
+	private DadosParente pai;
 	
 	 @Embedded 
 	 @AttributeOverrides({
@@ -108,16 +124,16 @@ public abstract class Cadastro implements Serializable {
 	@Deprecated
 	public Cadastro() {}
 	
-	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, String nomeMae,
-			String nomePai, TipoCadastro tipoCadastro, String emailContato, Endereco endResidencial, Endereco endComercial, 
+	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, DadosParente mae,
+			DadosParente pai, TipoCadastro tipoCadastro, String emailContato, Endereco endResidencial, Endereco endComercial, 
 			Telefone telCelular, Telefone telFixo) throws DadosInvalidosException {
 		atualizarNome(nome);
 		this.cpf = cpf.strip();
 		atualizarRg(rg);
 		definirDtNascimento(dtNascimento);
 		atualizarSexo(sexo);
-		atualizarNomeMae(nomeMae);
-		atualizarNomePai(nomePai);
+		atualizarMae(mae);
+		atualizarPai(pai);
 		atualizarEmailContato(emailContato);
 		this.tipoCadastro = tipoCadastro;
 		this.endResidencial = endResidencial;
@@ -135,7 +151,7 @@ public abstract class Cadastro implements Serializable {
 	}
 	
 	protected void validarNome(String nome) throws DadosInvalidosException {
-		if (nome.length() < 3 || !nome.contains(" "))
+		if (nome == null || nome.length() < 3 || !nome.contains(" "))
 			throw new DadosInvalidosException("Por favor preencha o nome completo", "nome");
 	}
 	
@@ -143,13 +159,15 @@ public abstract class Cadastro implements Serializable {
 		validarNome(nome);
 		this.nome = nome.strip();
 	}
-	public void atualizarNomeMae(String nomeMae) throws DadosInvalidosException {
-		validarNome(nome);
-		this.nomeMae = nomeMae.strip();
+	public void atualizarMae(DadosParente mae) throws DadosInvalidosException {
+		validarNome(mae.getNome());
+		this.mae = mae;
 	}
-	public void atualizarNomePai(String nomePai) throws DadosInvalidosException {
-		validarNome(nome);
-		this.nomePai = nomePai != null? nomePai.strip():null; //não é obrigatório
+	public void atualizarPai(DadosParente pai) throws DadosInvalidosException {
+		if (pai == null)
+			return;
+		validarNome(pai.getNome());
+		this.pai = pai;
 	}
 	public void atualizarCpf(String cpf, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {
 		if (!this.cpf.equalsIgnoreCase(cpf)) {//só é necessário se o cpf realmente mudou. Caso contrário vai dar erro que o cpf já existe (no caso, o cpf do próprio cadastro)
@@ -220,12 +238,7 @@ public abstract class Cadastro implements Serializable {
 	public Sexo getSexo() {
 		return sexo;
 	}
-	public String getNomeMae() {
-		return nomeMae;
-	}
-	public String getNomePai() {
-		return nomePai;	
-	}
+
 	public TipoCadastro getTipoCadastro() {
 		return tipoCadastro;
 	}
@@ -250,6 +263,14 @@ public abstract class Cadastro implements Serializable {
 
 	public Endereco getEndComercial() {
 		return endComercial;
+	}
+	
+	public DadosParente getMae() {
+		return mae;
+	}
+
+	public DadosParente getPai() {
+		return pai;
 	}
 
 	@Override

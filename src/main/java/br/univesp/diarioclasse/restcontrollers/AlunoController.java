@@ -48,8 +48,9 @@ public class AlunoController {
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
-		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getRa(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
-				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo());
+		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getNIS(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
+				dto.getDtNascimento(), dto.getSexo(), dto.getMae(), dto.getPai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo(),
+				dto.getTransportador(),dto.getUnidadeEscolar(),dto.getUBSRef());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 			
@@ -66,8 +67,8 @@ public class AlunoController {
 		//TODO: Atualizar o endreço e telefone
 		Aluno aluno = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		mappers.atualizarCadastroDeDto(dto, aluno, alunoDao);
-		if (dto.getRa() != null) {
-			aluno.atualizarRa(dto.getRa(), alunoDao);
+		if (dto.getNIS() != null) {
+			aluno.atualizarNIS(dto.getNIS(), alunoDao);
 		}
 		if (dto.getNroMatricula() != null) {
 			aluno.atualizarNroMatricula(dto.getNroMatricula(), alunoDao);

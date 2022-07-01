@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.univesp.diarioclasse.entidades.DadosParente;
 import br.univesp.diarioclasse.entidades.Endereco;
 import br.univesp.diarioclasse.entidades.Telefone;
 import br.univesp.diarioclasse.enums.Sexo;
@@ -27,10 +28,6 @@ public class CadastroDto {
 		@JsonFormat(pattern=DateHelper.patternDataPtBr) 
 		private LocalDate dtNascimento;
 		private Sexo sexo;
-		@NotBlank @Length(max = 200) 
-		private String nomeMae;
-		@Length(max = 200) 
-		private String nomePai;
 		@Email @NotBlank @Length(max = 200)
 		private String emailContato;
 
@@ -43,6 +40,10 @@ public class CadastroDto {
 		private Endereco endResidencial;
 		@Valid 
 		private Endereco endComercial;
+		
+		@Valid //não valida o pai, não é obrigatório
+		private DadosParente mae;
+		private DadosParente pai;
 		
 		
 		public CadastroDto() {}
@@ -61,12 +62,7 @@ public class CadastroDto {
 		public Sexo getSexo() {
 			return sexo;
 		}
-		public String getNomeMae() {
-			return nomeMae;
-		}
-		public String getNomePai() {
-			return nomePai;
-		}
+		
 		public String getEmailContato() {
 			return emailContato;
 		}
@@ -82,4 +78,11 @@ public class CadastroDto {
 		public Endereco getEndComercial() {
 			return endComercial;
 		}
+		public DadosParente getMae() {
+			return mae;
+		}
+		public DadosParente getPai() {
+			return pai;
+		}
+		
 }

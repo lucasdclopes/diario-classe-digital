@@ -26,9 +26,9 @@ public class Administrador extends Cadastro implements Serializable  {
 	@Deprecated
 	public Administrador() {}
 	public Administrador(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
-			String nomeMae, String nomePai, String emailContato, Endereco endResidencial, Endereco endComercial, 
+			DadosParente mae, DadosParente pai, String emailContato, Endereco endResidencial, Endereco endComercial, 
 			Telefone telCelular, Telefone telFixo ) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, nomeMae, nomePai, TipoCadastro.ADMINISTRATIVO, emailContato, endResidencial, endComercial, telCelular, telFixo);
+		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ADMINISTRATIVO, emailContato, endResidencial, endComercial, telCelular, telFixo);
 	}
 
 	@Override

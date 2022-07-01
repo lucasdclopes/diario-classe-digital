@@ -33,22 +33,22 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 	boolean existsByCpf(String cpf);
 	
 	@Override
-	boolean existsByRa(String ra);
+	boolean existsByNIS(String NIS);
 	@Override
 	boolean existsByNroMatricula(String nroMatricula);
 	
 	//o :param is null or field = :param é para tornar o parametro opcional. Se ele for null, o filtro é desconsiderado
 	@Query(""" 
-			SELECT new br.univesp.diarioclasse.dto.responses.ListaAlunosDto (idCadastro, nroMatricula, dtMatricula, ra, nome) 
+			SELECT new br.univesp.diarioclasse.dto.responses.ListaAlunosDto (idCadastro, nroMatricula, dtMatricula, NIS, nome) 
 			FROM Aluno al 
 			WHERE
-			 (:cpf is null or al.cpf = :cpf) AND (:ra is null or al.ra = :ra) AND
+			 (:cpf is null or al.cpf = :cpf) AND (:NIS is null or al.NIS = :NIS) AND
 			 (:nroMatricula is null or al.nroMatricula = :nroMatricula) AND 
 			 (:nome is null or al.nome LIKE :nome%) AND
-			 (:nomeMae is null or al.nomeMae LIKE :nomeMae%) AND
-			 (:nomePai is null or al.nomePai LIKE :nomePai%)
+			 (:nomeMae is null or al.mae.nome LIKE :nomeMae%) AND
+			 (:nomePai is null or al.pai.nome LIKE :nomePai%)
 			""")
-	Page<ListaAlunosDto> paginar(String cpf, String ra, String nroMatricula, String nome, String nomeMae, String nomePai, Pageable paginacao);
+	Page<ListaAlunosDto> paginar(String cpf, String NIS, String nroMatricula, String nome, String nomeMae, String nomePai, Pageable paginacao);
 	
 	@Override
 	@Query(value =  """ 

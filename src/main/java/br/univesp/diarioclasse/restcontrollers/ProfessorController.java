@@ -43,7 +43,7 @@ public class ProfessorController {
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody ProfessorDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 		
 		Professor professor = new  Professor(dto.getDtAdmissao(), Optional.ofNullable(dto.getMateria()), dto.getNome(), dto.getCpf(), dto.getRg(), 
-				dto.getDtNascimento(), dto.getSexo(), dto.getNomeMae(), dto.getNomePai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo());
+				dto.getDtNascimento(), dto.getSexo(), dto.getMae(), dto.getPai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo());
 		
 		professor.validarSeJaExiste(professorDao);
 
