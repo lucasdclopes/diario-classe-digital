@@ -81,6 +81,10 @@ public class DtoMappers {
 			cadastro.alterarEnderecoComercial(cadastroDto.getEndComercial());
 		if (cadastroDto.getEndResidencial() != null)
 			cadastro.alterarEnderecoResidencial(cadastroDto.getEndResidencial());
+		if (cadastroDto.getTelCelular() != null)
+			cadastro.alteararTelefoneCelular(cadastroDto.getTelCelular());
+		if (cadastroDto.getTelFixo() != null)
+			cadastro.alteararTelefoneFixo(cadastroDto.getTelFixo());
 		
 	}
 }
