@@ -64,7 +64,7 @@ public abstract class Cadastro implements Serializable {
 		 @AttributeOverride(name="telContato.telDDD",column=@Column(name="telMaeDDD")),
 		 @AttributeOverride(name="telContato.telNro",column=@Column(name="telMaeNro")),
 		 @AttributeOverride(name="nome",column=@Column(name="nomeMae")),
-		 @AttributeOverride(name="CPF",column=@Column(name="cpfMae"))
+		 @AttributeOverride(name="cpf",column=@Column(name="cpfMae"))
 	 })
 	private DadosParente mae;
 	 
@@ -73,7 +73,7 @@ public abstract class Cadastro implements Serializable {
 		    @AttributeOverride(name="telContato.telDDD",column=@Column(name="telpaiDDD")),
 		    @AttributeOverride(name="telContato.telNro",column=@Column(name="telpaiNro")),
 			@AttributeOverride(name="nome",column=@Column(name="nomePai")),
-			@AttributeOverride(name="CPF",column=@Column(name="cpfPai"))
+			@AttributeOverride(name="cpf",column=@Column(name="cpfPai"))
 	 })
 	private DadosParente pai;
 	
@@ -150,23 +150,23 @@ public abstract class Cadastro implements Serializable {
 		this.dtNascimento = dtNascimento;
 	}
 	
-	protected void validarNome(String nome) throws DadosInvalidosException {
+	protected void validarNome(String nome, String descricao) throws DadosInvalidosException {
 		if (nome == null || nome.length() < 3 || !nome.contains(" "))
-			throw new DadosInvalidosException("Por favor preencha o nome completo", "nome");
+			throw new DadosInvalidosException("Por favor preencha o nome completo", descricao);
 	}
 	
 	public void atualizarNome(String nome) throws DadosInvalidosException {
-		validarNome(nome);
+		validarNome(nome,"nome");
 		this.nome = nome.strip();
 	}
 	public void atualizarMae(DadosParente mae) throws DadosInvalidosException {
-		validarNome(mae.getNome());
+		validarNome(mae.getNome(),"nome da mãe");
 		this.mae = mae;
 	}
 	public void atualizarPai(DadosParente pai) throws DadosInvalidosException {
-		if (pai == null)
+		if (pai == null || pai.getNome() == null || pai.getNome().strip().equals(""))//nome do pai nunca é obrigatório
 			return;
-		validarNome(pai.getNome());
+		validarNome(pai.getNome(),"nome do pai");
 		this.pai = pai;
 	}
 	public void atualizarCpf(String cpf, CadastroExistente cadastroExistente) throws EntidadeJaExisteException {

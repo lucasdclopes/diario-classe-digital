@@ -69,7 +69,7 @@ public class Aluno extends Cadastro implements Serializable {
 	@NotNull
 	private String unidadeEscolar;
 	@NotNull
-	private String UBSRef;
+	private String ubsRef;
 	
 	@Transient //não é gravado no banco. Campo calculado
 	private Long totalFaltas;
@@ -91,7 +91,7 @@ public class Aluno extends Cadastro implements Serializable {
 		this.NIS = NIS.strip();
 		this.transportador = transportador;
 		this.unidadeEscolar = unidadeEscolar;
-		this.UBSRef = UBSRef;
+		this.ubsRef = UBSRef;
 		this.telTransportador = telTransportador;
 		turma.ifPresent(t -> this.turma = t);
 	}
@@ -135,6 +135,22 @@ public class Aluno extends Cadastro implements Serializable {
 		this.dtMatricula = dtMatricula;
 	}
 
+	public void atualizarTransportador(String transportador) {
+		this.transportador = transportador;
+	}
+
+	public void atualizarTelTransportador(Telefone telTransportador) {
+		this.telTransportador = telTransportador;
+	}
+
+	public void atualizarUnidadeEscolar(String unidadeEscolar) {
+		this.unidadeEscolar = unidadeEscolar;
+	}
+
+	public void atualizarUbsRef(String ubsRef) {
+		this.ubsRef = ubsRef;
+	}
+	
 	public Integer getIdAluno() {
 		return super.getIdCadastro();
 	}
@@ -175,8 +191,8 @@ public class Aluno extends Cadastro implements Serializable {
 		return unidadeEscolar;
 	}
 
-	public String getUBSRef() {
-		return UBSRef;
+	public String getUbsRef() {
+		return ubsRef;
 	}
 	
 
@@ -207,9 +223,6 @@ public class Aluno extends Cadastro implements Serializable {
 		if (usuarioLogado.getTipoCadastro() != TipoCadastro.ADMINISTRATIVO )
 			throw new AutorizacaoException("Somente um administrador pode deletar um aluno");
 	}
-	
-	
-	
-	
-	
+
+		
 }

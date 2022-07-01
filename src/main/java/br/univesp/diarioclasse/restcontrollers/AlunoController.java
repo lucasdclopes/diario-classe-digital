@@ -49,8 +49,8 @@ public class AlunoController {
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
 				
 		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getNIS(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
-				dto.getDtNascimento(), dto.getSexo(), dto.getMae(), dto.getPai(), dto.getEmailContato(),dto.getEndComercial(),dto.getEndResidencial(),dto.getTelCelular(),dto.getTelFixo(),
-				dto.getTransportador(),dto.getUnidadeEscolar(),dto.getUBSRef());
+				dto.getDtNascimento(), dto.getSexo(), dto.getMae(), dto.getPai(), dto.getEmailContato(),dto.getEndResidencial(),dto.getEndComercial(),dto.getTelCelular(),dto.getTelFixo(),
+				dto.getTransportador(),dto.getTelTransportador(), dto.getUnidadeEscolar(),dto.getUbsRef());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 			
@@ -76,6 +76,18 @@ public class AlunoController {
 		if (dto.getDtMatricula() != null) {
 			aluno.atualizarDtMatricula(dto.getDtMatricula());
 		}
+		if (dto.getTransportador() != null) {
+			aluno.atualizarTransportador(dto.getTransportador());
+		}
+		if (dto.getTelTransportador() != null) {
+			aluno.atualizarTelTransportador(dto.getTelTransportador());
+		}
+		if (dto.getUnidadeEscolar() != null) {
+			aluno.atualizarUnidadeEscolar(dto.getUnidadeEscolar());
+		}
+		if (dto.getUbsRef() != null) {
+			aluno.atualizarUbsRef(dto.getUbsRef());
+		}
 		alunoDao.save(aluno);
 		return ResponseEntity.ok().build();
 	}
@@ -100,7 +112,7 @@ public class AlunoController {
 			@PageableDefault(sort = "dtMatricula", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaAlunosDto> pagina = alunoDao.paginar(cadParams.cpf(),AlunoParams.ra(),AlunoParams.nroMatricula(),cadParams.nome(),
+		Page<ListaAlunosDto> pagina = alunoDao.paginar(cadParams.cpf(),AlunoParams.nis(),AlunoParams.nroMatricula(),cadParams.nome(),
 				cadParams.nomeMae(),cadParams.nomePai(),
 				paginacao);
 		if (pagina.hasContent()) {

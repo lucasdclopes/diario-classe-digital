@@ -95,51 +95,51 @@ public class PopularBase  {
 	
 		
 		Aluno lex = new Aluno("123456",LocalDate.now(),"11111", Optional.of(turmaFundamental5), "Lex Murphy", "46001471037", "4600147103", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		
 		Aluno Tim = new Aluno("123457",LocalDate.now(),"36960", Optional.of(turmaFundamental5), "Tim Murphy", "66881503016", "6688150301", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");	
+				Sexo.MASCULINO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");	
 		Aluno goku = new Aluno("884800",LocalDate.now(),"31213", Optional.of(turmaFundamental5), "Son Goku", "03413572008", "0341357200", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Son Gine", "41691557005", celTeste), new DadosParente("Son Bardock", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Son Gine", "41691557005", celTeste), new DadosParente("Son Bardock", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		
 		Aluno magali = new Aluno("934214",LocalDate.now(),"19349", Optional.of(turmaFundamental5), "Magali de Lima", "35755796017", "3575579601", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Mãe da Magali", "41691557005", celTeste), new DadosParente("Pai da Magali", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");		
+				Sexo.FEMININO, new DadosParente("Mãe da Magali", "41691557005", celTeste), new DadosParente("Pai da Magali", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");		
 		Aluno monica = new Aluno("450522",LocalDate.now(),"53147", Optional.of(turmaFundamental5), "Monica de Souza", "23752729007", "2375272900", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Mãe da Monica", "41691557005", celTeste), new DadosParente("Pai da Moncia", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Mãe da Monica", "41691557005", celTeste), new DadosParente("Pai da Moncia", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno harry = new Aluno("551558",LocalDate.now(),"93129", Optional.of(turmaFundamental5), "Harry Potter", "62929668016", "6292966801", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Lílian Evans Potter", "41691557005", celTeste), new DadosParente("James Potter", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");		
+				Sexo.MASCULINO, new DadosParente("Lílian Evans Potter", "41691557005", celTeste), new DadosParente("James Potter", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");		
 		Aluno bobesp = new Aluno("895694",LocalDate.now(),"30811", Optional.of(turmaFundamental5), "Bob Esponja", "19416395005", "1941639500", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Mãe do bob", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Mãe do bob", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno anakin = new Aluno("869980",LocalDate.now(),"22302", Optional.of(turmaFundamental5), "Anakin Skywalker", "61100839097", "6110083907", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Shmi Skywalker", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");		
+				Sexo.MASCULINO, new DadosParente("Shmi Skywalker", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");		
 		Aluno luke = new Aluno("528903",LocalDate.now(),"53061", Optional.of(turmaFundamental5), "Luke Skywalker", "18810973070", "1881973070", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Padmé Amidala", "41691557005", celTeste), new DadosParente("Anakin Skywalker", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Padmé Amidala", "41691557005", celTeste), new DadosParente("Anakin Skywalker", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno gohan = new Aluno("777933",LocalDate.now(),"39412", Optional.of(turmaFundamental5), "Son Gohan", "86198992012", "8619992012", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Tchi Tchi", "41691557005", celTeste), new DadosParente("Son Goku", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Tchi Tchi", "41691557005", celTeste), new DadosParente("Son Goku", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		
 		
 		Aluno Dennis = new Aluno("429599",LocalDate.now(),"63275", Optional.of(turmaMedioA), "Dennis Nedry", "33017780031", "3307780031", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Mãe do Joãozinho", "41691557005", celTeste), new DadosParente("Pai do Joãozinho", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Apoc = new Aluno("428133",LocalDate.now(),"14474", Optional.of(turmaMedioA), "Apoc Arahanga", "31455317004", "3145317004", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Mãe dele", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Mãe dele", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno DuJour = new Aluno("870342",LocalDate.now(),"18583", Optional.of(turmaMedioA), "DuJour Gray", "83885605066", "8388605066", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Cypher = new Aluno("942264",LocalDate.now(),"67104", Optional.of(turmaMedioA), "Cypher Reagan", "31504681088", "3150468088", LocalDate.now(), 
-				Sexo.DESCONHECIDO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.DESCONHECIDO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Dozer = new Aluno("109747",LocalDate.now(),"14190", Optional.of(turmaMedioA), "Dozer Nebuchadnezzar", "35764261082", "3576421082", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), new DadosParente("Nome do Pai", "41691557005", celTeste),"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Mouse = new Aluno("509527",LocalDate.now(),"87823", Optional.of(turmaMedioA), "Mouse Nebuchadnezzar", "25730251017", "2573051017", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Rhineheart = new Aluno("919831",LocalDate.now(),"89153", Optional.of(turmaMedioA), "Rhineheart Metacortex", "26370561002", "2670561002", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Switch = new Aluno("928651",LocalDate.now(),"84311", Optional.of(turmaMedioA), "Switch McClory", "31132802067", "3132802067", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Tank = new Aluno("757138",LocalDate.now(),"47166", Optional.of(turmaFundamental14), "Tank Chong", "68529544048", "6529544048", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Trinity = new Aluno("296191",LocalDate.now(),"94646", Optional.of(turmaFundamental7), "Trinity Moss", "92475725095", "9247572509", LocalDate.now(), 
-				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.FEMININO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		Aluno Donald = new Aluno("573533",LocalDate.now(),"10923", Optional.of(turmaFundamental14), "Donald Gennaro", "55904133030", "5904133030", LocalDate.now(), 
-				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1","Unidade 1", "UBS teste");
+				Sexo.MASCULINO, new DadosParente("Nome da mãe", "41691557005", celTeste), null,"teste@teste.com.br",endResTeste,endComTeste,celTeste,telTeste, "transporte1",celTeste, "Unidade 1", "UBS teste");
 		
 		alunoDao.saveAll(Arrays.asList(
 				lex,Tim,Dennis,Apoc,DuJour,Cypher,Dozer,Mouse,Rhineheart,Switch,Tank,Trinity,Donald,goku,magali,monica,harry,bobesp,anakin,luke,gohan

@@ -77,6 +77,10 @@ public class DtoMappers {
 			cadastro.atualizarSexo(cadastroDto.getSexo());
 		if (cadastroDto.getEmailContato()!= null)
 			cadastro.atualizarEmailContato(cadastroDto.getEmailContato());
+		if (cadastroDto.getEndComercial()!= null)
+			cadastro.alterarEnderecoComercial(cadastroDto.getEndComercial());
+		if (cadastroDto.getEndResidencial() != null)
+			cadastro.alterarEnderecoResidencial(cadastroDto.getEndResidencial());
 		
 	}
 }

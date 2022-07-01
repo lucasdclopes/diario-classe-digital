@@ -43,6 +43,7 @@ public class CadastroDto {
 		
 		@Valid //não valida o pai, não é obrigatório
 		private DadosParente mae;
+		
 		private DadosParente pai;
 		
 		

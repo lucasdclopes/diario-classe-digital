@@ -18,7 +18,7 @@ public class DadosParente implements Serializable {
 	@NotBlank @Length(max = 200)
 	private String nome;
 	@NotBlank @Length(max = 11) @CpfNumerico
-	private String CPF;
+	private String cpf;
 	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
@@ -26,9 +26,9 @@ public class DadosParente implements Serializable {
 	@Deprecated
 	public DadosParente() {}
 	
-	public DadosParente(String nome,String CPF, Telefone telContato) {
+	public DadosParente(String nome,String cpf, Telefone telContato) {
 		this.nome = nome;
-		this.CPF = CPF;
+		this.cpf = cpf;
 		this.telContato = telContato;
 	}
 
@@ -40,8 +40,8 @@ public class DadosParente implements Serializable {
 		return nome;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public String getCpf() {
+		return cpf;
 	}
 
 	public Telefone getTelContato() {

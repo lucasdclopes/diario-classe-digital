@@ -21,7 +21,7 @@ public class AlunoDto extends CadastroDto {
 		@JsonFormat(pattern=DateHelper.patternDataPtBr) 
 		private LocalDate dtMatricula;
 		@NotBlank @Length(max = 11) @SomenteDigitos 
-		private String NIS;
+		private String nis;
 		@NotBlank
 		private String transportador;
 		@NotNull @Valid
@@ -29,7 +29,7 @@ public class AlunoDto extends CadastroDto {
 		@NotBlank
 		private String unidadeEscolar;
 		@NotBlank
-		private String UBSRef;
+		private String ubsRef;
 			
 		private Turma turma;
 		
@@ -42,7 +42,7 @@ public class AlunoDto extends CadastroDto {
 			return dtMatricula;
 		}
 		public String getNIS() {
-			return NIS;
+			return nis;
 		}
 		public Turma getTurma() {
 			return turma;
@@ -50,12 +50,14 @@ public class AlunoDto extends CadastroDto {
 		public String getTransportador() {
 			return transportador;
 		}
+		public Telefone getTelTransportador() {
+			return telTransportador;
+		}
 		public String getUnidadeEscolar() {
 			return unidadeEscolar;
 		}
-		public String getUBSRef() {
-			return UBSRef;
-		}	
-		
+		public String getUbsRef() {
+			return ubsRef;
+		}
 		
 }

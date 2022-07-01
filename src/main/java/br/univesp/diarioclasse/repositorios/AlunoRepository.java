@@ -39,7 +39,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer>, AlunoExi
 	
 	//o :param is null or field = :param é para tornar o parametro opcional. Se ele for null, o filtro é desconsiderado
 	@Query(""" 
-			SELECT new br.univesp.diarioclasse.dto.responses.ListaAlunosDto (idCadastro, nroMatricula, dtMatricula, NIS, nome) 
+			SELECT new br.univesp.diarioclasse.dto.responses.ListaAlunosDto (idCadastro, nroMatricula, dtMatricula, NIS, nome, mae.nome) 
 			FROM Aluno al 
 			WHERE
 			 (:cpf is null or al.cpf = :cpf) AND (:NIS is null or al.NIS = :NIS) AND
