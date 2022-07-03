@@ -25,16 +25,20 @@ import br.univesp.diarioclasse.dto.queryparams.TurmaParams;
 import br.univesp.diarioclasse.dto.requests.TurmaDto;
 import br.univesp.diarioclasse.dto.responses.DetalhesTurmaDto;
 import br.univesp.diarioclasse.dto.responses.ListaTurmasDto;
+import br.univesp.diarioclasse.entidades.Aluno;
 import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.enums.IEnumParseavel;
 import br.univesp.diarioclasse.enums.PeriodoEstudo;
+import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
+import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.helpers.DtoMappers;
+import br.univesp.diarioclasse.repositorios.AlunoRepository;
 import br.univesp.diarioclasse.repositorios.TurmaRepository;
 import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
@@ -45,6 +49,7 @@ public class TurmaController {
 	@Autowired private TurmaRepository turmaDao;
 	@Autowired private DtoMappers mappers;
 	@Autowired private UsuarioLogado usuarioLogado;
+	@Autowired private AlunoRepository alunoDao;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody TurmaDto dto, UriComponentsBuilder uriBuilder) 
@@ -72,6 +77,18 @@ public class TurmaController {
 		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		turma.validarDelecao(usuarioLogado);
 		turmaDao.delete(turma);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping("/{id}/aluno/{idAluno}")//remove aluno da turma
+	public ResponseEntity<Object> deletarAlunoPorid(@PathVariable Integer id, @PathVariable Integer idAluno) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
+		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		Aluno aluno = alunoDao.findById(idAluno).orElseThrow(() -> new EntidadeNaoEncontradaException("O aluno informado não existe"));
+		if (usuarioLogado.getTipoCadastro() != TipoCadastro.ADMINISTRATIVO )
+			throw new AutorizacaoException("Somente um administrador pode deletar um aluno de uma turma");
+		turma.remover(aluno);
+		turmaDao.save(turma);
+		alunoDao.save(aluno);
 		return ResponseEntity.noContent().build();
 	}
 	

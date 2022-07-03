@@ -131,6 +131,11 @@ public class Aluno extends Cadastro implements Serializable {
 			validarSeJaExisteRa(alunoExistente);
 		}
 	}
+	
+	public void removerTurmaAtual() {
+		this.turma = null;
+	}
+	
 	public void atualizarDtMatricula(LocalDate dtMatricula) {
 		this.dtMatricula = dtMatricula;
 	}

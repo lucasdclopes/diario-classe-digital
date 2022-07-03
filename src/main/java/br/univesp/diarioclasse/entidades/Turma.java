@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +25,7 @@ import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.enums.TipoNivelEnsino;
 import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
@@ -99,6 +101,15 @@ public class Turma implements Serializable {
 			throw new EstadoObjetoInvalidoExcpetion("Não é possível alterar o nível de ensino da turma");
 	}
 	
+	public void remover(Aluno aluno) throws EntidadeNaoEncontradaException {
+		if (!aluno.getTurma().equals(this))
+			throw new EntidadeNaoEncontradaException("O aluno selecionado não pertence a esta turma");
+		if (!this.alunos.contains(aluno))
+			throw new EntidadeNaoEncontradaException("O aluno selecionado não foi encontrado nesta turma");
+		this.alunos.remove(aluno);
+		aluno.removerTurmaAtual();
+	}
+	
 	public String getNomeTurmaComNivel() {
 		return this.descTurma + " do " + this.getTpNivelEnsino().getDescricaoAmigavel();
 	}
@@ -129,8 +140,23 @@ public class Turma implements Serializable {
 
 	public List<CalendarioAula> getTiposAulas() {
 		return Collections.unmodifiableList(tiposAulas);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idTurma);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Turma other = (Turma) obj;
+		return Objects.equals(idTurma, other.idTurma);
 	}	
-	
-	
 	
 }
