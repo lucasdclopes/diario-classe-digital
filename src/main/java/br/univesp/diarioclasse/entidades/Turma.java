@@ -114,6 +114,13 @@ public class Turma implements Serializable {
 		return this.descTurma + " do " + this.getTpNivelEnsino().getDescricaoAmigavel();
 	}
 	
+	public void addAluno(Aluno aluno) {
+		if (!alunos.contains(aluno))
+			this.alunos.add(aluno);	
+		if (!this.equals(aluno.getTurma()))// <- essa validação impede que a recursiva entre em stackoverflow
+			aluno.atualizarTurma(this);
+	}	
+	
 	public Integer getIdTurma() {
 		return idTurma;
 	}
@@ -157,6 +164,6 @@ public class Turma implements Serializable {
 			return false;
 		Turma other = (Turma) obj;
 		return Objects.equals(idTurma, other.idTurma);
-	}	
+	}
 	
 }

@@ -27,6 +27,7 @@ import br.univesp.diarioclasse.dto.queryparams.CadastroParams;
 import br.univesp.diarioclasse.dto.requests.AlunoDto;
 import br.univesp.diarioclasse.dto.responses.ListaAlunosDto;
 import br.univesp.diarioclasse.entidades.Aluno;
+import br.univesp.diarioclasse.entidades.Turma;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
 import br.univesp.diarioclasse.exceptions.EntidadeNaoEncontradaException;
@@ -34,6 +35,7 @@ import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.ControllerHelper;
 import br.univesp.diarioclasse.helpers.DtoMappers;
 import br.univesp.diarioclasse.repositorios.AlunoRepository;
+import br.univesp.diarioclasse.repositorios.TurmaRepository;
 import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @RestController
@@ -44,6 +46,7 @@ public class AlunoController {
 	
 	@Autowired private DtoMappers mappers;
 	@Autowired private UsuarioLogado usuarioLogado;
+	@Autowired private TurmaRepository turmaDao;
 	
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody AlunoDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException{
@@ -88,8 +91,19 @@ public class AlunoController {
 		if (dto.getUbsRef() != null) {
 			aluno.atualizarUbsRef(dto.getUbsRef());
 		}
+		if (dto.getTurma() != null) {
+			Turma turma = turmaDao.findById(dto.getTurma().getIdTurma()).orElseThrow(() -> new EntidadeNaoEncontradaException("A turma específicada não existe"));
+			aluno.atualizarTurma(turma);
+		}
 		alunoDao.save(aluno);
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/{id}/check-tem-turma")
+	public ResponseEntity<Object> verificaSeTemTurma(@PathVariable Integer id) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
+		Aluno aluno = alunoDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		aluno.checkSeAlunoEmTurma();
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping("/{id}")

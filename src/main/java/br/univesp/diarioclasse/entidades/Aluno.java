@@ -30,6 +30,7 @@ import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
+import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
 import br.univesp.diarioclasse.helpers.DateHelper;
 import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
@@ -131,6 +132,20 @@ public class Aluno extends Cadastro implements Serializable {
 			validarSeJaExisteRa(alunoExistente);
 		}
 	}
+	
+	public void atualizarTurma(Turma turma) {
+		this.turma = turma;
+		turma.addAluno(this);
+	}
+	
+	public void checkSeAlunoEmTurma() throws EstadoObjetoInvalidoExcpetion {
+		if (this.turma != null) {
+			throw new EstadoObjetoInvalidoExcpetion(
+					"Este aluno já está em uma turma. Se você prosseguir ele será removido da turma atual e colocado na nova turma selecionada. Quer mesmo continuar?"
+					); //gera a mensagem pro front
+		}
+	}
+	
 	
 	public void removerTurmaAtual() {
 		this.turma = null;

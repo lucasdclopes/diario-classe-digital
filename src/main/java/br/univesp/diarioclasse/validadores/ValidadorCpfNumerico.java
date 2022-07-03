@@ -7,6 +7,7 @@ public class ValidadorCpfNumerico implements ConstraintValidator<CpfNumerico, St
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
+		if (value == null || value.isBlank()) return true; //Isso aqui não é validação de campo obrigatório. Então null ou blank retorna true
         if (value.equals("00000000000") || value.equals("11111111111") || value.equals("22222222222") || value.equals("33333333333") ||
         		value.equals("44444444444") || value.equals("55555555555") || value.equals("66666666666") || value.equals("77777777777") ||
         		value.equals("88888888888") || value.equals("99999999999") || (value.length() != 11))

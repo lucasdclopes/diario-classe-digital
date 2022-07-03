@@ -80,6 +80,17 @@ public class TurmaController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PutMapping("/{id}/aluno/{idAluno}")//adiciona aluno na turma
+	public ResponseEntity<Object> addAluno(@PathVariable Integer id, @PathVariable Integer idAluno) throws EntidadeNaoEncontradaException {
+		
+		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
+		Aluno aluno = alunoDao.findById(idAluno).orElseThrow(() -> new EntidadeNaoEncontradaException("O aluno informado não existe"));
+		turma.addAluno(aluno);
+		turmaDao.save(turma);
+		alunoDao.save(aluno);
+		return ResponseEntity.ok().build();
+	}
+	
 	@DeleteMapping("/{id}/aluno/{idAluno}")//remove aluno da turma
 	public ResponseEntity<Object> deletarAlunoPorid(@PathVariable Integer id, @PathVariable Integer idAluno) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion{
 		Turma turma = turmaDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
