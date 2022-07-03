@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,7 @@ import br.univesp.diarioclasse.helpers.DateHelper;
 @Entity
 @Table(name = "cadastros")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipoCadastro")
 public abstract class Cadastro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -52,8 +54,8 @@ public abstract class Cadastro implements Serializable {
 	private LocalDate dtNascimento;
 	@NotNull
 	private Sexo sexo;
-	@NotNull
-	private TipoCadastro tipoCadastro;
+	//@NotNull
+	//private TipoCadastro tipoCadastro;
 	private Boolean isAtivo;
 	@NotNull
 	private String emailContato;
@@ -135,7 +137,7 @@ public abstract class Cadastro implements Serializable {
 		atualizarMae(mae);
 		atualizarPai(pai);
 		atualizarEmailContato(emailContato);
-		this.tipoCadastro = tipoCadastro;
+		//this.tipoCadastro = tipoCadastro;
 		this.endResidencial = endResidencial;
 		this.endComercial = endComercial;
 		this.telCelular = telCelular;
@@ -239,9 +241,9 @@ public abstract class Cadastro implements Serializable {
 		return sexo;
 	}
 
-	public TipoCadastro getTipoCadastro() {
-		return tipoCadastro;
-	}
+	//public TipoCadastro getTipoCadastro() {
+		//return tipoCadastro;
+	//}
 	public boolean isAtivo() {
 		return isAtivo;
 	}
@@ -277,6 +279,8 @@ public abstract class Cadastro implements Serializable {
 	public int hashCode() {
 		return Objects.hash(cpf);
 	}
+	
+	public abstract TipoCadastro getTipoCadastro();
 
 	@Override
 	public boolean equals(Object obj) {

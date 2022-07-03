@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,6 +28,7 @@ import br.univesp.diarioclasse.helpers.DateHelper;
 @Entity
 @Table(name = "cadastro_professor")
 @PrimaryKeyJoinColumn(name="idProfessor")
+@DiscriminatorValue("PRO")
 public class Professor extends Cadastro implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
@@ -85,6 +87,10 @@ public class Professor extends Cadastro implements Serializable  {
 	}
 	public Materia getMateria() {
 		return materia;
+	}
+	@Override
+	public TipoCadastro getTipoCadastro() {
+		return TipoCadastro.PROFESSOR;
 	}
 	
 }

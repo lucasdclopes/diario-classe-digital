@@ -11,6 +11,7 @@ import java.util.Optional;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +38,7 @@ import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 @Entity
 @Table(name = "cadastro_alunos")
 @PrimaryKeyJoinColumn(name="idAluno")
+@DiscriminatorValue("ALU")
 public class Aluno extends Cadastro implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -55,6 +57,12 @@ public class Aluno extends Cadastro implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
 	private List<AulaPresencaAluno> presencaAlunos = new ArrayList<>();
+	
+	/*
+	@JsonIgnore
+	@OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
+	private List<Beneficio> beneficios = new ArrayList<>();
+	*/
 	
 	@NotNull
 	private String transportador;
@@ -214,7 +222,12 @@ public class Aluno extends Cadastro implements Serializable {
 	public String getUbsRef() {
 		return ubsRef;
 	}
-	
+/*
+	public List<Beneficio> getBeneficios() {
+		return beneficios;
+	}
+	*/
+
 
 
 	@Override
@@ -242,6 +255,13 @@ public class Aluno extends Cadastro implements Serializable {
 	public void validarDelecao(UsuarioLogado usuarioLogado) {
 		if (usuarioLogado.getTipoCadastro() != TipoCadastro.ADMINISTRATIVO )
 			throw new AutorizacaoException("Somente um administrador pode deletar um aluno");
+	}
+
+
+
+	@Override
+	public TipoCadastro getTipoCadastro() {
+		return TipoCadastro.ALUNO;
 	}
 
 		

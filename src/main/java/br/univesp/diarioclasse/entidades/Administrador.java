@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 @Entity
 @Table(name = "cadastro_administrador")
 @PrimaryKeyJoinColumn(name="idAdminstrador")
+@DiscriminatorValue("ADM")
 public class Administrador extends Cadastro implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
@@ -37,5 +39,9 @@ public class Administrador extends Cadastro implements Serializable  {
 				throw new DadosInvalidosException("O administrador precisa ser maior que 18 anos","dtNascimento");
 		super.definirDtNascimento(dtNascimento);
 		
+	}
+	@Override
+	public TipoCadastro getTipoCadastro() {
+		return TipoCadastro.ADMINISTRATIVO;
 	}
 }
