@@ -1,6 +1,7 @@
 package br.univesp.diarioclasse.restcontrollers;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import javax.validation.Valid;
 
@@ -13,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.univesp.diarioclasse.dto.requests.CadastroAdmDto;
 import br.univesp.diarioclasse.dto.requests.LoginDto;
 import br.univesp.diarioclasse.dto.responses.LoginOkDto;
+import br.univesp.diarioclasse.entidades.Administrador;
 import br.univesp.diarioclasse.entidades.Cadastro;
+import br.univesp.diarioclasse.entidades.DadosParente;
 import br.univesp.diarioclasse.entidades.Login;
+import br.univesp.diarioclasse.entidades.Telefone;
+import br.univesp.diarioclasse.enums.Sexo;
 import br.univesp.diarioclasse.exceptions.AutenticacaoException;
 import br.univesp.diarioclasse.exceptions.DadosInvalidosException;
 import br.univesp.diarioclasse.exceptions.EntidadeJaExisteException;
@@ -46,6 +52,31 @@ public class LoginController {
 		Integer id = loginDao.save(login).getIdLogin();
 		
 		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/cadastros/" + idCadastro + "/logins/{id}",id);
+		return ResponseEntity.created(uri).build();
+
+	}
+	
+	@PostMapping("/cadastros-adm/")//somente durante os testes, para criar cadastros adm de acesso ao site
+	public ResponseEntity<Object> cadastrarAdm(@Valid @RequestBody CadastroAdmDto dto, UriComponentsBuilder uriBuilder) throws EntidadeJaExisteException, DadosInvalidosException, EntidadeNaoEncontradaException{
+			
+		Cadastro adm = new Administrador(
+				dto.getNome(),dto.getCpf(),"00000000",LocalDate.now().minusYears(30),Sexo.DESCONHECIDO,
+				new DadosParente("Teste mãe", "00000000000",new Telefone("000", "000000000")),
+				null,
+				"teste@teste.com.br",
+				null,
+				null,
+				new Telefone("000", "000000000"),
+				new Telefone("000", "000000000")
+				);
+				
+	
+		if (cadastroDao.existsByCpf(dto.getCpf()))
+			throw new EntidadeJaExisteException("Já existe outro usuário com esta identificação", "cpf");
+
+		Integer id = cadastroDao.save(adm).getIdCadastro();
+		
+		URI uri = ControllerHelper.montarUriLocalResource(uriBuilder,"/cadastros/{id}",id);
 		return ResponseEntity.created(uri).build();
 
 	}
