@@ -111,7 +111,7 @@ public class HandlerErros {
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ErroSimplesDto handle(EntidadeNaoEncontradaException exception) {
 		return new ErroSimplesDto(
-				exception.getMessage()!=null?exception.getMessage():"Não foram encontrados dados para os valores especificados"
+				exception.getMessage()!=null?exception.getMessage():"Não foram encontrados dados para os valores especificados ou nenhum registro ainda foi cadastrado"
 					);
 	}
 	

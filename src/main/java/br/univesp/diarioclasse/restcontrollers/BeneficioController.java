@@ -47,6 +47,8 @@ public class BeneficioController {
 	@PostMapping
 	public ResponseEntity<Object> cadastrar(@Valid @RequestBody BeneficioDto dto, UriComponentsBuilder uriBuilder) throws EntidadeNaoEncontradaException {
 				
+		if (dto.getIdAluno().equals(0))
+			throw new EntidadeNaoEncontradaException("Nenhum aluno selecionado");
 		Aluno aluno = alunoDao.findById(dto.getIdAluno()).orElseThrow(() -> new EntidadeNaoEncontradaException("Aluno não encontrado"));
 		Beneficio bene = new Beneficio(dto.getDtRecebimento(),dto.getResponsavelRecebimento(),dto.getDescBeneficio(),aluno);
 			
@@ -60,11 +62,13 @@ public class BeneficioController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> atualizar(@PathVariable Integer id, @Valid @RequestBody BeneficioDto dto) throws EntidadeNaoEncontradaException, EstadoObjetoInvalidoExcpetion {
-		//TODO: Atualizar o endreço e telefone
+		
 		Beneficio bene = beneficioDao.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException());
 		if (bene.getDtRegistrado().isAfter(LocalDateTime.now().plusHours(48))) //evitar adulterações de registros
 			throw new AutorizacaoException("Por segurança, não é possível alterar registros que foram feitos a mais de 48 horas");
 		if (dto.getIdAluno() != null) {
+			if (dto.getIdAluno().equals(0))
+				throw new EntidadeNaoEncontradaException("Nenhum aluno selecionado");
 			Aluno aluno = alunoDao.findById(dto.getIdAluno()).orElseThrow(() -> new EntidadeNaoEncontradaException("Aluno não encontrado"));
 			bene.atualizarAluno(aluno);
 		}

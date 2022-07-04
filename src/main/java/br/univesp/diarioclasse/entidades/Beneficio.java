@@ -13,9 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.univesp.diarioclasse.enums.TipoCadastro;
 import br.univesp.diarioclasse.exceptions.AutorizacaoException;
 import br.univesp.diarioclasse.exceptions.EstadoObjetoInvalidoExcpetion;
+import br.univesp.diarioclasse.helpers.DateHelper;
 import br.univesp.diarioclasse.seguranca.UsuarioLogado;
 
 @Entity
@@ -26,8 +31,10 @@ public class Beneficio implements Serializable {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idBeneficio;
+	@JsonFormat(pattern=DateHelper.patternDataPtBr)
 	private LocalDate dtRecebimento;
 	private String responsavelRecebimento;
+	@Length(max = 500)
 	private String descBeneficio;
 	private LocalDateTime dtRegistrado;
 	
