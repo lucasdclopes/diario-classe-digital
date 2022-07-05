@@ -34,6 +34,7 @@ import br.univesp.diarioclasse.repositorios.ProfessorRepository;
 import br.univesp.diarioclasse.repositorios.TurmaRepository;
 import br.univesp.diarioclasse.seguranca.Cifrador;
 
+/*
 @Component
 public class PopularBase  {
 
@@ -275,3 +276,4 @@ public class PopularBase  {
 		
 	}
 }
+*/
