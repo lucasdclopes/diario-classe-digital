@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -46,6 +47,12 @@ public class CadastroDto {
 		
 		private DadosParente pai;
 		
+		private Boolean isMaeSolo;
+		private Boolean isFilhoUnico;
+		private Boolean isAbaixoPeso;
+		private Boolean recebePensaoAlimenticia;
+		private Boolean conviveDoente;
+		
 		
 		public CadastroDto() {}
 		public String getNome() {
@@ -84,6 +91,21 @@ public class CadastroDto {
 		}
 		public DadosParente getPai() {
 			return pai;
+		}
+		public Boolean getIsMaeSolo() {
+			return isMaeSolo;
+		}
+		public Boolean getIsFilhoUnico() {
+			return isFilhoUnico;
+		}
+		public Boolean getIsAbaixoPeso() {
+			return isAbaixoPeso;
+		}
+		public Boolean getRecebePensaoAlimenticia() {
+			return recebePensaoAlimenticia;
+		}
+		public Boolean getConviveDoente() {
+			return conviveDoente;
 		}
 		
 }

@@ -53,7 +53,8 @@ public class AlunoController {
 				
 		Aluno aluno = new Aluno(dto.getNroMatricula(), dto.getDtMatricula(), dto.getNIS(), Optional.ofNullable(dto.getTurma()), dto.getNome(), dto.getCpf(), dto.getRg(), 
 				dto.getDtNascimento(), dto.getSexo(), dto.getMae(), dto.getPai(), dto.getEmailContato(),dto.getEndResidencial(),dto.getEndComercial(),dto.getTelCelular(),dto.getTelFixo(),
-				dto.getTransportador(),dto.getTelTransportador(), dto.getUnidadeEscolar(),dto.getUbsRef());
+				dto.getTransportador(),dto.getTelTransportador(), dto.getUnidadeEscolar(),dto.getUbsRef(), 
+				dto.getIsMaeSolo(), dto.getIsFilhoUnico(), dto.getIsAbaixoPeso(), dto.getRecebePensaoAlimenticia(), dto.getConviveDoente());
 		
 		aluno.validarSeAlunoJaExiste(alunoDao,alunoDao);
 			

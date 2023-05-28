@@ -61,7 +61,7 @@ public class LoginController {
 			
 		Cadastro adm = new Administrador(
 				dto.getNome(),dto.getCpf(),"00000000",LocalDate.now().minusYears(30),Sexo.DESCONHECIDO,
-				new DadosParente("Teste mãe", "00000000000",new Telefone("000", "000000000")),
+				new DadosParente("Teste mãe", "00000000000",new Telefone("000", "000000000"),false),
 				null,
 				"teste@teste.com.br",
 				null,

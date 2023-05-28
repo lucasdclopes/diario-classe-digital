@@ -56,7 +56,7 @@ public class Professor extends Cadastro implements Serializable  {
 	public Professor(LocalDate dtAdmissao, Optional<Materia> materia, String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
 			DadosParente mae, DadosParente pai, String emailContato, Endereco endResidencial, Endereco endComercial, 
 			Telefone telCelular, Telefone telFixo ) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.PROFESSOR, emailContato, endResidencial, endComercial, telCelular, telFixo);
+		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.PROFESSOR, emailContato, endResidencial, endComercial, telCelular, telFixo, false, false, false, false, false);
 		this.dtAdmissao = dtAdmissao;
 		materia.ifPresent(m -> this.materia = m);
 	}

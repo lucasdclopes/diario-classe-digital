@@ -20,16 +20,19 @@ public class DadosParente implements Serializable {
 	@NotBlank @Length(max = 11) @CpfNumerico
 	private String cpf;
 	
+	private Boolean isGestante = false;
+	
 	/**
 	 * Construtor padrão da JPA. Não utilizar.
 	 */
 	@Deprecated
 	public DadosParente() {}
 	
-	public DadosParente(String nome,String cpf, Telefone telContato) {
+	public DadosParente(String nome,String cpf, Telefone telContato, Boolean isGestante) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telContato = telContato;
+		this.isGestante = isGestante;
 	}
 
 	@Valid
@@ -47,7 +50,9 @@ public class DadosParente implements Serializable {
 	public Telefone getTelContato() {
 		return telContato;
 	}
-	
-	
+
+	public Boolean getIsGestante() {
+		return isGestante;
+	}
 
 }

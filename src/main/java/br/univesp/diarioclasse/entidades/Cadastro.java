@@ -60,13 +60,20 @@ public abstract class Cadastro implements Serializable {
 	@NotNull
 	private String emailContato;
 	
+	@NotNull private Boolean isMaeSolo;
+	@NotNull private Boolean isFilhoUnico;
+	@NotNull private Boolean isAbaixoPeso;
+	@NotNull private Boolean recebePensaoAlimenticia;
+	@NotNull private Boolean conviveDoente;
+	
 	@NotNull
 	 @Embedded 
 	 @AttributeOverrides({
 		 @AttributeOverride(name="telContato.telDDD",column=@Column(name="telMaeDDD")),
 		 @AttributeOverride(name="telContato.telNro",column=@Column(name="telMaeNro")),
 		 @AttributeOverride(name="nome",column=@Column(name="nomeMae")),
-		 @AttributeOverride(name="cpf",column=@Column(name="cpfMae"))
+		 @AttributeOverride(name="cpf",column=@Column(name="cpfMae")),
+		 @AttributeOverride(name="isGestante",column=@Column(name="isGestanteMae"))
 	 })
 	private DadosParente mae;
 	 
@@ -75,7 +82,8 @@ public abstract class Cadastro implements Serializable {
 		    @AttributeOverride(name="telContato.telDDD",column=@Column(name="telpaiDDD")),
 		    @AttributeOverride(name="telContato.telNro",column=@Column(name="telpaiNro")),
 			@AttributeOverride(name="nome",column=@Column(name="nomePai")),
-			@AttributeOverride(name="cpf",column=@Column(name="cpfPai"))
+			@AttributeOverride(name="cpf",column=@Column(name="cpfPai")),
+			@AttributeOverride(name="isGestante",column=@Column(name="isGestantePai"))
 	 })
 	private DadosParente pai;
 	
@@ -128,14 +136,17 @@ public abstract class Cadastro implements Serializable {
 	
 	public Cadastro(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, DadosParente mae,
 			DadosParente pai, TipoCadastro tipoCadastro, String emailContato, Endereco endResidencial, Endereco endComercial, 
-			Telefone telCelular, Telefone telFixo) throws DadosInvalidosException {
+			Telefone telCelular, Telefone telFixo, Boolean isMaeSolo, Boolean isFilhoUnico, Boolean isAbaixoPeso,
+			Boolean recebePensaoAlimenticia, Boolean conviveDoente) throws DadosInvalidosException {
 		atualizarNome(nome);
 		this.cpf = cpf.strip();
 		atualizarRg(rg);
 		definirDtNascimento(dtNascimento);
 		atualizarSexo(sexo);
+		this.isMaeSolo = isMaeSolo;
 		atualizarMae(mae);
-		atualizarPai(pai);
+		if (!this.isMaeSolo)
+			atualizarPai(pai);
 		atualizarEmailContato(emailContato);
 		//this.tipoCadastro = tipoCadastro;
 		this.endResidencial = endResidencial;
@@ -143,6 +154,10 @@ public abstract class Cadastro implements Serializable {
 		this.telCelular = telCelular;
 		this.telFixo = telFixo;
 		this.isAtivo = true;
+		this.isFilhoUnico = isFilhoUnico;
+		this.isAbaixoPeso = isAbaixoPeso;
+		this.recebePensaoAlimenticia = recebePensaoAlimenticia;
+		this.conviveDoente = conviveDoente;
 		
 	} 
 	
@@ -166,6 +181,10 @@ public abstract class Cadastro implements Serializable {
 		this.mae = mae;
 	}
 	public void atualizarPai(DadosParente pai) throws DadosInvalidosException {
+		if (this.isMaeSolo) {
+			this.pai = new DadosParente(null, null, null, null);
+			return;
+		}
 		if (pai == null || pai.getNome() == null || pai.getNome().strip().equals(""))//nome do pai nunca é obrigatório
 			return;
 		validarNome(pai.getNome(),"nome do pai");
@@ -214,14 +233,30 @@ public abstract class Cadastro implements Serializable {
 		this.endComercial = endereco;
 	}
 	
-	public void alteararTelefoneFixo(Telefone telefone) {
+	public void alterarTelefoneFixo(Telefone telefone) {
 		this.telFixo = telefone;
 	}
 	
-	public void alteararTelefoneCelular(Telefone telefone) {
+	public void alterarTelefoneCelular(Telefone telefone) {
 		this.telCelular = telefone;
 	}
-
+	
+	public void alterarIsMaeSolo(Boolean isMaeSolo) {
+	    this.isMaeSolo = isMaeSolo;
+	} 
+	public void alterarIsFilhoUnico(Boolean isFilhoUnico) {
+	    this.isFilhoUnico = isFilhoUnico;
+	} 
+	public void alterarIsAbaixoPeso(Boolean isAbaixoPeso) {
+	    this.isAbaixoPeso = isAbaixoPeso;
+	} 
+	public void alterarRecebePensaoAlimenticia(Boolean recebePensaoAlimenticia) {
+	    this.recebePensaoAlimenticia = recebePensaoAlimenticia;
+	} 
+	public void alterarConviveDoente(Boolean conviveDoente) {
+	    this.conviveDoente = conviveDoente;
+	}
+	
 	public Integer getIdCadastro() {
 		return idCadastro;
 	}
@@ -273,6 +308,32 @@ public abstract class Cadastro implements Serializable {
 
 	public DadosParente getPai() {
 		return pai;
+	}
+
+	public Boolean getConviveDoente() {
+		return conviveDoente;
+	}
+
+	public void setConviveDoente(Boolean conviveDoente) {
+		this.conviveDoente = conviveDoente;
+	}
+
+	public Boolean getIsMaeSolo() {
+		DadosParente pai = this.getPai();
+		return isMaeSolo || pai == null || 
+				(pai != null && pai.getNome() == null && pai.getCpf() == null && pai.getTelContato() == null);
+	}
+
+	public Boolean getIsFilhoUnico() {
+		return isFilhoUnico;
+	}
+
+	public Boolean getIsAbaixoPeso() {
+		return isAbaixoPeso;
+	}
+
+	public Boolean getRecebePensaoAlimenticia() {
+		return recebePensaoAlimenticia;
 	}
 
 	@Override

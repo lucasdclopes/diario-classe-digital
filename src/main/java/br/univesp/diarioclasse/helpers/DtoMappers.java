@@ -63,6 +63,8 @@ public class DtoMappers {
 	public void atualizarCadastroDeDto(CadastroDto cadastroDto, Cadastro cadastro, CadastroExistente cadastroExistente) throws EntidadeJaExisteException, DadosInvalidosException {
 		if (cadastroDto.getNome()!= null)
 			cadastro.atualizarNome(cadastroDto.getNome());
+		if (cadastroDto.getIsMaeSolo() != null)
+		    cadastro.alterarIsMaeSolo(cadastroDto.getIsMaeSolo());
 		if (cadastroDto.getMae()!= null)
 			cadastro.atualizarMae(cadastroDto.getMae());
 		if (cadastroDto.getPai()!= null)
@@ -82,9 +84,17 @@ public class DtoMappers {
 		if (cadastroDto.getEndResidencial() != null)
 			cadastro.alterarEnderecoResidencial(cadastroDto.getEndResidencial());
 		if (cadastroDto.getTelCelular() != null)
-			cadastro.alteararTelefoneCelular(cadastroDto.getTelCelular());
+			cadastro.alterarTelefoneCelular(cadastroDto.getTelCelular());
 		if (cadastroDto.getTelFixo() != null)
-			cadastro.alteararTelefoneFixo(cadastroDto.getTelFixo());
+			cadastro.alterarTelefoneFixo(cadastroDto.getTelFixo());
+		if (cadastroDto.getIsFilhoUnico() != null)
+		    cadastro.alterarIsFilhoUnico(cadastroDto.getIsFilhoUnico());
+		if (cadastroDto.getIsAbaixoPeso() != null)
+		    cadastro.alterarIsAbaixoPeso(cadastroDto.getIsAbaixoPeso());
+		if (cadastroDto.getRecebePensaoAlimenticia() != null)
+		    cadastro.alterarRecebePensaoAlimenticia(cadastroDto.getRecebePensaoAlimenticia());
+		if (cadastroDto.getConviveDoente() != null)
+		    cadastro.alterarConviveDoente(cadastroDto.getConviveDoente());
 		
 	}
 }

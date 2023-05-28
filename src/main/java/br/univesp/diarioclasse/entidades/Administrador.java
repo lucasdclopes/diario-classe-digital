@@ -30,7 +30,8 @@ public class Administrador extends Cadastro implements Serializable  {
 	public Administrador(String nome, String cpf, String rg, LocalDate dtNascimento, Sexo sexo, 
 			DadosParente mae, DadosParente pai, String emailContato, Endereco endResidencial, Endereco endComercial, 
 			Telefone telCelular, Telefone telFixo ) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ADMINISTRATIVO, emailContato, endResidencial, endComercial, telCelular, telFixo);
+		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ADMINISTRATIVO, emailContato, endResidencial, endComercial, telCelular, telFixo
+				, false, false, false, false, false);
 	}
 
 	@Override

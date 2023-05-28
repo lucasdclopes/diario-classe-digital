@@ -93,8 +93,11 @@ public class Aluno extends Cadastro implements Serializable {
 	
 	public Aluno(String nroMatricula, LocalDate dtMatricula, String NIS, Optional<Turma> turma, String nome, 
 			String cpf, String rg, LocalDate dtNascimento, Sexo sexo, DadosParente mae, DadosParente pai, String emailContato, 
-			Endereco endResidencial, Endereco endComercial, Telefone telCelular, Telefone telFixo, String transportador, Telefone telTransportador, String unidadeEscolar, String UBSRef) throws DadosInvalidosException {
-		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ALUNO, emailContato, endResidencial, endComercial, telCelular, telFixo);
+			Endereco endResidencial, Endereco endComercial, Telefone telCelular, Telefone telFixo, String transportador, Telefone telTransportador, 
+			String unidadeEscolar, String UBSRef, Boolean isMaeSolo, Boolean isFilhoUnico, Boolean isAbaixoPeso, Boolean recebePensaoAlimenticia, Boolean conviveDoente) 
+					throws DadosInvalidosException {
+		super(nome, cpf, rg, dtNascimento, sexo, mae, pai, TipoCadastro.ALUNO, emailContato, endResidencial, endComercial, telCelular, telFixo, 
+				isMaeSolo, isFilhoUnico, isAbaixoPeso, recebePensaoAlimenticia, conviveDoente);
 		this.nroMatricula = nroMatricula.strip();
 		this.dtMatricula = dtMatricula;
 		this.NIS = NIS.strip();
